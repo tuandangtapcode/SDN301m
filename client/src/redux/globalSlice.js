@@ -4,11 +4,6 @@ const globalSlice = createSlice({
   name: 'global',
   initialState: {
     user: {},
-    currentSong: {},
-    isPlay: false,
-    albums: [],
-    songs: [],
-    activeMenu: 1
   },
   reducers: {
     setUser: (state, action) => {

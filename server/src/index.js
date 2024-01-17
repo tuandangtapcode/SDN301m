@@ -1,7 +1,7 @@
 import express from 'express';
 import dotev from 'dotenv';
 import cors from 'cors';
-// const routes = require('./routes/index');
+import routes from './routes/index.js'
 
 dotev.config();
 const app = express();
@@ -19,7 +19,7 @@ app.use(cors(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// routes(app);
+routes(app);
 
 app.listen(process.env.PORT, () => {
   console.log(`App listening at http://localhost:${process.env.PORT}`);

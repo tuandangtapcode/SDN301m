@@ -1,0 +1,81 @@
+.normal {
+  background-color: white !important;
+
+  &:hover {
+    color: black !important;
+  }
+}
+
+.noBackground {
+  background-color: transparent !important;
+  color: white !important;
+
+  &:hover {
+    color: white !important;
+  }
+}
+
+.greendBackground {
+  background-color: #1ed760 !important;
+  color: black;
+
+  &:hover {
+    color: black !important;
+  }
+}
+
+.smallCircle {
+  padding-left: 4px !important;
+  padding-right: 28px !important;
+  padding-bottom: 30px !important;
+  height: 20px !important;
+  width: 20px !important;
+}
+
+.mediumCircle {
+  padding-top: 6px !important;
+  padding-left: 4px !important;
+  height: 45px;
+  width: 45px !important;
+}
+
+.largeCircle {
+  padding-top: 6px !important;
+  padding-left: 4px !important;
+  height: 60px;
+  width: 60px !important;
+}
+
+.small {
+  border-radius: 15px !important;
+  padding: 4px 12px !important;
+}
+
+.medium {
+  padding: 4px 16px 25px 16px !important;
+  border-radius: 16px !important;
+}
+
+.haflLarge {
+  padding: 10px 25px 35px 25px !important;
+  border-radius: 30px !important;
+}
+
+.large {
+  padding: 10px 30px 35px 30px !important;
+  border-radius: 30px !important;
+}
+
+.submit {
+  background-color: #1ed760 !important;
+  margin: 8px auto;
+  height: 50px;
+  width: 300px;
+  border-radius: 40px !important;
+  border-color: transparent !important;
+
+  &:hover {
+    border-color: transparent !important;
+    color: black !important;
+  }
+}

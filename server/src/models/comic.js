@@ -26,7 +26,8 @@ const Comics = new Schema({
   CreatedAt: { type: Date, default: Date.now },
   Likes: { type: Number, default: 0 },
   Reads: { type: Number, default: 0 },
-  Status: { type: Boolean, default: false }
+  Status: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
 })
 
 const ComicsModel = mongoose.model('Comics', Comics);

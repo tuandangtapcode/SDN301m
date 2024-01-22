@@ -14,7 +14,7 @@ const UserRoutes = () => {
         <Outlet />
       </MainLayout>
       {/* {
-        (!!global?.user?._id && global?.user?.RoleID === 2) ?
+        (!!global?.user?._id && global?.user?.IsAdmin) ?
           <MainLayout>
             <Outlet />
           </MainLayout>

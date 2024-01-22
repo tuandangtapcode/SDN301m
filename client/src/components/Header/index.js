@@ -15,7 +15,7 @@ const Header = () => {
           <div className="d-flex-sb">
             <img
               style={{ width: '70px', height: '70px' }}
-              src="logoApp.png"
+              src="logoApp.jpg"
               alt=""
               onClick={() => navigate('/')}
             />

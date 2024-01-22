@@ -8,7 +8,7 @@ const LoginPage = () => {
     <div>
       <img
         style={{ width: '70px', height: '70px' }}
-        src="logoApp.png"
+        src="logoApp.jpg"
         alt=""
       />
       <Form>

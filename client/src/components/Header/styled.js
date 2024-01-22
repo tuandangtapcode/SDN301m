@@ -1,5 +1,5 @@
-import { Input } from "antd";
-import styled from "styled-components";
+import { Input } from "antd"
+import styled from "styled-components"
 
 export const HeaderContainerStyled = styled.div`
   background-image: linear-gradient(to right,#FF7854 0%,#FF5079 100%);

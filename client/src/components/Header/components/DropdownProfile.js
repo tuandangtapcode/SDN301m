@@ -1,23 +1,23 @@
-import { useState } from "react";
-import ButtonCustom from "src/components/ButtonCustom/MyButton";
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
-import { Dropdown } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { globalSelector } from "src/redux/selector";
-import globalSlice from "src/redux/globalSlice";
+import { useState } from "react"
+import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
+import { Dropdown } from "antd"
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
+import globalSlice from "src/redux/globalSlice"
 
 const DropdownProfile = () => {
 
-  const global = useSelector(globalSelector);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [arrowDropdownProfile, setArrowDropdownProfile] = useState(false);
+  const global = useSelector(globalSelector)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [arrowDropdownProfile, setArrowDropdownProfile] = useState(false)
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    dispatch(globalSlice.actions.setUser({}));
-    navigate('/login');
+    localStorage.removeItem('token')
+    dispatch(globalSlice.actions.setUser({}))
+    navigate('/login')
   }
 
   const items = [
@@ -43,7 +43,7 @@ const DropdownProfile = () => {
   return (
     <>
       {
-        !!localStorage.getItem('token') ?
+        !!global?.user?._id ?
           <Dropdown menu={{ items }} trigger={['click']}>
             <ButtonCustom
               className="normal noBackground"

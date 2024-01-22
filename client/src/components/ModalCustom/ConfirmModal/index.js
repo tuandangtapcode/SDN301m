@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal } from "antd"
 
 const ConfirmModal = ({
   width = 400,

@@ -1,14 +1,14 @@
 import express from 'express';
 import dotev from 'dotenv';
 import cors from 'cors';
-import routes from './routes/index.js'
+import routes from './routes/index.js';
+import connect from './config/index.js';
 
 dotev.config();
 const app = express();
 
 // Connect DB
-// const db = require('./config');
-// db.connect();
+connect();
 
 app.use(cors(
   {

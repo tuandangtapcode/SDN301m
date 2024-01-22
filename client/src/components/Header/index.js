@@ -1,12 +1,12 @@
-import { HeaderContainerStyled, HeaderStyled, InputHeaderStyled } from "./styled";
-import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
-import DropdownProfile from "./components/DropdownProfile";
-import PopoverMain from "./components/PopoverMain";
-import { useNavigate } from "react-router-dom";
+import { HeaderContainerStyled, HeaderStyled, InputHeaderStyled } from "./styled"
+import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
+import DropdownProfile from "./components/DropdownProfile"
+import PopoverMain from "./components/PopoverMain"
+import { useNavigate } from "react-router-dom"
 
 const Header = () => {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <HeaderContainerStyled>

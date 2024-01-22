@@ -1,9 +1,9 @@
-import { useState } from "react";
-import ButtonCustom from "src/components/ButtonCustom/MyButton";
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
-import { Popover } from "antd";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { useState } from "react"
+import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
+import { Popover } from "antd"
+import { Link } from "react-router-dom"
+import styled from "styled-components"
 
 const LinkStyled = styled(Link)`
 color: black;
@@ -11,7 +11,7 @@ color: black;
 
 const PopoverMain = () => {
 
-  const [arrowDropdownMain, setArrowDropdownMain] = useState(false);
+  const [arrowDropdownMain, setArrowDropdownMain] = useState(false)
 
   const content = (
     <div style={{ width: '600px', padding: '12px' }} className="d-flex-sb">

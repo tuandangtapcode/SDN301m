@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import response from '../utils/response-result'
+import response from '../utils/response-result.js'
 
 const checkExistToken = (req) => {
   let check = false

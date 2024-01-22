@@ -1,4 +1,4 @@
-import { ButtonCicleStyled } from "./styled";
+import { ButtonCicleStyled } from "./styled"
 
 const ButtonCircle = (props) => {
   return (

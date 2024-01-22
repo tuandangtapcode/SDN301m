@@ -1,5 +1,5 @@
-import { ButtomCustomStyled } from "./styled";
-import '../button.scss';
+import { ButtomCustomStyled } from "./styled"
+import '../button.scss'
 
 const ButtonCustom = (props) => {
   return (

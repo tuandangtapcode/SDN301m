@@ -1,5 +1,5 @@
-import { Button } from "antd";
-import styled from "styled-components";
+import { Button } from "antd"
+import styled from "styled-components"
 
 export const ButtonCicleStyled = styled(Button)`
   border-radius: 50%;

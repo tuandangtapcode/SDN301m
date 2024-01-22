@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 import { Button } from 'antd'
 
 export const ButtomCustomStyled = styled(Button)`

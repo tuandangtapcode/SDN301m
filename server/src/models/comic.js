@@ -17,7 +17,7 @@ const Comics = new Schema({
   Chapters: {
     type: [
       {
-        ChapterID: { type: mongoose.Schema.Types.ObjectId, ref: 'Chapters' },
+        ChapterID: { type: Number },
         Name: { type: String },
       }
     ],
@@ -27,7 +27,7 @@ const Comics = new Schema({
   Likes: { type: Number, default: 0 },
   Reads: { type: Number, default: 0 },
   Status: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now },
+  CreatedAt: { type: Date, default: Date.now },
 })
 
 const ComicsModel = mongoose.model('Comics', Comics);

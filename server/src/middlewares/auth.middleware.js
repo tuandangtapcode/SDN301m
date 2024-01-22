@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import response from '../utils/response-result'
+import response from '../utils/response-result.js'
 
 export const authAdminMidleware = (req, res, next) => {
   const token = req.headers.token.split(' ')[1];

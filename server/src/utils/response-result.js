@@ -1,5 +1,5 @@
-const response = (data, isError, msg) => {
-  return { data, isError, msg };
+const response = (data, isError, msg, StatusCode) => {
+  return { data, isError, msg, StatusCode };
 }
 
 export default response;

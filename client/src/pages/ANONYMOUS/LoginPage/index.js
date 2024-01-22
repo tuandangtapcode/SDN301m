@@ -1,5 +1,5 @@
 import { Col, Form, Row } from "antd"
-import InputCustom from "src/components/InputCustom"
+import InputCustom from "src/components/FloatInput/InputCustom"
 import styled from "styled-components"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import { useState } from "react"

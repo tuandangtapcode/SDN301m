@@ -1,11 +1,12 @@
 import UserService from '../services/user.service.js'
 
-// const abc
+const getListAuthour = async (req, res) => {
+  const author = await UserService.fncGetListAuthor(req)
+  return res.status(author.StatusCode).json(author)
+}
 
 const UserController = {
-
-  // abc
-
+  getListAuthour
 }
 
 export default UserController;

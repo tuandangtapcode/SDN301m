@@ -9,7 +9,8 @@ const Users = new Schema({
   Avatar: { type: String },
   ResfreshToken: { type: String },
   IsActive: { type: Boolean, default: true },
-  createdAt: { type: Date, default: Date.now },
+  CreatedAt: { type: Date, default: Date.now },
+  IsPosted: { type: Boolean, default: false },
 })
 
 const UsersModel = mongoose.model('Users', Users);

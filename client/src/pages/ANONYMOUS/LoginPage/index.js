@@ -1,18 +1,21 @@
 import { Col, Form, Row } from "antd"
-import InputCustom from "src/components/FloatInput/InputCustom"
-import styled from "styled-components"
+import InputCustom from "src/components/InputCustom"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import { useState } from "react"
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import { LoginContainerStyled } from "./styeld"
+import { jwtDecode } from "jwt-decode"
 
-const LoginContainerStyled = styled.div`
-max-width: 30%;
-margin: auto;
-`
 
 const LoginPage = () => {
 
   const [form] = Form.useForm()
   const [loading, setLoading] = useState()
+
+  const login = useGoogleLogin({
+    onSuccess: credentialResponse => console.log('credentialResponse  ', credentialResponse),
+  });
 
   return (
     <LoginContainerStyled>
@@ -48,18 +51,34 @@ const LoginPage = () => {
             </ButtomCustomStyled>
           </Col>
           <Col span={24}>
-            <div className="text-center text-gray fs-20 mt-15">
+            <div className="text-center text-gray fs-20 mt-10 mb-10">
               OR
             </div>
           </Col>
           <Col span={24}>
-            {/* <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_CLIENTID}
-              buttonText="Continued with Google"
-              // onSuccess={responseGoogle}
-              // onFailure={responseGoogle}
-              cookiePolicy={'single_host_origin'}
-            />, */}
+            <GoogleLogin
+              onSuccess={credentialResponse => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+            <ButtonCustom
+              className="d-flex-center login-google medium mb-15"
+              onClick={() => login()}
+            >
+              <span className="icon-google"></span>
+              <span className="ml-12">Sign in with Google</span>
+            </ButtonCustom>
+          </Col>
+          <Col span={24}>
+            <ButtonCustom
+              className="d-flex-center login-facebook medium mb-15"
+            >
+              <span className="icon-facebook"></span>
+              <span className="ml-12">Sign in with Facebook</span>
+            </ButtonCustom>
           </Col>
         </Row>
       </Form>

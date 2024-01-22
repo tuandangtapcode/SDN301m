@@ -33,3 +33,7 @@ a {
 .text-gray {
   color: #aaa;
 }
+
+.text-center {
+  text-align: center;
+}

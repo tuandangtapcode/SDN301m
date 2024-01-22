@@ -54,7 +54,12 @@ const DropdownProfile = () => {
             </ButtonCustom>
           </Dropdown>
           :
-          <Link style={{ color: 'white' }}>Login</Link>
+          <ButtonCustom
+            className="noBackground fs-17 fw-600"
+            onClick={() => navigate('/login')}
+          >
+            Login
+          </ButtonCustom>
       }
     </>
   );

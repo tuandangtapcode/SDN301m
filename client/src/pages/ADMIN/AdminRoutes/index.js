@@ -14,7 +14,7 @@ const AdminRoutes = () => {
         <Outlet />
       </LayoutAdmin>
       {/* {
-        (!!global?.user?._id && global?.user?.RoleID === 3) ?
+        (!!global?.user?._id && global?.user?.IsAdmin) ?
         <LayoutAdmin>
           <Outlet />
         </LayoutAdmin>

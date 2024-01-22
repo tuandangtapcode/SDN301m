@@ -8,48 +8,48 @@ const Footer = () => {
       <FooterStyled>
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <p className="text-matte fs-18 mb-20">Library</p>
-            <p className="mb-12">
+            <p className="text-matte fs-18 mb-18">Library</p>
+            <p className="mb-10">
               <Link to={'/genres'}>Genres</Link>
             </p>
             <p className="mb-12">
               <Link>Languages</Link>
             </p>
-            <p className="mb-12">
+            <p className="mb-10">
               <Link to={'/authors'}>Authors</Link>
             </p>
           </Col>
           <Col span={6}>
-            <p className="text-matte fs-18 mb-20">Community</p>
-            <p className="mb-12">
+            <p className="text-matte fs-18 mb-18">Community</p>
+            <p className="mb-10">
               <Link>Articles</Link>
             </p>
-            <p className="mb-12">
+            <p className="mb-10">
               <Link>Authors Interviews</Link>
             </p>
-            <p className="mb-12">
+            <p className="mb-10">
               <Link>Newsletter</Link>
             </p>
           </Col>
           <Col span={6}>
-            <p className="text-matte fs-18 mb-20">Company</p>
-            <p className="mb-12">
+            <p className="text-matte fs-18 mb-18">Company</p>
+            <p className="mb-10">
               <Link>Authors Services</Link>
             </p>
-            <p className="mb-12">
+            <p className="mb-10">
               <Link>About / Contact</Link>
             </p>
-            <p className="mb-12">
+            <p className="mb-10">
               <Link>Accessibility Statement</Link>
             </p>
           </Col>
 
           <Col span={6}>
-            <p className="text-matte fs-18 mb-20">Folow</p>
-            <p className="mb-12">
+            <p className="text-matte fs-18 mb-18">Folow</p>
+            <p className="mb-10">
               <Link>Facebook</Link>
             </p>
-            <p className="mb-12">
+            <p className="mb-10">
               <Link>Twitter</Link>
             </p>
             <p className="mb-12">

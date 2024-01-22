@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import "./assets/sass/index.scss"
 import 'react-toastify/dist/ReactToastify.css';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,7 +17,9 @@ root.render(
   // <React.StrictMode>
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <GoogleOAuthProvider clientId="761296977490-909jqrg02japjfhjeeje3a8e7t7no7rj.apps.googleusercontent.com">
+        <App />
+      </GoogleOAuthProvider>
     </Provider>
   </BrowserRouter>
   // </React.StrictMode>

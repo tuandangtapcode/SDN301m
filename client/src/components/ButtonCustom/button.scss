@@ -1,5 +1,6 @@
 .normal {
   background-color: white !important;
+  border-color: black !important;
 
   &:hover {
     color: black !important;
@@ -52,13 +53,9 @@
 }
 
 .medium {
-  padding: 4px 16px 25px 16px !important;
-  border-radius: 16px !important;
-}
-
-.haflLarge {
-  padding: 10px 25px 35px 25px !important;
-  border-radius: 30px !important;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px !important;
 }
 
 .large {

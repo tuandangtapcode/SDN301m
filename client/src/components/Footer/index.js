@@ -60,7 +60,7 @@ const Footer = () => {
         <hr></hr>
         <div className="d-flex-sb">
           <div className="d-flex-sb">
-            <img style={{ width: '20px', height: '20px' }} src="logoApp.png" alt="" />
+            <img style={{ width: '20px', height: '20px' }} src="logoApp.jpg" alt="" />
             <span className="text-matte">
               © 2024 Advertical Media LLC. All Rights Reserved.
             </span>

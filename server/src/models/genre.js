@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
 const Genres = new Schema({
   Title: { type: String },
@@ -7,7 +7,7 @@ const Genres = new Schema({
   CreatedAt: { type: Date, default: Date.now },
 })
 
-const GenresModel = mongoose.model('Genres', Genres);
+const GenresModel = mongoose.model('Genres', Genres)
 
-export default GenresModel;
+export default GenresModel
 

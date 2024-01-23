@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
 const Users = new Schema({
   FullName: { type: String },
@@ -13,7 +13,7 @@ const Users = new Schema({
   IsPosted: { type: Boolean, default: false },
 })
 
-const UsersModel = mongoose.model('Users', Users);
+const UsersModel = mongoose.model('Users', Users)
 
-export default UsersModel;
+export default UsersModel
 

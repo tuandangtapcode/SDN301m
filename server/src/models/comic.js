@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
 const Comics = new Schema({
   Title: { type: String },
@@ -29,6 +29,6 @@ const Comics = new Schema({
   Status: { type: Boolean, default: false },
 })
 
-const ComicsModel = mongoose.model('Comics', Comics);
+const ComicsModel = mongoose.model('Comics', Comics)
 
-export default ComicsModel;
+export default ComicsModel

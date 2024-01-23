@@ -8,4 +8,4 @@ const ImageController = {
 
 }
 
-export default ImageController;
+export default ImageController

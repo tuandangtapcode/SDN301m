@@ -9,9 +9,21 @@ const getDetailProfile = async (req, res) => {
   return res.status(detail.StatusCode).json(detail)
 }
 
+const login = async (req, res) => {
+  const respone = await UserService.fncLogin(req)
+  return res.status(respone.StatusCode).json(respone)
+}
+
+const register = async (req, res) => {
+  const respone = await UserService.fncRegister(req)
+  return res.status(respone.StatusCode).json(respone)
+}
+
 const UserController = {
   getListAuthour,
   getDetailProfile,
+  login,
+  register
 }
 
-export default UserController;
+export default UserController

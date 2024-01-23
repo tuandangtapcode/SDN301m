@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const connect = async () => {
 
@@ -6,12 +6,11 @@ const connect = async () => {
     await mongoose.connect(process.env.MONGODB_URI_CLOUD, {
       useNewUrlParser: true,
       useUnifiedTopology: true
-    });
-    console.log('Connect successfully!!');
+    })
+    console.log('Connect successfully!!')
   } catch (error) {
-    console.log('Connect failures!!');
+    console.log('Connect failures!!')
   }
-
 }
 
 export default connect

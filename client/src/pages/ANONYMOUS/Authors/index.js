@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import TableCustom from "src/components/CustomTable";
+import TableCustom from "src/components/TableCustom";
 import InputCustom from "src/components/FloatInput/InputCustom";
 import SpinCustom from "src/components/SpinCustom";
 

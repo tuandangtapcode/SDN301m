@@ -5,7 +5,7 @@ const fncGetListAuthor = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body;
     const regex = new RegExp(TextSearch, 'i');
-    const query = { fullname: regex };
+    const query = { fullname: regex, IsPosted: true };
     const skip = (CurrentPage - 1) * PageSize;
     const limit = PageSize;
     const authors = await User.find(query)

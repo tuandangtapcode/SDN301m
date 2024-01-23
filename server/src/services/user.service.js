@@ -17,6 +17,14 @@ const fncGetListAuthor = async (req) => {
   }
 }
 
+const fncLoginByGoogle = async (req) => {
+  try {
+
+  } catch (error) {
+
+  }
+}
+
 const UserService = {
   fncGetListAuthor,
   // fncAbc

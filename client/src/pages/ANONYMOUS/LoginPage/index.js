@@ -1,11 +1,12 @@
 import { Col, Form, Row } from "antd"
-import InputCustom from "src/components/InputCustom"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import { useState } from "react"
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import { useGoogleLogin } from "@react-oauth/google"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { LoginContainerStyled } from "./styeld"
 import { jwtDecode } from "jwt-decode"
+import InputCustom from "src/components/FloatInput/InputCustom"
+import UserService from "src/services/UserService"
 
 
 const LoginPage = () => {
@@ -13,8 +14,11 @@ const LoginPage = () => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState()
 
-  const login = useGoogleLogin({
-    onSuccess: credentialResponse => console.log('credentialResponse  ', credentialResponse),
+  const loginByGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const res = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
+      console.log('res', res);
+    },
   });
 
   return (
@@ -30,15 +34,14 @@ const LoginPage = () => {
           <Col span={24}>
             <Form.Item>
               <InputCustom
-                placeholder="Email"
+                label="Email"
               />
             </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item>
               <InputCustom
-                placeholder="Mật khẩu"
-                type="isPassword"
+                label="Mật khẩu"
               />
             </Form.Item>
           </Col>
@@ -56,17 +59,9 @@ const LoginPage = () => {
             </div>
           </Col>
           <Col span={24}>
-            <GoogleLogin
-              onSuccess={credentialResponse => {
-                console.log(credentialResponse);
-              }}
-              onError={() => {
-                console.log('Login Failed');
-              }}
-            />
             <ButtonCustom
               className="d-flex-center login-google medium mb-15"
-              onClick={() => login()}
+              onClick={() => loginByGoogle()}
             >
               <span className="icon-google"></span>
               <span className="ml-12">Sign in with Google</span>

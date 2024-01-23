@@ -1,11 +1,11 @@
 import { Col, Form, Row } from "antd"
-import InputCustom from "src/components/InputCustom"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import { useState } from "react"
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { LoginContainerStyled } from "./styeld"
 import { jwtDecode } from "jwt-decode"
+import InputCustom from "src/components/FloatInput/InputCustom"
 
 
 const LoginPage = () => {
@@ -30,14 +30,14 @@ const LoginPage = () => {
           <Col span={24}>
             <Form.Item>
               <InputCustom
-                placeholder="Email"
+                label="Email"
               />
             </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item>
               <InputCustom
-                placeholder="Mật khẩu"
+                label="Mật khẩu"
                 type="isPassword"
               />
             </Form.Item>

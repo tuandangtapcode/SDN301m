@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import TableCustom from "src/components/CustomTable";
 import InputCustom from "src/components/FloatInput/InputCustom";
 import SpinCustom from "src/components/SpinCustom";
+import UserService from "src/services/UserService";
 
 const Authors = () => {
   const [loading, setLoading] = useState(false)
@@ -18,10 +19,10 @@ const Authors = () => {
   const getList = async () => {
     try {
       setLoading(true)
-      // const res = await LandService.getListLand(pagination)
-      // if (res.IsError) return
-      // setListData(res?.Object)
-      // setTotal(res?.Total)
+      const res = await UserService.getListAuthour(pagination)
+      if (res.IsError) return
+      setListData(res?.data?.List)
+      setTotal(res?.data?.Total)
     } finally {
       setLoading(false)
     }

@@ -1,5 +1,5 @@
 import http from '../index'
-import { apiGetInforByGoogleLogin } from './urls'
+import { apiGetInforByGoogleLogin, apiGetListAuthor } from './urls'
 
 
 const getInforByGoogleLogin = (access_token) => http.get(apiGetInforByGoogleLogin, {
@@ -7,9 +7,11 @@ const getInforByGoogleLogin = (access_token) => http.get(apiGetInforByGoogleLogi
     Authorization: `Bearer ${access_token}`
   }
 })
+const getListAuthour = body => http.post(apiGetListAuthor, body)
 
 const UserService = {
-  getInforByGoogleLogin
+  getInforByGoogleLogin,
+  getListAuthour,
 }
 
 export default UserService

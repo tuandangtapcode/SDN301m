@@ -5,8 +5,10 @@ import { authAdminMidleware } from '../middlewares/auth.middleware.js'
 
 router.post('/',
     // authAdminMidleware,
-    UserController.getListAuthour
-)
+    UserController.getListAuthour)
+router.get('/:id',
+    UserController.getDetailProfile)
+
 router.post('/login',
     UserController.login
 )

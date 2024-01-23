@@ -7,4 +7,4 @@ const ComicService = {
 
 }
 
-export default ComicService;
+export default ComicService

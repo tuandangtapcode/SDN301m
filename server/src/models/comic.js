@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
 const Comics = new Schema({
   Title: { type: String },
@@ -30,6 +30,6 @@ const Comics = new Schema({
   CreatedAt: { type: Date, default: Date.now },
 })
 
-const ComicsModel = mongoose.model('Comics', Comics);
+const ComicsModel = mongoose.model('Comics', Comics)
 
-export default ComicsModel;
+export default ComicsModel

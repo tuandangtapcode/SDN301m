@@ -7,4 +7,4 @@ const ImageService = {
 
 }
 
-export default ImageService;
+export default ImageService

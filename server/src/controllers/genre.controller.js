@@ -8,4 +8,4 @@ const GenreController = {
 
 }
 
-export default GenreController;
+export default GenreController

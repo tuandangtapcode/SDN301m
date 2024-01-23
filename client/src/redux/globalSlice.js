@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const globalSlice = createSlice({
   name: 'global',
@@ -7,26 +7,26 @@ const globalSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload
     },
     setCurrentSong: (state, action) => {
-      state.currentSong = action.payload;
+      state.currentSong = action.payload
     },
     setIsPlay: (state, action) => {
-      state.isPlay = action.payload;
+      state.isPlay = action.payload
     },
     setAlbums: (state, action) => {
-      state.albums = action.payload;
+      state.albums = action.payload
     },
     setSongs: (state, action) => {
-      state.songs = action.payload;
+      state.songs = action.payload
     },
     setActiveMenu: (state, action) => {
-      state.activeMenu = action.payload;
+      state.activeMenu = action.payload
     },
   }
 })
 
 
-export default globalSlice;
+export default globalSlice
 

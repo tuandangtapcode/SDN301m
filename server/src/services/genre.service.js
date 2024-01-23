@@ -7,4 +7,4 @@ const GenreService = {
 
 }
 
-export default GenreService;
+export default GenreService

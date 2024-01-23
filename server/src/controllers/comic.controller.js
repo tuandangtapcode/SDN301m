@@ -9,4 +9,4 @@ const ComicController = {
 
 }
 
-export default ComicController;
+export default ComicController

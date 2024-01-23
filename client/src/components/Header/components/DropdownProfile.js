@@ -54,12 +54,20 @@ const DropdownProfile = () => {
             </ButtonCustom>
           </Dropdown>
           :
-          <ButtonCustom
-            className="noBackground fs-17 fw-600"
-            onClick={() => navigate('/login')}
-          >
-            Login
-          </ButtonCustom>
+          <div>
+            <ButtonCustom
+              className="noBackground fs-17 fw-600"
+              onClick={() => navigate('/login')}
+            >
+              Login
+            </ButtonCustom>
+            <ButtonCustom
+              className="noBackground fs-17 fw-600"
+              onClick={() => navigate('/signup')}
+            >
+              Sign up
+            </ButtonCustom>
+          </div>
       }
     </>
   );

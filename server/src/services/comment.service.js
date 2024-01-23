@@ -7,4 +7,4 @@ const CommentService = {
 
 }
 
-export default CommentService;
+export default CommentService

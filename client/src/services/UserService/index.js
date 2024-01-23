@@ -1,5 +1,9 @@
 import http from '../index'
-import { apiGetInforByGoogleLogin } from './urls'
+import {
+  apiGetInforByGoogleLogin,
+  apiLogin,
+  apiRegister
+} from './urls'
 
 
 const getInforByGoogleLogin = (access_token) => http.get(apiGetInforByGoogleLogin, {
@@ -8,8 +12,14 @@ const getInforByGoogleLogin = (access_token) => http.get(apiGetInforByGoogleLogi
   }
 })
 
+const login = (body) => http.post(apiLogin, body)
+
+const register = (body) => http.post(apiRegister, body)
+
 const UserService = {
-  getInforByGoogleLogin
+  getInforByGoogleLogin,
+  login,
+  register
 }
 
 export default UserService

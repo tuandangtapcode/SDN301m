@@ -8,4 +8,4 @@ const CommentController = {
 
 }
 
-export default CommentController;
+export default CommentController

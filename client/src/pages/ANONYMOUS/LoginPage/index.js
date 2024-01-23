@@ -45,6 +45,7 @@ const LoginPage = () => {
           <Col span={24}>
             <Form.Item>
               <InputCustom
+                isPass
                 label="Mật khẩu"
               />
             </Form.Item>

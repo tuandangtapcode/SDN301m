@@ -67,6 +67,7 @@ const SignupPage = () => {
               ]}
             >
               <InputCustom
+                isPass
                 label="Mật khẩu"
               />
             </Form.Item>

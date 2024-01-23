@@ -4,6 +4,15 @@ import { accessToken, refreshToken } from '../utils/jwt.js'
 import bcrypt from 'bcrypt'
 const saltRounds = 10
 
+const checkEmailExist = async (Email) => {
+  let check = true
+  const user = await User.findOne({ Email })
+  if (user) {
+    check = false
+  }
+  return check
+}
+
 const fncGetListAuthor = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
@@ -21,15 +30,15 @@ const fncGetListAuthor = async (req) => {
 }
 
 const fncLogin = async (req) => {
-  const { email, password } = req.body
+  const { Password, Email } = req.body
   try {
-    const getUser = await User.findOne({ Email: email })
+    const getUser = await User.findOne({ Email })
     if (!getUser) return response({}, true, 'Email không tồn tại', 200)
-    const check = bcrypt.compareSync(password, getUser.Password)
+    const check = bcrypt.compareSync(Password, getUser.Password)
     if (!check) return response({}, true, 'Mật khẩu không chính xác', 200)
     const access_token = accessToken({
       id: getUser._id,
-      is_admin: getUser.IsAdmin,
+      IsAdmin: getUser.IsAdmin,
     })
     return response(access_token, false, 'Login thành công', 200)
   } catch (error) {
@@ -39,7 +48,11 @@ const fncLogin = async (req) => {
 
 const fncRegister = async (req) => {
   try {
-    const Password = req.body.Password
+    const { Password, Email } = req.body
+    const checkExist = await checkEmailExist(Email)
+    if (!checkExist) {
+      return response({}, true, 'Email đã tồn tại', 201)
+    }
     const hashPassword = bcrypt.hashSync(Password, saltRounds)
     const refresh_token = refreshToken()
     const hashUser = { ...req.body, Password: hashPassword, ResfreshToken: refresh_token }

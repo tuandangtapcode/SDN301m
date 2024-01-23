@@ -83,7 +83,7 @@ const routes = [
     ),
     children: [
       {
-        path: '/dasboard',
+        path: '/dashboard',
         element: (
           <LazyLoadingComponent>
             <Dashboard />

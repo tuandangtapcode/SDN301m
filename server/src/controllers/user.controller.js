@@ -5,8 +5,20 @@ const getListAuthour = async (req, res) => {
   return res.status(author.StatusCode).json(author)
 }
 
-const UserController = {
-  getListAuthour
+const login = async (req, res) => {
+  const respone = await UserService.fncLogin(req)
+  return res.status(respone.StatusCode).json(respone)
 }
 
-export default UserController;
+const register = async (req, res) => {
+  const respone = await UserService.fncRegister(req)
+  return res.status(respone.StatusCode).json(respone)
+}
+
+const UserController = {
+  getListAuthour,
+  login,
+  register
+}
+
+export default UserController

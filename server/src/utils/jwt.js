@@ -1,8 +1,11 @@
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 
-const accessToken = (payload) => {
+export const accessToken = (payload) => {
   const access_token = jwt.sign({ payload }, process.env.ACCESS_TOKEN, { expiresIn: '365d' })
-  return access_token;
+  return access_token
 }
 
-export default accessToken;
+export const refreshToken = () => {
+  const refresh_token = jwt.sign({}, process.env.REFRESH_TOKEN, { expiresIn: '365d' })
+  return refresh_token
+}

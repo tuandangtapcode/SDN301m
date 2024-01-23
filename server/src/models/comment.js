@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose'
+const Schema = mongoose.Schema
 
 const Comments = new Schema({
   Content: { type: String },
@@ -8,7 +8,7 @@ const Comments = new Schema({
 
 })
 
-const CommentsModel = mongoose.model('Comments', Comments);
+const CommentsModel = mongoose.model('Comments', Comments)
 
-export default CommentsModel;
+export default CommentsModel
 

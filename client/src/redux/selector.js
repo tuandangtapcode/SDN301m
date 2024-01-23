@@ -1,1 +1,1 @@
-export const globalSelector = (state) => state.global;
+export const globalSelector = (state) => state.global

@@ -1,7 +1,7 @@
 import { Col, Form, Row } from "antd"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import { useState } from "react"
-import { useGoogleLogin } from "@react-oauth/google"
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { LoginContainerStyled } from "./styeld"
 import { jwtDecode } from "jwt-decode"
@@ -21,9 +21,13 @@ const LoginPage = () => {
     },
   });
 
+  const loginByForm = async () => {
+
+  }
+
   return (
     <LoginContainerStyled>
-      <Form form={form} className="mt-50">
+      <Form form={form} className="mt-30">
         <Row gutter={[16, 0]}>
           <Col span={24}>
             <div className="text-center mb-20">
@@ -50,7 +54,7 @@ const LoginPage = () => {
               className="submit fw-600 fs-18"
               loading={loading}
             >
-              Continued
+              Log in
             </ButtomCustomStyled>
           </Col>
           <Col span={24}>
@@ -69,7 +73,7 @@ const LoginPage = () => {
           </Col>
           <Col span={24}>
             <ButtonCustom
-              className="d-flex-center login-facebook medium mb-15"
+              className="d-flex-center login-facebook medium mb-30"
             >
               <span className="icon-facebook"></span>
               <span className="ml-12">Sign in with Facebook</span>

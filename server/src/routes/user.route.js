@@ -1,7 +1,7 @@
-import express from "express";
-const router = express.Router();
-import UserController from "../controllers/user.controller.js";
-import { authAdminMidleware } from "../middlewares/auth.middleware.js";
+import express from "express"
+const router = express.Router()
+import UserController from "../controllers/user.controller.js"
+import { authAdminMidleware } from "../middlewares/auth.middleware.js"
 
 router.post("/getListAuthor",
   // authAdminMidleware,
@@ -28,11 +28,11 @@ router.post("/login",
 router.post("/register",
   UserController.register
 )
-router.get("/get-customer",
-  UserController.getListCustomer
+router.get("/getListUser",
+  UserController.getListUser
 )
 router.get("/deactive-account/:id",
   UserController.deactiveAccount
 )
 
-export default router;
+export default router

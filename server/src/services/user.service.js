@@ -22,7 +22,7 @@ const fncGetListAuthor = async (req) => {
     const authors = await User.find(query).skip(skip).limit(limit)
     return response(authors, false, "Lấy ra thành công", 200)
   } catch (error) {
-    return response(authors, false, error.tostring(), 200)
+    return response({}, true, error.tostring(), 200)
   }
 }
 
@@ -35,10 +35,9 @@ const fncGetListUser = async (req) => {
     const skip = (CurrentPage - 1) * PageSize
     const limit = PageSize
     const authors = await User.find(query).skip(skip).limit(limit)
-    console.log(authors)
     return response(authors, false, "Lấy ra thành công", 200)
   } catch (error) {
-    return response(authors, false, error.tostring(), 200)
+    return response({}, true, error.tostring(), 200)
   }
 }
 
@@ -47,13 +46,13 @@ const fnDeactiveAccount = async (req) => {
     const { id } = req.params
     const user = await User.findById(id)
     if (!user) {
-      return response(null, false, "Không tìm thấy tài khoản", 200)
+      return response({}, true, "Không tìm thấy tài khoản", 200)
     }
     user.IsActive = false
     await user.save()
-    return response(null, false, "Khóa tài khoản thành công", 200)
+    return response({}, false, "Khóa tài khoản thành công", 200)
   } catch (error) {
-    return response(null, false, error.tostring(), 200)
+    return response({}, true, error.tostring(), 200)
   }
 }
 
@@ -64,7 +63,7 @@ const fncGetDetailProfile = async (req) => {
     const detail = await User.findOne(query)
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {
-    return response({}, false, error.toString(), 200)
+    return response({}, true, error.toString(), 200)
   }
 }
 
@@ -96,7 +95,7 @@ const fncLoginByGoole = async (req) => {
     })
     return response(access_token, false, 'Login thành công', 200)
   } catch (error) {
-
+    return response({}, true, 'Login thành công', 200)
   }
 }
 
@@ -135,7 +134,7 @@ const fncRegisterByGoole = async (req) => {
     })
     return response(newUser, false, 'Đăng ký tài khoản thành công', 201)
   } catch (error) {
-
+    return response({}, true, error.toString(), 200)
   }
 }
 

@@ -84,12 +84,27 @@ const fncLogin = async (req) => {
   }
 };
 
+const fncLoginByGoole = async (req) => {
+  const email = req.body.email
+  try {
+    const getUser = await User.findOne({ Email: email })
+    if (!getUser) return response({}, true, 'Email không tồn tại', 200)
+    const access_token = accessToken({
+      id: getUser._id,
+      IsAdmin: getUser.IsAdmin,
+    })
+    return response(access_token, false, 'Login thành công', 200)
+  } catch (error) {
+
+  }
+}
+
 const fncRegister = async (req) => {
   try {
     const { Password, Email } = req.body;
     const checkExist = await checkEmailExist(Email);
     if (!checkExist) {
-      return response({}, true, "Email đã tồn tại", 201);
+      return response({}, true, 'Email đã tồn tại', 200)
     }
     const hashPassword = bcrypt.hashSync(Password, saltRounds);
     const refresh_token = refreshToken();
@@ -103,13 +118,34 @@ const fncRegister = async (req) => {
   } catch (error) {
     return response({}, true, error.toString(), 200);
   }
-};
+}
+
+const fncRegisterByGoole = async (req) => {
+  const { email, given_name, picture } = req.body
+  try {
+    const checkExist = await checkEmailExist(email)
+    if (!checkExist) {
+      return response({}, true, 'Email đã tồn tại', 200)
+    }
+    const newUser = await User.create({
+      Email: email,
+      FullName: given_name,
+      Avatar: picture
+    })
+    return response(newUser, false, 'Đăng ký tài khoản thành công', 201)
+  } catch (error) {
+
+  }
+}
+
 
 const UserService = {
   fncGetListAuthor,
   fncGetDetailProfile,
   fncLogin,
+  fncLoginByGoole,
   fncRegister,
+  fncRegisterByGoole,
   fncGetListCustomer,
   fnDeactiveAccount,
 };

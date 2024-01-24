@@ -26,16 +26,29 @@ const login = async (req, res) => {
   return res.status(respone.StatusCode).json(respone);
 };
 
+const loginByGoogle = async (req, res) => {
+  const respone = await UserService.fncLoginByGoole(req)
+  return res.status(respone.StatusCode).json(respone)
+}
+
 const register = async (req, res) => {
-  const respone = await UserService.fncRegister(req);
-  return res.status(respone.StatusCode).json(respone);
-};
+  const respone = await UserService.fncRegister(req)
+  return res.status(respone.StatusCode).json(respone)
+}
+
+const registerByGoogle = async (req, res) => {
+  const respone = await UserService.fncRegisterByGoole(req)
+  return res.status(respone.StatusCode).json(respone)
+}
+
 
 const UserController = {
   getListAuthour,
   getDetailProfile,
   login,
+  loginByGoogle,
   register,
+  registerByGoogle,
   getListCustomer,
   deactiveAccount,
 };

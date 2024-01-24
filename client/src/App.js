@@ -1,36 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { useRoutes } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-// import { getProfileUser } from "src/services/UserService";
-import { useDispatch, useSelector } from "react-redux";
-import globalSlice from "src/redux/globalSlice";
-import { jwtDecode } from "jwt-decode";
-import SpinCustom from "src/components/SpinCustom";
-import NotFoundPage from "src/pages/ErrorPage/NotFoundPage";
-import { globalSelector } from "src/redux/selector";
+import React, { useEffect, useState } from "react"
+import { useNavigate, useRoutes } from "react-router-dom"
+import { ToastContainer, toast } from 'react-toastify'
+// import { getProfileUser } from "src/services/UserService"
+import { useDispatch, useSelector } from "react-redux"
+import globalSlice from "src/redux/globalSlice"
+import { jwtDecode } from "jwt-decode"
+import SpinCustom from "src/components/SpinCustom"
+import NotFoundPage from "src/pages/ErrorPage/NotFoundPage"
+import { globalSelector } from "src/redux/selector"
+import UserService from "./services/UserService"
 
 
 // ANONYMOUS
-const AnonymousRoutes = React.lazy(() => import('src/pages/ANONYMOUS/AnonymousRoutes'));
-const HomePage = React.lazy(() => import('src/pages/ANONYMOUS/HomePage'));
-const LoginPage = React.lazy(() => import('src/pages/ANONYMOUS/LoginPage'));
-const SignupPage = React.lazy(() => import('src/pages/ANONYMOUS/SignupPage'));
-const ComicContent = React.lazy(() => import('src/pages/ANONYMOUS/ComicContent'));
-const ComicDetail = React.lazy(() => import('src/pages/ANONYMOUS/ComicDetail'));
-const Genres = React.lazy(() => import('src/pages/ANONYMOUS/Genres'));
-const GenresDetail = React.lazy(() => import('src/pages/ANONYMOUS/GenresDetail'));
-const Authors = React.lazy(() => import('src/pages/ANONYMOUS/Authors'));
-const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail'));
+const AnonymousRoutes = React.lazy(() => import('src/pages/ANONYMOUS/AnonymousRoutes'))
+const HomePage = React.lazy(() => import('src/pages/ANONYMOUS/HomePage'))
+const LoginPage = React.lazy(() => import('src/pages/ANONYMOUS/LoginPage'))
+const SignupPage = React.lazy(() => import('src/pages/ANONYMOUS/SignupPage'))
+const ComicContent = React.lazy(() => import('src/pages/ANONYMOUS/ComicContent'))
+const ComicDetail = React.lazy(() => import('src/pages/ANONYMOUS/ComicDetail'))
+const Genres = React.lazy(() => import('src/pages/ANONYMOUS/Genres'))
+const GenresDetail = React.lazy(() => import('src/pages/ANONYMOUS/GenresDetail'))
+const Authors = React.lazy(() => import('src/pages/ANONYMOUS/Authors'))
+const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail'))
 
 
 // USER
-const UserRoutes = React.lazy(() => import('src/pages/USER/UserRoutes'));
-const UserProfile = React.lazy(() => import('src/pages/USER/UserProfile'));
-const MyComic = React.lazy(() => import('src/pages/USER/MyComic'));
+const UserRoutes = React.lazy(() => import('src/pages/USER/UserRoutes'))
+const UserProfile = React.lazy(() => import('src/pages/USER/UserProfile'))
+const MyComic = React.lazy(() => import('src/pages/USER/MyComic'))
 
 // ADMIN
-const AdminRoutes = React.lazy(() => import('src/pages/ADMIN/AdminRoutes'));
-const Dashboard = React.lazy(() => import('src/pages/ADMIN/Dashboard'));
+const AdminRoutes = React.lazy(() => import('src/pages/ADMIN/AdminRoutes'))
+const Dashboard = React.lazy(() => import('src/pages/ADMIN/Dashboard'))
 
 
 function LazyLoadingComponent({ children }) {
@@ -186,27 +187,37 @@ const routes = [
 
 function App() {
 
-  const appRoutes = useRoutes(routes);
-  const dispatch = useDispatch();
-  const global = useSelector(globalSelector);
-  const [loading, setLoading] = useState(false);
+  const appRoutes = useRoutes(routes)
+  const dispatch = useDispatch()
+  const global = useSelector(globalSelector)
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   if (localStorage.getItem('token')) {
-  //     const user = jwtDecode(localStorage.getItem('token'));
-  //     getProfile(user.payload.id);
-  //   }
-  // }, [])
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('token')) {
+        const user = jwtDecode(localStorage.getItem('token'))
+        if (!!user.payload.id) {
+          getProfile(user.payload.id)
+        }
+      }
+    } catch (error) {
+      console.log('error', error.toString())
+      localStorage.removeItem('token')
+      navigate('/')
+    }
+  }, [])
 
-  // const getProfile = async (id) => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await getProfileUser(id);
-  //     dispatch(globalSlice.actions.setUser(res?.data));
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
+  const getProfile = async (UserID) => {
+    try {
+      setLoading(true)
+      const res = await UserService.getDetailProfile(UserID)
+      if (res?.isError) return toast.error(res?.msg)
+      dispatch(globalSlice.actions.setUser(res?.data))
+    } finally {
+      setLoading(false)
+    }
+  }
 
 
   return (
@@ -214,7 +225,7 @@ function App() {
       <ToastContainer />
       <div>{appRoutes}</div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

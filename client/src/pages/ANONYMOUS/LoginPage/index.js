@@ -7,12 +7,19 @@ import { LoginContainerStyled } from "./styeld"
 import { jwtDecode } from "jwt-decode"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import UserService from "src/services/UserService"
+import { toast } from "react-toastify"
+import { useDispatch } from "react-redux"
+import globalSlice from "src/redux/globalSlice"
+import { useNavigate } from "react-router-dom"
+import { getRegexEmail } from "src/lib/stringUtils"
 
 
 const LoginPage = () => {
 
   const [form] = Form.useForm()
   const [loading, setLoading] = useState()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const loginByGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -22,7 +29,33 @@ const LoginPage = () => {
   });
 
   const loginByForm = async () => {
+    try {
+      setLoading(true)
+      const values = await form.validateFields()
+      const res = await UserService.login(values)
+      if (res?.isError) return toast.error(res?.msg)
+      const user = jwtDecode(res?.data)
+      localStorage.setItem('token', res?.data)
+      getProfile(user.payload.id)
+      if (!user?.payload?.IsAdmin) {
+        navigate('/')
+      } else {
+        navigate('/dashboard')
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
+  const getProfile = async (UserID) => {
+    try {
+      setLoading(true)
+      const res = await UserService.getDetailProfile(UserID)
+      if (res?.isError) return toast.error(res?.msg)
+      dispatch(globalSlice.actions.setUser(res?.data))
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -36,14 +69,25 @@ const LoginPage = () => {
             </div>
           </Col>
           <Col span={24}>
-            <Form.Item>
+            <Form.Item
+              name="Email"
+              rules={[
+                { required: true, message: "Hãy nhập vào email" },
+                { pattern: getRegexEmail(), message: "Email sai định dạng" }
+              ]}
+            >
               <InputCustom
                 label="Email"
               />
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item>
+            <Form.Item
+              name="Password"
+              rules={[
+                { required: true, message: "Hãy nhập vào pasword" },
+              ]}
+            >
               <InputCustom
                 isPass
                 label="Mật khẩu"
@@ -54,6 +98,7 @@ const LoginPage = () => {
             <ButtomCustomStyled
               className="submit fw-600 fs-18"
               loading={loading}
+              onClick={() => loginByForm()}
             >
               Log in
             </ButtomCustomStyled>

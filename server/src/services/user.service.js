@@ -4,6 +4,7 @@ import { accessToken, refreshToken } from '../utils/jwt.js'
 import bcrypt from 'bcrypt'
 const saltRounds = 10
 
+
 const checkEmailExist = async (Email) => {
   let check = true
   const user = await User.findOne({ Email })
@@ -29,14 +30,15 @@ const fncGetListAuthor = async (req) => {
     return response({}, false, error.toString(), 200)
   }
 }
+
 const fncGetDetailProfile = async (req) => {
   try {
-    const UserID = req.params.UserID;
+    const UserID = req.params.id;
     const query = { _id: UserID }
     const detail = await User.findOne(query)
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {
-
+    return response({}, false, error.toString(), 200)
   }
 }
 
@@ -74,12 +76,10 @@ const fncRegister = async (req) => {
   }
 }
 
+
 const UserService = {
   fncGetListAuthor,
   fncGetDetailProfile,
-  // fncLoginByGoogle,
-  // fncAbc
-
   fncLogin,
   fncRegister
 }

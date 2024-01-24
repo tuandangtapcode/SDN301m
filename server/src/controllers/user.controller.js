@@ -1,30 +1,30 @@
-import UserService from "../services/user.service.js";
+import UserService from "../services/user.service.js"
 
 const getListAuthour = async (req, res) => {
-  const author = await UserService.fncGetListAuthor(req);
-  return res.status(author.StatusCode).json(author);
-};
+  const author = await UserService.fncGetListAuthor(req)
+  return res.status(author.StatusCode).json(author)
+}
 const getDetailProfile = async (req, res) => {
-  const detail = await UserService.fncGetDetailProfile(req);
-  return res.status(detail.StatusCode).json(detail);
-};
+  const detail = await UserService.fncGetDetailProfile(req)
+  return res.status(detail.StatusCode).json(detail)
+}
 
 // Get List Customer
-const getListCustomer = async (req, res) => {
-  const customer = await UserService.fncGetListCustomer(req);
-  return res.status(customer.StatusCode).json(customer);
-};
+const getListUser = async (req, res) => {
+  const users = await UserService.fncGetListUser(req)
+  return res.status(users.StatusCode).json(users)
+}
 
 // Deactive Account
 const deactiveAccount = async (req, res) => {
-  const deactive = await UserService.fnDeactiveAccount(req);
-  return res.status(deactive.StatusCode).json(deactive);
-};
+  const deactive = await UserService.fnDeactiveAccount(req)
+  return res.status(deactive.StatusCode).json(deactive)
+}
 
 const login = async (req, res) => {
-  const respone = await UserService.fncLogin(req);
-  return res.status(respone.StatusCode).json(respone);
-};
+  const respone = await UserService.fncLogin(req)
+  return res.status(respone.StatusCode).json(respone)
+}
 
 const loginByGoogle = async (req, res) => {
   const respone = await UserService.fncLoginByGoole(req)
@@ -49,8 +49,8 @@ const UserController = {
   loginByGoogle,
   register,
   registerByGoogle,
-  getListCustomer,
+  getListUser,
   deactiveAccount,
-};
+}
 
-export default UserController;
+export default UserController

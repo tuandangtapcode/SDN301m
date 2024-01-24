@@ -1,25 +1,38 @@
-import express from 'express'
-const router = express.Router()
-import UserController from '../controllers/user.controller.js'
-import { authAdminMidleware } from '../middlewares/auth.middleware.js'
+import express from "express";
+const router = express.Router();
+import UserController from "../controllers/user.controller.js";
+import { authAdminMidleware } from "../middlewares/auth.middleware.js";
 
-router.post('/getListAuthor',
-    // authAdminMidleware,
-    UserController.getListAuthour)
-router.get('/getDetailProfile/:id',
-    UserController.getDetailProfile)
-
+router.post("/getListAuthor",
+  // authAdminMidleware,
+  UserController.getListAuthour
+)
 router.post('/login',
-    UserController.login
+  UserController.login
 )
 router.post('/loginByGoogle',
-    UserController.loginByGoogle
+  UserController.loginByGoogle
 )
 router.post('/register',
-    UserController.register
+  UserController.register
 )
 router.post('/registerByGoogle',
-    UserController.registerByGoogle
+  UserController.registerByGoogle
+)
+router.get("/getDetailProfile/:id",
+  UserController.getDetailProfile
+)
+router.post("/login",
+  UserController.login
+)
+router.post("/register",
+  UserController.register
+)
+router.get("/get-customer",
+  UserController.getListCustomer
+)
+router.get("/deactive-account/:id",
+  UserController.deactiveAccount
 )
 
-export default router
+export default router;

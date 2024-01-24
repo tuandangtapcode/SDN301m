@@ -1,4 +1,4 @@
-import { Input } from "antd"
+import { Badge, Input } from "antd"
 import styled from "styled-components"
 
 export const HeaderContainerStyled = styled.div`
@@ -35,5 +35,15 @@ border-radius: 12px;
 }
 .ant-input:focus {
   caret-color: black;
+}
+`
+
+export const BadgeStyled = styled(Badge)`
+.ant-badge, .ant-badge-count {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  transform: translate(0%, -50%);
+  transform-origin: 100% 0%;
 }
 `

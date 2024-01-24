@@ -1,10 +1,10 @@
-import { HeaderContainerStyled, HeaderStyled, InputHeaderStyled } from "./styled"
-import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
-import DropdownProfile from "./components/DropdownProfile"
-import PopoverMain from "./components/PopoverMain"
 import { useNavigate } from "react-router-dom"
+import DropdownProfile from "../components/DropdownProfile"
+import PopoverMain from "../components/PopoverMain"
+import { HeaderContainerStyled, HeaderStyled, InputHeaderStyled } from "../styled"
+import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
 
-const Header = () => {
+const MainHeader = () => {
 
   const navigate = useNavigate()
 
@@ -14,7 +14,7 @@ const Header = () => {
         <div className="d-flex-sb">
           <div className="d-flex-sb">
             <img
-              style={{ width: '70px', height: '70px' }}
+              style={{ width: '70px', height: '70px', cursor: "pointer" }}
               src="logoApp.jpg"
               alt=""
               onClick={() => navigate('/')}
@@ -36,4 +36,4 @@ const Header = () => {
   );
 }
 
-export default Header;
+export default MainHeader;

@@ -2,10 +2,10 @@ import styled from "styled-components"
 
 export const FooterContainerStyled = styled.div`
   background-color: #c5375a;
-  /* position: absolute;
+  position: absolute;
   bottom: 0;
   left: 0;
-  right: 0; */
+  right: 0;
 `
 
 export const FooterStyled = styled.div`

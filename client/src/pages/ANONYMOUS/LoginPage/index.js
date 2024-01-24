@@ -1,7 +1,7 @@
 import { Col, Form, Row } from "antd"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import { useState } from "react"
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import { useGoogleLogin } from "@react-oauth/google"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { LoginContainerStyled } from "./styeld"
 import { jwtDecode } from "jwt-decode"
@@ -23,8 +23,17 @@ const LoginPage = () => {
 
   const loginByGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const res = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
-      console.log('res', res);
+      const userInfor = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
+      const res = await UserService.loginByGoogle(userInfor)
+      if (res?.isError) return toast.error(res?.msg)
+      const user = jwtDecode(res?.data)
+      localStorage.setItem('token', res?.data)
+      getProfile(user.payload.id)
+      if (!user?.payload?.IsAdmin) {
+        navigate('/')
+      } else {
+        navigate('/dashboard')
+      }
     },
   });
 

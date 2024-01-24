@@ -20,5 +20,9 @@ export const menuItem = () => {
       label: "Confirm comic",
       key: '/dashboard/confirm-comic',
     },
+    {
+      label: "Log out",
+      key: 'logout',
+    },
   ]
 }

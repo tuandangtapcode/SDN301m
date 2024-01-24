@@ -12,8 +12,14 @@ router.get('/getDetailProfile/:id',
 router.post('/login',
     UserController.login
 )
+router.post('/loginByGoogle',
+    UserController.loginByGoogle
+)
 router.post('/register',
     UserController.register
+)
+router.post('/registerByGoogle',
+    UserController.registerByGoogle
 )
 
 export default router

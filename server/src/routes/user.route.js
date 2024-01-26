@@ -37,5 +37,8 @@ router.get("/deactive-account/:id",
 router.get("/view-profile-customer/:id",
   UserController.viewProfileCustomer
 );
+router.put("/updateProfile",
+  UserController.updateProfileCustomer
+);
 
 export default router;

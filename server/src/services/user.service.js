@@ -153,6 +153,25 @@ const fncGetDetailProfileCustomer = async (req) => {
   }
 };
 
+// Update name của customer theo customer_id
+const fncUpdateProfileCustomer = async (req) => {
+  try {
+    const { id, newName } = req.body;
+    const query = { _id: id };
+    const detail = await User.findOne(query);
+    if (!detail) {
+      return response(detail, false, "Thông tin không hợp lệ", 404);
+    }
+
+    // Update the name
+    detail.FullName = newName;
+    await detail.save();
+    return response(detail, false, "Cập nhật tên thành công", 200);
+  } catch (error) {
+    return response({}, true, error.toString(), 500); // Changed to 500 to indicate server error
+  }
+}
+
 const UserService = {
   fncGetListAuthor,
   fncGetDetailProfile,
@@ -163,6 +182,7 @@ const UserService = {
   fncGetListUser,
   fnDeactiveAccount,
   fncGetDetailProfileCustomer,
+  fncUpdateProfileCustomer
 };
 
 export default UserService

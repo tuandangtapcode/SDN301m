@@ -47,6 +47,12 @@ const viewProfileCustomer = async (req, res) => {
   return res.status(profile.StatusCode).json(profile);
 }
 
+// Update Profile Profile Customer
+const updateProfileCustomer = async (req, res) => {
+  const profile = await UserService.fncUpdateProfileCustomer(req);
+  return res.status(profile.StatusCode).json(profile);
+}
+
 const UserController = {
   getListAuthour,
   getDetailProfile,
@@ -57,6 +63,7 @@ const UserController = {
   getListUser,
   deactiveAccount,
   viewProfileCustomer,
+  updateProfileCustomer
 };
 
 export default UserController;

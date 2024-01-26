@@ -14,8 +14,8 @@ const MainHeader = () => {
         <div className="d-flex-sb">
           <div className="d-flex-sb">
             <img
-              style={{ width: '70px', height: '70px', cursor: "pointer" }}
-              src="logoApp.jpg"
+              style={{ width: '70px', height: '70px' }}
+              src="Lire Le Logo Du Livre _ Vecteur Premium (1).png"
               alt=""
               onClick={() => navigate('/')}
             />

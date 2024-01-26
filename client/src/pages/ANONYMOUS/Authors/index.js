@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TableCustom from "src/components/TableCustom";
 import InputCustom from "src/components/FloatInput/InputCustom";
 import SpinCustom from "src/components/SpinCustom";
@@ -9,6 +9,7 @@ import UserService from "src/services/UserService";
 const Authors = () => {
   const [loading, setLoading] = useState(false)
   const [listData, setListData] = useState([])
+  const navigate = useNavigate()
   const [total, setTotal] = useState(0)
   const [pagination, setPagination] = useState({
     TextSearch: "",
@@ -45,15 +46,20 @@ const Authors = () => {
       width: 500,
       dataIndex: "FullName",
       key: "FullName",
+      align: "center",
       render: (_, record) => (
-        <Link to={`/author/${record.id}`} />
+        <span
+          onClick={() => navigate(`/authors/${record?._id}`)}
+        >
+          {record?.FullName}
+        </span>
       )
     },
   ]
 
   return (
     <SpinCustom spinning={loading}>
-      <Row gutter={[16, 16]} className="mt-20">
+      <Row gutter={[16, 16]} className="mt-20 mb-20">
         <Col span={24}>
           <p className="title-type-1">Authors</p>
         </Col>
@@ -62,13 +68,13 @@ const Authors = () => {
             search
             allowClear
             label="Author Name"
-          // onSearch={value => {
-          //   setPagination(pre => ({
-          //     ...pre,
-          //     CurrentPage: 1,
-          //     TextSearch: value,
-          //   }))
-          // }}
+            onSearch={value => {
+              setPagination(pre => ({
+                ...pre,
+                CurrentPage: 1,
+                TextSearch: value,
+              }))
+            }}
           />
         </Col>
         <Col span={24}>

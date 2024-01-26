@@ -14,14 +14,21 @@ const checkEmailExist = async (Email) => {
 
 //Authors
 const fncGetListAuthor = async (req) => {
+  const { TextSearch, CurrentPage, PageSize } = req.body
   try {
-    const { TextSearch, CurrentPage, PageSize } = req.body
-    const regex = new RegExp(TextSearch, "i")
-    const query = { fullname: regex }
-    const skip = (CurrentPage - 1) * PageSize
-    const limit = PageSize
-    const authors = await User.find(query).skip(skip).limit(limit)
-    return response(authors, false, "Lấy ra thành công", 200)
+    // const regex = { $text: { $search: TextSearch } }
+    // const query = { FullName: regex, IsPosted: true };
+    const query = { IsPosted: false, FullName: { $regex: TextSearch, $options: 'i' } }
+    // if (!!TextSearch) {
+    // query.FullName = { $regex: TextSearch, $options: 'i' };
+    // }
+    // console.log(query)
+    const skip = (CurrentPage - 1) * PageSize;
+    const limit = PageSize;
+    const authors = await User.find(query)
+      .skip(skip)
+      .limit(limit);
+    return response({ List: authors, Total: authors.length }, false, "Lấy ra thành công", 200)
   } catch (error) {
     return response({}, true, error.tostring(), 200)
   }

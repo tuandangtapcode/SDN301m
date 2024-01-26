@@ -8,7 +8,7 @@ const SpinCustom = (props) => {
       indicator={
         <LoadingOutlined
           style={{
-            color: '#1ed760'
+            color: '#FF5079'
           }}
           spin
         />

@@ -26,6 +26,9 @@ const Comics = new Schema({
   CreatedAt: { type: Date, default: Date.now },
   Likes: { type: Number, default: 0 },
   Reads: { type: Number, default: 0 },
+  ReadedAt: [
+    { type: Date, default: Date.now }
+  ],
   Status: { type: Boolean, default: false },
 })
 

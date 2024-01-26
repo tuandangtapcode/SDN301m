@@ -1,6 +1,7 @@
 import response from "../utils/response-result.js"
 import User from "../models/user.js"
 import { accessToken, refreshToken } from "../utils/jwt.js"
+import bcrypt from 'bcrypt'
 
 const checkEmailExist = async (Email) => {
   let check = true
@@ -68,8 +69,8 @@ const fncGetDetailProfile = async (req) => {
 }
 
 const fncLogin = async (req) => {
-  const { Password, Email } = req.body
   try {
+    const { Password, Email } = req.body
     const getUser = await User.findOne({ Email })
     if (!getUser) return response({}, true, "Email không tồn tại", 200)
     const check = bcrypt.compareSync(Password, getUser.Password)
@@ -85,8 +86,8 @@ const fncLogin = async (req) => {
 }
 
 const fncLoginByGoole = async (req) => {
-  const email = req.body.email
   try {
+    const email = req.body.email
     const getUser = await User.findOne({ Email: email })
     if (!getUser) return response({}, true, 'Email không tồn tại', 200)
     const access_token = accessToken({
@@ -121,8 +122,8 @@ const fncRegister = async (req) => {
 }
 
 const fncRegisterByGoole = async (req) => {
-  const { email, given_name, picture } = req.body
   try {
+    const { email, given_name, picture } = req.body
     const checkExist = await checkEmailExist(email)
     if (!checkExist) {
       return response({}, true, 'Email đã tồn tại', 200)

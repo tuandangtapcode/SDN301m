@@ -32,6 +32,10 @@ const MyComic = React.lazy(() => import('src/pages/USER/MyComic'))
 // ADMIN
 const AdminRoutes = React.lazy(() => import('src/pages/ADMIN/AdminRoutes'))
 const Dashboard = React.lazy(() => import('src/pages/ADMIN/Dashboard'))
+const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManagement'))
+const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
+const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
+const ConfirmComic = React.lazy(() => import('src/pages/ADMIN/ConfirmComic'))
 
 
 function LazyLoadingComponent({ children }) {
@@ -88,6 +92,38 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <Dashboard />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/comics',
+        element: (
+          <LazyLoadingComponent>
+            <ComicsManagement />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/genres',
+        element: (
+          <LazyLoadingComponent>
+            <GenresManagement />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/users',
+        element: (
+          <LazyLoadingComponent>
+            <UsersManagement />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/confirm-comic',
+        element: (
+          <LazyLoadingComponent>
+            <ConfirmComic />
           </LazyLoadingComponent>
         )
       },

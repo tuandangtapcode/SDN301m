@@ -1,5 +1,5 @@
 import Footer from "src/components/Footer"
-import Header from "src/components/Header"
+import MainHeader from "src/components/Header/MainHeader";
 import styled from "styled-components"
 
 
@@ -11,7 +11,7 @@ margin: auto;
 const MainLayout = ({ children }) => {
   return (
     <div>
-      <Header />
+      <MainHeader />
       <ContentStyled>
         {children}
       </ContentStyled>

@@ -18,8 +18,11 @@ const SignupPage = () => {
 
   const registerByGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const res = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
-      console.log('res', res);
+      const userInfor = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
+      const res = await UserService.registerByGoogle(userInfor)
+      if (res?.isError) return toast.error(res?.msg)
+      toast.success(res?.msg)
+      navigate('/login')
     },
   });
 
@@ -28,9 +31,9 @@ const SignupPage = () => {
     try {
       setLoading(true)
       const values = await form.validateFields()
-      console.log('values', values);
       const res = await UserService.register(values)
       if (res?.isError) return toast.error(res?.msg)
+      toast.success(res?.msg)
       navigate('/login')
     } finally {
       setLoading(false)
@@ -45,6 +48,18 @@ const SignupPage = () => {
             <div className="text-center mb-20">
               <p className="fs-25 fw-600">Sign up to use</p>
             </div>
+          </Col>
+          <Col span={24}>
+            <Form.Item
+              name="FullName"
+              rules={[
+                { required: true, message: "Hãy nhập vào email" },
+              ]}
+            >
+              <InputCustom
+                label="FullName"
+              />
+            </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item

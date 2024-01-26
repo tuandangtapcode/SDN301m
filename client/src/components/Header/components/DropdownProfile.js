@@ -1,11 +1,13 @@
 import { useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
-import { Dropdown } from "antd"
+import { Badge, Dropdown } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import globalSlice from "src/redux/globalSlice"
+import { AiFillBell } from "react-icons/ai";
+import { BadgeStyled } from "../styled"
 
 const DropdownProfile = () => {
 
@@ -38,21 +40,37 @@ const DropdownProfile = () => {
       key: '3',
       onClick: () => handleLogout()
     },
-  ];
+  ]
 
   return (
     <>
       {
         !!global?.user?._id ?
-          <Dropdown menu={{ items }} trigger={['click']}>
-            <ButtonCustom
-              className="normal noBackground"
-              icon={arrowDropdownProfile ? <CaretUpOutlined /> : <CaretDownOutlined />}
-              onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
-            >
-              My Profile
-            </ButtonCustom>
-          </Dropdown>
+          <div className="d-flex-sb">
+            <Dropdown menu={{ items }} trigger={['click']}>
+              <BadgeStyled
+                size="small"
+                count={5}
+                style={{ fontSize: '10px', padding: '0px 1px 4px 0px' }}
+              >
+                <ButtonCustom
+                  className="noBackground"
+                  icon={<AiFillBell className="fs-20" style={{ color: 'white' }} />}
+                  onClick={() => setArrowDropdownProfile(false)}
+                />
+              </BadgeStyled>
+            </Dropdown>
+
+            <Dropdown menu={{ items }} trigger={['click']}>
+              <ButtonCustom
+                className="normal noBackground"
+                icon={arrowDropdownProfile ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
+              >
+                My Profile
+              </ButtonCustom>
+            </Dropdown>
+          </div>
           :
           <div>
             <ButtonCustom

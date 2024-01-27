@@ -41,16 +41,10 @@ const registerByGoogle = async (req, res) => {
   return res.status(respone.StatusCode).json(respone)
 }
 
-// View Profile Customer
-const viewProfileCustomer = async (req, res) => {
-  const profile = await UserService.fncGetDetailProfileCustomer(req);
-  return res.status(profile.StatusCode).json(profile);
-}
-
 // Update Profile Profile Customer
 const updateProfileCustomer = async (req, res) => {
-  const profile = await UserService.fncUpdateProfileCustomer(req);
-  return res.status(profile.StatusCode).json(profile);
+  const profile = await UserService.fncUpdateProfileCustomer(req)
+  return res.status(profile.StatusCode).json(profile)
 }
 
 const UserController = {
@@ -62,8 +56,7 @@ const UserController = {
   registerByGoogle,
   getListUser,
   deactiveAccount,
-  viewProfileCustomer,
   updateProfileCustomer
-};
+}
 
-export default UserController;
+export default UserController

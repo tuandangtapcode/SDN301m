@@ -1,9 +1,9 @@
 import { Col, Row } from "antd";
 import Content from "./component/Content";
-import Ranking from "./component/Ranking";
 import { useEffect, useState } from "react";
 import UserService from "src/services/UserService";
 import { useParams } from "react-router-dom";
+import Rating from "src/components/Rating";
 
 const AuthorDetail = () => {
   const [loading, setLoading] = useState(false)
@@ -32,9 +32,7 @@ const AuthorDetail = () => {
         />
       </Col>
       <Col span={6}>
-        <Ranking
-          detail={detail}
-        />
+        <Rating />
       </Col>
     </Row>
   );

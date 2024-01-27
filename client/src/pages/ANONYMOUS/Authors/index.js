@@ -1,11 +1,12 @@
-import { Col, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TableCustom from "src/components/TableCustom";
 import InputCustom from "src/components/FloatInput/InputCustom";
 import SpinCustom from "src/components/SpinCustom";
 import UserService from "src/services/UserService";
 
+const { Meta } = Card;
 const Authors = () => {
   const [loading, setLoading] = useState(false)
   const [listData, setListData] = useState([])
@@ -77,7 +78,21 @@ const Authors = () => {
             }}
           />
         </Col>
-        <Col span={24}>
+        {listData.map(i =>
+          <Col span={6}>
+            <Card
+              hoverable
+              style={{
+                width: 240,
+              }}
+              cover={<img alt="example" src={i.Avatar} />}
+              onClick={(e) => console.log(e)}
+            >
+              <Meta title={i.FullName} description={i.Description} />
+            </Card>
+          </Col>
+        )}
+        {/* <Col span={24}>
           <TableCustom
             isPrimary
             columns={columns}
@@ -112,7 +127,7 @@ const Authors = () => {
                 }),
             }}
           />
-        </Col>
+        </Col> */}
       </Row>
     </SpinCustom>
   );

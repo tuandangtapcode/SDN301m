@@ -3,13 +3,14 @@ const Schema = mongoose.Schema
 
 const Comics = new Schema({
   Title: { type: String },
-  Artist: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+  Author: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
   ShortDecription: { type: String },
+  AvatarPath: { type: String, default: null },
+  AvatarPathId: { type: String, default: null },
   Genres: {
     type: [
       {
         GenresID: { type: mongoose.Schema.Types.ObjectId, ref: 'Genres' },
-        Name: { type: String },
       }
     ],
     default: []
@@ -27,7 +28,7 @@ const Comics = new Schema({
   Likes: { type: Number, default: 0 },
   Reads: { type: Number, default: 0 },
   ReadedAt: [
-    { type: Date, default: Date.now }
+    { type: Date, default: null }
   ],
   Status: { type: Boolean, default: false },
 })

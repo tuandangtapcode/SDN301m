@@ -6,9 +6,9 @@ import UserRoute from './user.route.js'
 
 
 const routes = (app) => {
-  app.use('/commic', ComicRoute)
+  app.use('/comic', ComicRoute)
   app.use('/comment', CommentRoute)
-  app.use('/gene', GenreRoute)
+  app.use('/genre', GenreRoute)
   app.use('/image', ImageRoute)
   app.use('/user', UserRoute)
 }

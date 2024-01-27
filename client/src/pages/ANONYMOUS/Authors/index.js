@@ -1,12 +1,12 @@
-import { Card, Col, Row } from "antd";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import TableCustom from "src/components/TableCustom";
-import InputCustom from "src/components/FloatInput/InputCustom";
-import SpinCustom from "src/components/SpinCustom";
-import UserService from "src/services/UserService";
+import { Card, Col, Row } from "antd"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import TableCustom from "src/components/TableCustom"
+import InputCustom from "src/components/FloatInput/InputCustom"
+import SpinCustom from "src/components/SpinCustom"
+import UserService from "src/services/UserService"
 
-const { Meta } = Card;
+const { Meta } = Card
 const Authors = () => {
   const [loading, setLoading] = useState(false)
   const [listData, setListData] = useState([])
@@ -22,7 +22,7 @@ const Authors = () => {
     try {
       setLoading(true)
       const res = await UserService.getListAuthour(pagination)
-      if (res.IsError) return
+      if (res.isError) return
       setListData(res?.data?.List)
       setTotal(res?.data?.Total)
     } finally {

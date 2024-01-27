@@ -35,7 +35,7 @@ const LoginPage = () => {
         navigate('/dashboard')
       }
     },
-  });
+  })
 
   const loginByForm = async () => {
     try {
@@ -86,6 +86,7 @@ const LoginPage = () => {
               ]}
             >
               <InputCustom
+                isRequired
                 label="Email"
               />
             </Form.Item>
@@ -99,6 +100,7 @@ const LoginPage = () => {
             >
               <InputCustom
                 isPass
+                isRequired
                 label="Mật khẩu"
               />
             </Form.Item>

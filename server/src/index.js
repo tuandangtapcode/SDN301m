@@ -5,7 +5,6 @@ import dotev from 'dotenv'
 import cors from 'cors'
 import routes from './routes/index.js'
 import connect from './config/index.js'
-import { Server } from "socket.io"
 
 dotev.config()
 const app = express()
@@ -33,11 +32,11 @@ routes(app)
 io.on("connection", (socket) => {
 
   socket.on('send-comment', function (data) {
-    io.sockets.emit('get-comments', data);
+    io.sockets.emit('get-comments', data)
   })
 
   socket.on('disconnect', function () {
-    console.log(`người dùng ${socket.id} đã ngắt kết nối`);
+    console.log(`người dùng ${socket.id} đã ngắt kết nối`)
   })
 })
 

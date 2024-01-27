@@ -1,5 +1,5 @@
 import Footer from "src/components/Footer"
-import MainHeader from "src/components/Header/MainHeader";
+import MainHeader from "src/components/Header/MainHeader"
 import styled from "styled-components"
 
 

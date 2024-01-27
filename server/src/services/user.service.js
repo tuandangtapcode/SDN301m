@@ -17,17 +17,17 @@ const fncGetListAuthor = async (req) => {
   const { TextSearch, CurrentPage, PageSize } = req.body
   try {
     // const regex = { $text: { $search: TextSearch } }
-    // const query = { FullName: regex, IsPosted: true };
+    // const query = { FullName: regex, IsPosted: true }
     const query = { IsPosted: false, FullName: { $regex: TextSearch, $options: 'i' } }
     // if (!!TextSearch) {
-    // query.FullName = { $regex: TextSearch, $options: 'i' };
+    // query.FullName = { $regex: TextSearch, $options: 'i' }
     // }
     // console.log(query)
-    const skip = (CurrentPage - 1) * PageSize;
-    const limit = PageSize;
+    const skip = (CurrentPage - 1) * PageSize
+    const limit = PageSize
     const authors = await User.find(query)
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
     return response({ List: authors, Total: authors.length }, false, "Lấy ra thành công", 200)
   } catch (error) {
     return response({}, true, error.tostring(), 200)
@@ -146,37 +146,21 @@ const fncRegisterByGoole = async (req) => {
   }
 }
 
-// Lấy thông tin chi tiết của customer theo customer_id
-const fncGetDetailProfileCustomer = async (req) => {
-  try {
-    const { id } = req.params;
-    const query = { _id: id };
-    const detail = await User.findOne(query);
-    if (!detail) {
-      return response(detail, false, "Thông tin không hợp lệ", 404);
-    }
-    return response(detail, false, "Lấy ra thành công", 200);
-  } catch (error) {
-    return response({}, true, error.toString(), 200);
-  }
-};
-
 // Update name của customer theo customer_id
 const fncUpdateProfileCustomer = async (req) => {
   try {
-    const { id, newName } = req.body;
-    const query = { _id: id };
-    const detail = await User.findOne(query);
+    const { id, newName } = req.body
+    const query = { _id: id }
+    const detail = await User.findOne(query)
     if (!detail) {
-      return response(detail, false, "Thông tin không hợp lệ", 404);
+      return response(detail, true, "Thông tin không hợp lệ", 200)
     }
-
     // Update the name
-    detail.FullName = newName;
-    await detail.save();
-    return response(detail, false, "Cập nhật tên thành công", 200);
+    detail.FullName = newName
+    await detail.save()
+    return response(detail, false, "Cập nhật tên thành công", 200)
   } catch (error) {
-    return response({}, true, error.toString(), 500); // Changed to 500 to indicate server error
+    return response({}, true, error.toString(), 200)
   }
 }
 
@@ -189,8 +173,7 @@ const UserService = {
   fncRegisterByGoole,
   fncGetListUser,
   fnDeactiveAccount,
-  fncGetDetailProfileCustomer,
   fncUpdateProfileCustomer
-};
+}
 
 export default UserService

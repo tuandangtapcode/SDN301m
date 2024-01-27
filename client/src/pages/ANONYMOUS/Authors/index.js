@@ -86,7 +86,7 @@ const Authors = () => {
                 width: 240,
               }}
               cover={<img alt="example" src={i.Avatar} />}
-              onClick={(e) => console.log(e)}
+            // onClick={(e) => console.log(e)}
             >
               <Meta title={i.FullName} description={i.Description} />
             </Card>

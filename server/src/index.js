@@ -4,11 +4,12 @@ import dotev from 'dotenv'
 import cors from 'cors'
 import routes from './routes/index.js'
 import connect from './config/index.js'
+import { Server } from "socket.io"
 
 dotev.config()
 const app = express()
 const server = http.createServer(app)
-const io = new SocketServer(server, {
+const io = new Server(server, {
   // cors: {
   //   origin: "http://localhost:3000",
   // },

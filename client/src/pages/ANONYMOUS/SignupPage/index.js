@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { LoginContainerStyled } from "../LoginPage/styeld";
-import { Col, Row, Form } from "antd";
-import InputCustom from "src/components/FloatInput/InputCustom";
-import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled";
-import ButtonCustom from "src/components/ButtonCustom/MyButton";
-import { useGoogleLogin } from "@react-oauth/google";
-import UserService from "src/services/UserService";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { getRegexEmail } from "src/lib/stringUtils";
+import { useState } from "react"
+import { LoginContainerStyled } from "../LoginPage/styeld"
+import { Col, Row, Form } from "antd"
+import InputCustom from "src/components/FloatInput/InputCustom"
+import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
+import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import { useGoogleLogin } from "@react-oauth/google"
+import UserService from "src/services/UserService"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
+import { getRegexEmail } from "src/lib/stringUtils"
 
 const SignupPage = () => {
 
@@ -24,7 +24,7 @@ const SignupPage = () => {
       toast.success(res?.msg)
       navigate('/login')
     },
-  });
+  })
 
 
   const registerByForm = async () => {
@@ -57,6 +57,7 @@ const SignupPage = () => {
               ]}
             >
               <InputCustom
+                isRequired
                 label="FullName"
               />
             </Form.Item>
@@ -70,6 +71,7 @@ const SignupPage = () => {
               ]}
             >
               <InputCustom
+                isRequired
                 label="Email"
               />
             </Form.Item>
@@ -83,6 +85,7 @@ const SignupPage = () => {
             >
               <InputCustom
                 isPass
+                isRequired
                 label="Mật khẩu"
               />
             </Form.Item>

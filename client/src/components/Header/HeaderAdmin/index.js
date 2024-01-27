@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 import DropdownProfile from "../components/DropdownProfile"
 import { BadgeStyled, HeaderContainerStyled, HeaderStyled } from "../styled"
-import { Dropdown } from "antd";
-import ButtonCustom from "src/components/ButtonCustom/MyButton";
-import { AiFillBell } from "react-icons/ai";
+import { Dropdown } from "antd"
+import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import { AiFillBell } from "react-icons/ai"
 
 const HeaderAdmin = () => {
 

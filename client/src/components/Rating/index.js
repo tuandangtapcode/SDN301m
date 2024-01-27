@@ -1,10 +1,10 @@
-import { Col, Row, Tabs } from "antd";
-import { useState } from "react";
-import { PageStyles } from "./style";
-import All from "./components/All";
-import Month from "./components/Month";
-import Week from "./components/Week";
-import SpinCustom from "../SpinCustom";
+import { Col, Row, Tabs } from "antd"
+import { useState } from "react"
+import { PageStyles } from "./style"
+import All from "./components/All"
+import Month from "./components/Month"
+import Week from "./components/Week"
+import SpinCustom from "../SpinCustom"
 
 
 const Rating = () => {

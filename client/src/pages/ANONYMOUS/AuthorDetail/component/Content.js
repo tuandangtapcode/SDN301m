@@ -6,7 +6,7 @@ import {
 } from "react-icons/ai"
 
 const Content = ({ detail }) => {
-  console.log(detail);
+  console.log(detail)
   return (
     <Row gutter={[16, 16]}>
       <Col span={10}>
@@ -33,7 +33,7 @@ const Content = ({ detail }) => {
 
       </Col>
     </Row>
-  );
+  )
 }
 
-export default Content;
+export default Content

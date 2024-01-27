@@ -1,9 +1,9 @@
-import { Col, Row } from "antd";
-import Content from "./component/Content";
-import { useEffect, useState } from "react";
-import UserService from "src/services/UserService";
-import { useParams } from "react-router-dom";
-import Rating from "src/components/Rating";
+import { Col, Row } from "antd"
+import Content from "./component/Content"
+import { useEffect, useState } from "react"
+import UserService from "src/services/UserService"
+import { useParams } from "react-router-dom"
+import Rating from "src/components/Rating"
 
 const AuthorDetail = () => {
   const [loading, setLoading] = useState(false)

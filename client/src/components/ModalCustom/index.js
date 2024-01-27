@@ -20,11 +20,10 @@ import { ModalCustomStyled } from "./styled"
 // }
 
 const ModalCustom = (props) => {
-  // const { footer, ...remainProps } = props;
+  // const { footer, ...remainProps } = props
   return (
     <ModalCustomStyled
       {...props}
-      footer={null}
     >
       {props?.children}
     </ModalCustomStyled>

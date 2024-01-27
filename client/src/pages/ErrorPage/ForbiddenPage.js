@@ -1,11 +1,11 @@
-import React from 'react';
-import { Button, Result } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import './result.scss';
+import React from 'react'
+import { Button, Result } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import './result.scss'
 
 const ForbiddenPage = () => {
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <Result

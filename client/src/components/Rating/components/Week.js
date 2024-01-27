@@ -1,5 +1,5 @@
-import { useState } from "react";
-import SpinCustom from "src/components/SpinCustom";
+import { useState } from "react"
+import SpinCustom from "src/components/SpinCustom"
 
 const Week = () => {
   const [loading, setLoading] = useState(false)

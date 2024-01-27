@@ -4,10 +4,10 @@ import styled from "styled-components"
 export const ModalCustomStyled = styled(Modal)`
 
 .ant-modal-content, .ant-modal-header {
-  background-color: rgb(54, 53, 53);
+  background-color: white;
 }
 .ant-modal-title {
- color: white;
+ color: #db6784;
  font-size: 20px;
  font-weight: 700;
 }

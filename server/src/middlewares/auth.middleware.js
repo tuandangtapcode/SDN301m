@@ -42,7 +42,7 @@ export const authUsernMidleware = (req, res, next) => {
     )
   }
   const token = req.headers.token.split(' ')[1]
-  const userid = req.body.Artist || req.params.id
+  const userid = req.body.Author || req.params.id
   jwt.verify(token, process.env.ACCESS_TOKEN, function (err, decode) {
     if (err) {
       return res.status(401).json(

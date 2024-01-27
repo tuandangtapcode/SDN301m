@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const Genres = new Schema({
   Title: { type: String },
-  Avatar: { type: String, default: null },
+  ShortDecription: { type: String },
   CreatedAt: { type: Date, default: Date.now },
 })
 

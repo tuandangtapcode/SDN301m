@@ -28,7 +28,12 @@ const fncGetListAuthor = async (req) => {
     const authors = await User.find(query)
       .skip(skip)
       .limit(limit)
-    return response({ List: authors, Total: authors.length }, false, "Lấy ra thành công", 200)
+    return response(
+      { List: authors, Total: authors.length },
+      false,
+      "Lấy ra thành công",
+      200
+    )
   } catch (error) {
     return response({}, true, error.tostring(), 200)
   }
@@ -163,6 +168,7 @@ const fncUpdateProfileCustomer = async (req) => {
     return response({}, true, error.toString(), 200)
   }
 }
+
 
 const UserService = {
   fncGetListAuthor,

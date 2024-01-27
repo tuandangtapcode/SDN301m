@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import globalSlice from "src/redux/globalSlice"
-import { AiFillBell } from "react-icons/ai";
+import { AiFillBell } from "react-icons/ai"
 import { BadgeStyled } from "../styled"
 
 const DropdownProfile = () => {

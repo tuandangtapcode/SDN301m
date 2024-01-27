@@ -1,10 +1,10 @@
-import HeaderAdmin from "src/components/Header/HeaderAdmin";
-import { menuItem } from "./MenuItem";
-import { useLocation, useNavigate } from "react-router-dom";
-import { MenuAdminStyled } from "./styled";
-import { Menu } from "antd";
-import { useDispatch } from "react-redux";
-import globalSlice from "src/redux/globalSlice";
+import HeaderAdmin from "src/components/Header/HeaderAdmin"
+import { menuItem } from "./MenuItem"
+import { useLocation, useNavigate } from "react-router-dom"
+import { MenuAdminStyled } from "./styled"
+import { Col, Menu, Row } from "antd"
+import { useDispatch } from "react-redux"
+import globalSlice from "src/redux/globalSlice"
 
 const LayoutAdmin = ({ children }) => {
 
@@ -30,16 +30,22 @@ const LayoutAdmin = ({ children }) => {
     <div>
       <HeaderAdmin />
       <MenuAdminStyled>
-        <div className="menu-container">
-          <Menu
-            onClick={e => handleChangeMenu(e.key)}
-            items={menuItem()}
-            selectedKeys={location?.pathname}
-          />
-        </div>
-        <div className="content-container">
-          {children}
-        </div>
+        <Row style={{ flexWrap: "nowrap", height: '100vh' }}>
+          <Col span={4}>
+            <div className="menu-container">
+              <Menu
+                onClick={e => handleChangeMenu(e.key)}
+                items={menuItem()}
+                selectedKeys={location?.pathname}
+              />
+            </div>
+          </Col>
+          <Col span={20}>
+            <div className="content-container">
+              {children}
+            </div>
+          </Col>
+        </Row>
       </MenuAdminStyled>
     </div>
   );

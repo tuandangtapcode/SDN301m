@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const Comments = new Schema({
   Content: { type: String },
-  Artist: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+  Author: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
   Comic: { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' },
 
 })

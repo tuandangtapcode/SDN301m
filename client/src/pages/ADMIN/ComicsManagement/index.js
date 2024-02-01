@@ -6,10 +6,13 @@ import ComicService from "src/services/ComicService"
 import GenreService from "src/services/GenreService"
 import InsertUpdateComic from "./components/InsertUpdateComic"
 import { toast } from "react-toastify"
+import { useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
+import moment from "moment"
 
 const ComicsManagement = () => {
 
-  const [genres, setGenres] = useState([])
+  const global = useSelector(globalSelector)
   const [comics, setComics] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -32,31 +35,16 @@ const ComicsManagement = () => {
     }
   }
 
-  const getListGenres = async () => {
-    try {
-      setLoading(true)
-      const res = await GenreService.getAllGenres()
-      if (res?.isError) return
-      setGenres(res?.data)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
     getListComics()
   }, [pagination])
-
-  useEffect(() => {
-    getListGenres()
-  }, [])
 
   const column = [
     {
       title: "STT",
       align: "center",
       render: (_, record, index) => (
-        <div className="text-center">{index + 1}</div>
+        <div>{index + 1}</div>
       ),
     },
     {
@@ -65,6 +53,43 @@ const ComicsManagement = () => {
       dataIndex: "Title",
       key: "Title",
     },
+    {
+      title: "Thể loại",
+      align: "center",
+      render: (_, record, index) => (
+        record?.Genres?.map(i =>
+          <p>{i?.Title}</p>
+        )
+      ),
+    },
+    {
+      title: "Tác giả",
+      align: "center",
+      render: (_, record, index) => (
+        <div>{record?.Author?.FullName}</div>
+      ),
+    },
+    {
+      title: "Ngày cập nhật",
+      align: "center",
+      render: (_, record, index) => (
+        <div>{moment(record?.CreatedAt).format("DD/MM/YYYY")}</div>
+      ),
+    },
+    {
+      title: "Lượt thích",
+      align: "center",
+      render: (_, record, index) => (
+        <div>{record?.Likes}</div>
+      ),
+    },
+    {
+      title: "Lượt đọc",
+      align: "center",
+      render: (_, record, index) => (
+        <div>{record?.Reads}</div>
+      ),
+    },
   ]
 
   return (
@@ -72,9 +97,9 @@ const ComicsManagement = () => {
       <div className="d-flex-sb mb-15">
         <p className="title-type-1">Comics Management</p>
         <ButtonCustom
-          className="greendBackground"
+          className="greendBackground medium"
           onClick={() => {
-            if (!!genres.length) {
+            if (!!global?.genres.length) {
               setInsertUpdateComic(true)
             } else {
               return toast.error('Chưa có thể loại truyền nào')
@@ -94,8 +119,7 @@ const ComicsManagement = () => {
         <InsertUpdateComic
           open={insertUpdateComic}
           onCancel={() => setInsertUpdateComic(false)}
-          onOk={() => getListComics}
-          genres={genres}
+          onOk={() => getListComics()}
         />
       }
     </SpinCustom>

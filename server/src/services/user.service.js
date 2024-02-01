@@ -29,7 +29,7 @@ const fncGetListAuthor = async (req) => {
       200
     )
   } catch (error) {
-    return response({}, true, error.tostring(), 200)
+    return response({}, true, error.tostring(), 500)
   }
 }
 
@@ -44,7 +44,7 @@ const fncGetListUser = async (req) => {
     const authors = await User.find(query).skip(skip).limit(limit)
     return response(authors, false, "Lấy ra thành công", 200)
   } catch (error) {
-    return response({}, true, error.tostring(), 200)
+    return response({}, true, error.tostring(), 500)
   }
 }
 
@@ -52,14 +52,11 @@ const fnDeactiveAccount = async (req) => {
   try {
     const { id } = req.params
     const user = await User.findById(id)
-    if (!user) {
-      return response({}, true, "Không tìm thấy tài khoản", 200)
-    }
     user.IsActive = false
     await user.save()
     return response({}, false, "Khóa tài khoản thành công", 200)
   } catch (error) {
-    return response({}, true, error.tostring(), 200)
+    return response({}, true, error.tostring(), 500)
   }
 }
 
@@ -87,7 +84,7 @@ const fncLogin = async (req) => {
     })
     return response(access_token, false, "Login thành công", 200)
   } catch (error) {
-    return response({}, true, error.toString(), 200)
+    return response({}, true, error.toString(), 500)
   }
 }
 
@@ -123,7 +120,7 @@ const fncRegister = async (req) => {
     const newUser = await User.create(hashUser)
     return response(newUser, false, "Đăng ký tài khoản thành công", 201)
   } catch (error) {
-    return response({}, true, error.toString(), 200)
+    return response({}, true, error.toString(), 500)
   }
 }
 
@@ -141,7 +138,7 @@ const fncRegisterByGoole = async (req) => {
     })
     return response(newUser, false, 'Đăng ký tài khoản thành công', 201)
   } catch (error) {
-    return response({}, true, error.toString(), 200)
+    return response({}, true, error.toString(), 500)
   }
 }
 
@@ -151,15 +148,12 @@ const fncUpdateProfileCustomer = async (req) => {
     const { id, newName } = req.body
     const query = { _id: id }
     const detail = await User.findOne(query)
-    if (!detail) {
-      return response(detail, true, "Thông tin không hợp lệ", 200)
-    }
     // Update the name
     detail.FullName = newName
     await detail.save()
     return response(detail, false, "Cập nhật tên thành công", 200)
   } catch (error) {
-    return response({}, true, error.toString(), 200)
+    return response({}, true, error.toString(), 500)
   }
 }
 

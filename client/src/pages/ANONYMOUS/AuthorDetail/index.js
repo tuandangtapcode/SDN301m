@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import UserService from "src/services/UserService"
 import { useParams } from "react-router-dom"
 import Rating from "src/components/Rating"
+import SpinCustom from "src/components/SpinCustom"
 
 const AuthorDetail = () => {
   const [loading, setLoading] = useState(false)
@@ -25,16 +26,18 @@ const AuthorDetail = () => {
   }, [])
 
   return (
-    <Row gutter={[16, 16]} className="mt-20 mb-20">
-      <Col span={18}>
-        <Content
-          detail={detail}
-        />
-      </Col>
-      <Col span={6}>
-        <Rating />
-      </Col>
-    </Row>
+    <SpinCustom spinning={loading}>
+      <Row gutter={[16, 16]} className="mt-20 mb-20">
+        <Col span={18}>
+          <Content
+            detail={detail}
+          />
+        </Col>
+        <Col span={6}>
+          <Rating />
+        </Col>
+      </Row>
+    </SpinCustom>
   );
 }
 

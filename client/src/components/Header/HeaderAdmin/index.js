@@ -31,7 +31,7 @@ const HeaderAdmin = () => {
           <div className="d-flex-sb">
             <img
               style={{ width: '70px', height: '70px', cursor: "pointer" }}
-              src="logoApp.jpg"
+              src="Lire Le Logo Du Livre _ Vecteur Premium (1).png"
               alt=""
               onClick={() => navigate('/dashboard')}
             />

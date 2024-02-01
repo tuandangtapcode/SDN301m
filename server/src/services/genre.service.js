@@ -1,10 +1,20 @@
 import Genre from '../models/genre.js'
 import response from '../utils/response-result.js'
 
-const fncGetAllGenres = async () => {
+const fncGetAllGenres = async (req) => {
+  const { TextSearch, CurrentPage, PageSize } = req.body
   try {
-    const genres = await Genre.find()
-    return response(genres, false, "Lấy data thành công", 200)
+    const query = { Title: { $regex: TextSearch, $options: 'i' } }
+    const skip = (CurrentPage - 1) * PageSize
+    const limit = PageSize
+    const genres = await Genre.find(query)
+      .skip(skip)
+      .limit(limit)
+    return response(
+      { List: genres, Total: genres.length },
+      false,
+      "Lấy data thành công",
+      200)
   } catch (error) {
     return response({}, true, "Lấy data thành công", 200)
   }

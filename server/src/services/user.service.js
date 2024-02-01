@@ -16,13 +16,7 @@ const checkEmailExist = async (Email) => {
 const fncGetListAuthor = async (req) => {
   const { TextSearch, CurrentPage, PageSize } = req.body
   try {
-    // const regex = { $text: { $search: TextSearch } }
-    // const query = { FullName: regex, IsPosted: true }
-    const query = { IsPosted: false, FullName: { $regex: TextSearch, $options: 'i' } }
-    // if (!!TextSearch) {
-    // query.FullName = { $regex: TextSearch, $options: 'i' }
-    // }
-    // console.log(query)
+    const query = { IsPosted: true, FullName: { $regex: TextSearch, $options: 'i' } }
     const skip = (CurrentPage - 1) * PageSize
     const limit = PageSize
     const authors = await User.find(query)

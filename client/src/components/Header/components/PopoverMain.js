@@ -71,7 +71,7 @@ const PopoverMain = () => {
             <LinkStyled>Languages</LinkStyled>
           </p>
           <p className="fs-18">
-            <LinkStyled>Genres</LinkStyled>
+            <LinkStyled to={'/genres'}>Genres</LinkStyled>
           </p>
           <p className="fs-18">
             <LinkStyled>Articles</LinkStyled>

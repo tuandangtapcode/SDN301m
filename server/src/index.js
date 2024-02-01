@@ -1,12 +1,12 @@
 import express from 'express'
 import { Server as SocketServer } from 'socket.io'
 import http from "http"
-import dotev from 'dotenv'
+import * as dotenv from 'dotenv'
+dotenv.config()
 import cors from 'cors'
-import routes from './routes/index.js'
 import connect from './config/index.js'
+import routes from './routes/index.js'
 
-dotev.config()
 const app = express()
 const server = http.createServer(app)
 const io = new SocketServer(server, {

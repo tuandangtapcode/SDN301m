@@ -1,6 +1,6 @@
 import { Col, Form, Row } from "antd"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useGoogleLogin } from "@react-oauth/google"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { LoginContainerStyled } from "./styeld"
@@ -8,16 +8,18 @@ import { jwtDecode } from "jwt-decode"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import UserService from "src/services/UserService"
 import { toast } from "react-toastify"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import globalSlice from "src/redux/globalSlice"
 import { useNavigate } from "react-router-dom"
 import { getRegexEmail } from "src/lib/stringUtils"
+import { globalSelector } from "src/redux/selector"
 
 
 const LoginPage = () => {
 
   const [form] = Form.useForm()
   const [loading, setLoading] = useState()
+  const global = useSelector(globalSelector)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -66,6 +68,10 @@ const LoginPage = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (!!global?.user?._id) navigate('/')
+  }, [])
 
   return (
     <LoginContainerStyled>

@@ -4,10 +4,14 @@ const globalSlice = createSlice({
   name: 'global',
   initialState: {
     user: {},
+    genres: []
   },
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload
+    },
+    setGenres: (state, action) => {
+      state.genres = action.payload
     },
   }
 })

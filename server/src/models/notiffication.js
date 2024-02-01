@@ -3,8 +3,7 @@ const Schema = mongoose.Schema
 
 const Notificaitons = new Schema({
   Content: { type: String },
-  Artist: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-  Comic: { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' },
+  Author: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
 
 })
 

@@ -13,6 +13,12 @@ const Users = new Schema({
   IsActive: { type: Boolean, default: true },
   CreatedAt: { type: Date, default: Date.now },
   IsPosted: { type: Boolean, default: false },
+  Follows: {
+    type: [
+      { ComicID: { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' } }
+    ],
+    default: []
+  }
 })
 
 const UsersModel = mongoose.model('Users', Users)

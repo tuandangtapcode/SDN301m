@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { LoginContainerStyled } from "../LoginPage/styeld"
 import { Col, Row, Form } from "antd"
 import InputCustom from "src/components/FloatInput/InputCustom"
@@ -9,11 +9,14 @@ import UserService from "src/services/UserService"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { getRegexEmail } from "src/lib/stringUtils"
+import { useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
 
 const SignupPage = () => {
 
   const [form] = Form.useForm()
   const [loading, setLoading] = useState()
+  const global = useSelector(globalSelector)
   const navigate = useNavigate()
 
   const registerByGoogle = useGoogleLogin({
@@ -39,6 +42,10 @@ const SignupPage = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (!!global?.user?._id) navigate('/')
+  }, [])
 
   return (
     <LoginContainerStyled>

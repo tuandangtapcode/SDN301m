@@ -9,6 +9,7 @@ import SpinCustom from "src/components/SpinCustom"
 import NotFoundPage from "src/pages/ErrorPage/NotFoundPage"
 import { globalSelector } from "src/redux/selector"
 import UserService from "./services/UserService"
+import GenreService from "./services/GenreService"
 
 
 // ANONYMOUS
@@ -28,6 +29,7 @@ const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail')
 const UserRoutes = React.lazy(() => import('src/pages/USER/UserRoutes'))
 const UserProfile = React.lazy(() => import('src/pages/USER/UserProfile'))
 const MyComic = React.lazy(() => import('src/pages/USER/MyComic'))
+const ChangePassword = React.lazy(() => import('src/pages/USER/ChangePassword'))
 
 // ADMIN
 const AdminRoutes = React.lazy(() => import('src/pages/ADMIN/AdminRoutes'))
@@ -74,6 +76,14 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <MyComic />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/change-password',
+        element: (
+          <LazyLoadingComponent>
+            <ChangePassword />
           </LazyLoadingComponent>
         )
       },
@@ -229,32 +239,44 @@ function App() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    try {
-      if (localStorage.getItem('token')) {
-        const user = jwtDecode(localStorage.getItem('token'))
-        if (!!user.payload.id) {
-          getProfile(user.payload.id)
-        }
-      }
-    } catch (error) {
-      console.log('error', error.toString())
-      localStorage.removeItem('token')
-      navigate('/')
-    }
-  }, [])
-
   const getProfile = async (UserID) => {
     try {
       setLoading(true)
       const res = await UserService.getDetailProfile(UserID)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
+      if (res?.data?.IsAdmin) navigate('/dashboard')
+      else navigate('/')
     } finally {
       setLoading(false)
     }
   }
 
+  const getListGenres = async () => {
+    try {
+      setLoading(true)
+      const res = await GenreService.getAllGenres()
+      if (res?.isError) return
+      dispatch(globalSlice.actions.setGenres(res?.data))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('token')) {
+        const user = jwtDecode(localStorage.getItem('token'))
+        if (!!user.payload.id) getProfile(user.payload.id)
+      } else {
+        navigate('/')
+      }
+    } catch (error) {
+      localStorage.removeItem('token')
+      navigate('/')
+    }
+    getListGenres()
+  }, [])
 
   return (
     <>

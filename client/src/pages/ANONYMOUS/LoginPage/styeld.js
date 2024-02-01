@@ -20,7 +20,7 @@ margin: auto;
 .login-google {
   background-color: white !important;
   border-color: #dadce0 !important;
-
+  width: 100%;
   &:hover {
     color: black !important;
   }
@@ -29,7 +29,7 @@ margin: auto;
 .login-facebook {
   background-color: #4185f4 !important;
   border-color: transparent !important;
-
+  width: 100%;
   &:hover {
     color: black !important;
   }

@@ -36,8 +36,14 @@ const DropdownProfile = () => {
       key: '2',
     },
     {
+      label: (
+        <Link to={'/change-password'}>Change password</Link>
+      ),
+      key: '4',
+    },
+    {
       label: 'Log out',
-      key: '3',
+      key: '5',
       onClick: () => handleLogout()
     },
   ]

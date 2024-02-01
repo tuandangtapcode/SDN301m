@@ -9,9 +9,7 @@ const Comics = new Schema({
   AvatarPathId: { type: String, default: null },
   Genres: {
     type: [
-      {
-        GenresID: { type: mongoose.Schema.Types.ObjectId, ref: 'Genres' },
-      }
+      { type: mongoose.Schema.Types.ObjectId, ref: 'Genres' }
     ],
     default: []
   },

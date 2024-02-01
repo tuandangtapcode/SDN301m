@@ -4,7 +4,12 @@ import {
 } from './urls'
 
 const getAllComics = body => http.post(apiGetAllComics, body)
-const insertComic = body => http.post(apiInsertComic, body)
+const insertComic = body => http.post(apiInsertComic, body, {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+    // 'token': `Bearer ${localStorage.getItem('token')}`
+  }
+})
 
 
 const ComicService = {

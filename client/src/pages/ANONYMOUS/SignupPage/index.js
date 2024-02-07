@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react"
-import { Col, Row, Form, Radio, Steps } from "antd"
-import InputCustom from "src/components/FloatInput/InputCustom"
-import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
-import ButtonCustom from "src/components/ButtonCustom/MyButton"
-import { useGoogleLogin } from "@react-oauth/google"
+import { Col, Row, Form, Steps } from "antd"
 import UserService from "src/services/UserService"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
-import { getRegexEmail } from "src/lib/stringUtils"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { SignupContainerStyled } from "./styled"
-import FormInfor from "./FormInfor"
-import FormSelectRole from "./FormSelectRole"
+import FormInfor from "./components/FormInfor"
+import FormSelectRole from "./components/FormSelectRole"
 
 const SignupPage = () => {
 

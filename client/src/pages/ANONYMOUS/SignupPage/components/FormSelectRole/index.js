@@ -8,8 +8,6 @@ const FormSelectRole = ({
   loading
 }) => {
 
-
-
   return (
     <>
       <Col span={24} className="d-flex-sb">

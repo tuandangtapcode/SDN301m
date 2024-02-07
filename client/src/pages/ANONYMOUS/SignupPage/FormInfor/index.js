@@ -13,17 +13,16 @@ const FormInfor = ({
   form,
   current,
   setCurrent,
-  inforFormGoogle,
   setInforFromGoogle
 }) => {
 
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
   const validateByGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const userInfor = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
       if (!!userInfor) {
+        setInforFromGoogle(userInfor)
         setCurrent(current + 1)
       } else {
         return toast.error("Have something error")

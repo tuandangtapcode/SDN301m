@@ -1,21 +1,13 @@
-import { useGoogleLogin } from "@react-oauth/google";
-import { Checkbox, Col, Form, Radio, Row } from "antd";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import ButtonCustom from "src/components/ButtonCustom/MyButton";
+import { Checkbox, Col, Form, Radio } from "antd";
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled";
-import UserService from "src/services/UserService";
 
 const FormSelectRole = ({
-  form,
   handleRegister,
   isAgree,
-  setIsAgree
+  setIsAgree,
+  loading
 }) => {
 
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
 
 
   return (
@@ -38,13 +30,14 @@ const FormSelectRole = ({
           className="text" value="A"
           onChange={() => setIsAgree(true)}
         >
-          Tôi không muốn nhận tin nhắn tiếp thị từ Spotify
+          I agree to the terms and conditions
         </Checkbox>
       </Col>
       <Col span={24}>
         <ButtomCustomStyled
           className="submit fw-600 fs-18"
           loading={loading}
+          disabled={!!isAgree ? false : true}
           onClick={() => handleRegister()}
         >
           Sign up

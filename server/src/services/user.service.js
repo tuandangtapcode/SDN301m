@@ -2,6 +2,7 @@ import response from "../utils/response-result.js"
 import User from "../models/user.js"
 import { accessToken, refreshToken } from "../utils/jwt.js"
 import bcrypt from 'bcrypt'
+const saltRounds = 10
 
 const checkEmailExist = async (Email) => {
   let check = true
@@ -43,7 +44,6 @@ const fncGetListUser = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
     const regex = new RegExp(TextSearch, "i")
-    // Updated query to include isAdmin condition
     const query = { FullName: regex, IsAdmin: false }
     const skip = (CurrentPage - 1) * PageSize
     const limit = PageSize

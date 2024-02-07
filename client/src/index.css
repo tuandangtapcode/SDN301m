@@ -18,6 +18,10 @@ a {
   text-decoration: none;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .text-white {
   color: white;
 }

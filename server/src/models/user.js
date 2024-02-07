@@ -5,20 +5,19 @@ const Users = new Schema({
   FullName: { type: String },
   Email: { type: String },
   Description: { type: String, default: null },
-  IsAdmin: { type: Boolean, default: false },
   Password: { type: String, default: null },
   AvatarPath: { type: String, default: null },
   AvatarPathId: { type: String, default: null },
   ResfreshToken: { type: String, default: null },
   IsActive: { type: Boolean, default: true },
   CreatedAt: { type: Date, default: Date.now },
-  IsPosted: { type: Boolean, default: false },
   Follows: {
     type: [
       { ComicID: { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' } }
     ],
     default: []
-  }
+  },
+  RoleID: { type: Number },
 })
 
 const UsersModel = mongoose.model('Users', Users)

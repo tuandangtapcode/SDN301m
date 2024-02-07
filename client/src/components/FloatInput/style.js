@@ -115,7 +115,7 @@ export const FlWrapper = styled.div`
   .ant-select {
     z-index: 3;
     background-color: ${props =>
-        props?.isFocus ? "#fff !important" : "transparent"};
+    props?.isFocus ? "#fff !important" : "transparent"};
   }
   .ant-select-selector {
     background-color: #fff !important;
@@ -156,7 +156,7 @@ export const FlWrapper = styled.div`
     :hover,
     :focus {
       background: transparent;
-      border: 1px solid #d9d9d9;
+      /* border: 1px solid #d9d9d9; */
       box-shadow: none;
     }
   }

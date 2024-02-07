@@ -29,12 +29,11 @@ const LoginPage = () => {
       const res = await UserService.loginByGoogle(userInfor)
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
-      localStorage.setItem('token', res?.data)
-      getProfile(user.payload.id)
-      if (!user?.payload?.IsAdmin) {
-        navigate('/')
+      if (!!user.payload.id) {
+        localStorage.setItem('token', res?.data)
+        getProfile(user.payload.id)
       } else {
-        navigate('/dashboard')
+        navigate('/forbidden')
       }
     },
   })
@@ -46,12 +45,11 @@ const LoginPage = () => {
       const res = await UserService.login(values)
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
-      localStorage.setItem('token', res?.data)
-      getProfile(user.payload.id)
-      if (!user?.payload?.IsAdmin) {
-        navigate('/')
+      if (!!user.payload.id) {
+        localStorage.setItem('token', res?.data)
+        getProfile(user.payload.id)
       } else {
-        navigate('/dashboard')
+        navigate('/forbidden')
       }
     } finally {
       setLoading(false)
@@ -64,6 +62,8 @@ const LoginPage = () => {
       const res = await UserService.getDetailProfile(UserID)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
+      if (res?.data?.RoleID === 1) navigate('/dashboard')
+      else navigate('/')
     } finally {
       setLoading(false)
     }

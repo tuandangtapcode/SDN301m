@@ -29,6 +29,7 @@ const Comics = new Schema({
     { type: Date, default: null }
   ],
   Status: { type: Boolean, default: false },
+  PostedBy: { type: Number }
 })
 
 const ComicsModel = mongoose.model('Comics', Comics)

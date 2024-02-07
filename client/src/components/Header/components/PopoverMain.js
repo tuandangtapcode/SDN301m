@@ -182,7 +182,7 @@ const PopoverMain = () => {
       open={arrowDropdownMain}
     >
       <ButtonCustom
-        className="normal noBackground"
+        className="noBackground"
         icon={arrowDropdownMain ? <CaretUpOutlined /> : <CaretDownOutlined />}
         onMouseOver={() => setArrowDropdownMain(true)}
         onMouseOut={() => setArrowDropdownMain(false)}

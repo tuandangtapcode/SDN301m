@@ -13,10 +13,9 @@ const FormInfor = ({
   form,
   current,
   setCurrent,
-  setInforFromGoogle
+  setInforFromGoogle,
+  setInforFromForm
 }) => {
-
-  const [loading, setLoading] = useState(false)
 
   const validateByGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -31,13 +30,9 @@ const FormInfor = ({
   })
 
   const validateByForm = async () => {
-    try {
-      setLoading(true)
-      await form.validateFields()
-      setCurrent(current + 1)
-    } finally {
-      setLoading(false)
-    }
+    const values = await form.validateFields()
+    setInforFromForm(values)
+    setCurrent(current + 1)
   }
 
 
@@ -87,7 +82,6 @@ const FormInfor = ({
       <Col span={24}>
         <ButtomCustomStyled
           className="submit fw-600 fs-18"
-          loading={loading}
           onClick={() => validateByForm()}
         >
           Next

@@ -69,7 +69,7 @@ const DropdownProfile = () => {
 
             <Dropdown menu={{ items }} open={arrowDropdownProfile}>
               <ButtonCustom
-                className="normal noBackground"
+                className=" noBackground"
                 icon={arrowDropdownProfile ? <CaretUpOutlined /> : <CaretDownOutlined />}
                 onMouseOver={() => setArrowDropdownProfile(true)}
                 onMouseOut={() => setArrowDropdownProfile(false)}

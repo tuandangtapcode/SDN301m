@@ -67,11 +67,12 @@ const DropdownProfile = () => {
               </BadgeStyled>
             </Dropdown>
 
-            <Dropdown menu={{ items }} trigger={['click']}>
+            <Dropdown menu={{ items }} open={arrowDropdownProfile}>
               <ButtonCustom
                 className="normal noBackground"
                 icon={arrowDropdownProfile ? <CaretUpOutlined /> : <CaretDownOutlined />}
-                onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
+                onMouseOver={() => setArrowDropdownProfile(true)}
+                onMouseOut={() => setArrowDropdownProfile(false)}
               >
                 My Profile
               </ButtonCustom>

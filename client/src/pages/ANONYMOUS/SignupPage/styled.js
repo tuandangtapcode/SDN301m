@@ -1,7 +1,6 @@
 import styled from "styled-components"
 
-
-export const LoginContainerStyled = styled.div`
+export const SignupContainerStyled = styled.div`
 max-width: 30%;
 margin: auto;
 .icon-google {
@@ -33,5 +32,32 @@ margin: auto;
   &:hover {
     color: black !important;
   }
+}
+
+.border-radio {
+  border: 1px #d9d9d9 solid;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+.ant-steps {
+  width: 600px !important;
+  margin: auto !important;
+}
+.ant-steps-icon-dot {
+  display: none;
+}
+.ant-steps-item {
+  flex: 1;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.ant-steps-item-last {
+  flex: none;
+}
+.ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after {
+  background-color: transparent !important;
+} 
+.ant-steps.ant-steps-dot .ant-steps-item-tail::after, .ant-steps.ant-steps-dot.ant-steps-small .ant-steps-item-tail::after {
+  width: 100% !important;
 }
 `

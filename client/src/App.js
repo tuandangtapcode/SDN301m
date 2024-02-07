@@ -172,7 +172,7 @@ const routes = [
         )
       },
       {
-        path: '/comic/:ComicID/chapter/:ChapterID',
+        path: '/comics/:ComicID/chapter/:ChapterID',
         element: (
           <LazyLoadingComponent>
             <ComicContent />
@@ -180,7 +180,7 @@ const routes = [
         )
       },
       {
-        path: '/comic/:ComicID',
+        path: '/comics/:ComicID',
         element: (
           <LazyLoadingComponent>
             <ComicDetail />
@@ -245,7 +245,7 @@ function App() {
       const res = await UserService.getDetailProfile(UserID)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
-      if (res?.data?.IsAdmin) navigate('/dashboard')
+      if (res?.data?.RoleID === 1) navigate('/dashboard')
       else navigate('/')
     } finally {
       setLoading(false)
@@ -264,16 +264,13 @@ function App() {
   }
 
   useEffect(() => {
-    try {
-      if (localStorage.getItem('token')) {
-        const user = jwtDecode(localStorage.getItem('token'))
-        if (!!user.payload.id) getProfile(user.payload.id)
+    if (!!localStorage.getItem('token')) {
+      const user = jwtDecode(localStorage.getItem('token'))
+      if (!!user.payload.id) {
+        getProfile(user.payload.id)
       } else {
-        navigate('/')
+        navigate('/forbidden')
       }
-    } catch (error) {
-      localStorage.removeItem('token')
-      navigate('/')
     }
     getListGenres()
   }, [])

@@ -132,15 +132,18 @@ const fncRegister = async (req) => {
 
 const fncRegisterByGoole = async (req) => {
   try {
-    const { email, given_name, picture } = req.body
+    const { email, given_name, picture, RoleID } = req.body
     const checkExist = await checkEmailExist(email)
     if (!checkExist) {
       return response({}, true, 'Email đã tồn tại', 200)
     }
+    const refresh_token = refreshToken()
     const newUser = await User.create({
       Email: email,
       FullName: given_name,
-      Avatar: picture
+      Avatar: picture,
+      ResfreshToken: refresh_token,
+      RoleID: RoleID
     })
     return response(newUser, false, 'Đăng ký tài khoản thành công', 201)
   } catch (error) {

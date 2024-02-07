@@ -28,6 +28,7 @@ const SignupPage = () => {
     try {
       setLoading(true)
       const values = await form.validateFields()
+      console.log('values', values);
       let res = {}
       if (!!inforFormGoogle) {
         res = await UserService.registerByGoogle({ ...inforFormGoogle, RoleID: values?.RoleID })
@@ -48,7 +49,6 @@ const SignupPage = () => {
       content: <FormInfor
         current={current}
         setCurrent={setCurrent}
-        inforFormGoogle={inforFormGoogle}
         setInforFromGoogle={setInforFromGoogle}
         form={form}
       />
@@ -59,6 +59,7 @@ const SignupPage = () => {
         form={form}
         isAgree={isAgree}
         setIsAgree={setIsAgree}
+        loading={loading}
         handleRegister={handleRegister}
       />
     }

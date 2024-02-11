@@ -1,13 +1,11 @@
-import { useGoogleLogin } from "@react-oauth/google";
-import { Col, Form, Radio, Row } from "antd";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import ButtonCustom from "src/components/ButtonCustom/MyButton";
-import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled";
-import InputCustom from "src/components/FloatInput/InputCustom";
-import { getRegexEmail } from "src/lib/stringUtils";
-import UserService from "src/services/UserService";
+import { useGoogleLogin } from "@react-oauth/google"
+import { Col, Form } from "antd"
+import { toast } from "react-toastify"
+import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
+import InputCustom from "src/components/FloatInput/InputCustom"
+import { getRegexEmail } from "src/lib/stringUtils"
+import UserService from "src/services/UserService"
 
 const FormInfor = ({
   form,
@@ -110,7 +108,7 @@ const FormInfor = ({
         </ButtonCustom>
       </Col>
     </>
-  );
+  )
 }
 
-export default FormInfor;
+export default FormInfor

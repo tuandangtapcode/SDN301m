@@ -73,7 +73,7 @@ const Footer = () => {
         </div>
       </FooterStyled>
     </FooterContainerStyled>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

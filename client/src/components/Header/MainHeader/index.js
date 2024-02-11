@@ -33,7 +33,7 @@ const MainHeader = () => {
         </div>
       </HeaderStyled>
     </HeaderContainerStyled>
-  );
+  )
 }
 
-export default MainHeader;
+export default MainHeader

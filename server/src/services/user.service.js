@@ -3,6 +3,9 @@ import User from "../models/user.js"
 import { accessToken, refreshToken } from "../utils/jwt.js"
 import bcrypt from 'bcrypt'
 const saltRounds = 10
+import cloudinary from 'cloudinary'
+
+const cloudinaryV2 = cloudinary.v2
 
 const checkEmailExist = async (Email) => {
   let check = true
@@ -44,11 +47,14 @@ const fncGetListUser = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
     const regex = new RegExp(TextSearch, "i")
-    const query = { FullName: regex, IsAdmin: false }
-    const skip = (CurrentPage - 1) * PageSize
-    const limit = PageSize
-    const authors = await User.find(query).skip(skip).limit(limit)
-    return response(authors, false, "Lấy ra thành công", 200)
+    const query = { FullName: regex, RoleID: { $ne: 1 } }
+    const users = await User.find(query).skip((CurrentPage - 1) * PageSize).limit(PageSize)
+    return response(
+      { List: users, Total: users.length },
+      false,
+      "Lấy ra thành công",
+      200
+    )
   } catch (error) {
     return response({}, true, error.tostring(), 500)
   }
@@ -56,11 +62,9 @@ const fncGetListUser = async (req) => {
 
 const fnDeactiveAccount = async (req) => {
   try {
-    const { id } = req.params
-    const user = await User.findById(id)
-    user.IsActive = false
-    await user.save()
-    return response({}, false, "Khóa tài khoản thành công", 200)
+    const UserID = req.params.id
+    const user = await User.findByIdAndUpdate({ _id: UserID }, { IsActive: false })
+    return response(user, false, "Khóa tài khoản thành công", 200)
   } catch (error) {
     return response({}, true, error.tostring(), 500)
   }
@@ -68,9 +72,8 @@ const fnDeactiveAccount = async (req) => {
 
 const fncGetDetailProfile = async (req) => {
   try {
-    const UserID = req.params.id
-    const query = { _id: UserID }
-    const detail = await User.findOne(query)
+    const UserID = req.body.UserID
+    const detail = await User.findOne({ _id: UserID })
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 200)
@@ -86,7 +89,7 @@ const fncLogin = async (req) => {
     if (!check) return response({}, true, "Mật khẩu không chính xác", 200)
     const access_token = accessToken({
       id: getUser._id,
-      IsAdmin: getUser.IsAdmin,
+      RoleID: getUser.RoleID,
     })
     return response(access_token, false, "Login thành công", 200)
   } catch (error) {
@@ -141,7 +144,7 @@ const fncRegisterByGoole = async (req) => {
     const newUser = await User.create({
       Email: email,
       FullName: given_name,
-      Avatar: picture,
+      AvatarPath: picture,
       ResfreshToken: refresh_token,
       RoleID: RoleID
     })
@@ -151,16 +154,31 @@ const fncRegisterByGoole = async (req) => {
   }
 }
 
-// Update name của customer theo customer_id
 const fncUpdateProfileCustomer = async (req) => {
   try {
-    const { id, newName } = req.body
-    const query = { _id: id }
-    const detail = await User.findOne(query)
-    // Update the name
-    detail.FullName = newName
-    await detail.save()
-    return response(detail, false, "Cập nhật tên thành công", 200)
+    const id = req.body.UserID
+    const user = await User.findOne({ _id: id })
+    const updateProfile = await User.findByIdAndUpdate({ _id: id }, {
+      ...req.body,
+      AvatarPath: !!req.file ? req.file.path : user?.AvatarPath,
+      AvatarPathId: !!req.file ? req.file.filename : user?.AvatarPathId,
+    })
+    return response(updateProfile, false, "Cập nhật tên thành công", 200)
+  } catch (error) {
+    if (!!req.file) cloudinaryV2.uploader.destroy(req.file.filename)
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncChangePassword = async (req) => {
+  try {
+    const { OldPassword, NewPassword, UserID } = req.body
+    const user = await User.findOne({ _id: UserID })
+    const check = bcrypt.compareSync(OldPassword, user.Password)
+    if (!check) return response({}, true, 'Mật khẩu không chính xác', 200)
+    const hashPassword = bcrypt.hashSync(NewPassword, saltRounds)
+    const userUpdate = await User.findByIdAndUpdate({ _id: UserID }, { Password: hashPassword })
+    return response(userUpdate, false, "Mật khẩu được cập nhật thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -176,7 +194,8 @@ const UserService = {
   fncRegisterByGoole,
   fncGetListUser,
   fnDeactiveAccount,
-  fncUpdateProfileCustomer
+  fncUpdateProfileCustomer,
+  fncChangePassword
 }
 
 export default UserService

@@ -6,7 +6,7 @@ const Users = new Schema({
   Email: { type: String },
   Description: { type: String, default: null },
   Password: { type: String, default: null },
-  AvatarPath: { type: String, default: null },
+  AvatarPath: { type: String, default: "https://res.cloudinary.com/dusauuqbh/image/upload/v1706771998/SDN201m/Avatar/vfk0i4ljzqxkw29d5iip.jpg" },
   AvatarPathId: { type: String, default: null },
   ResfreshToken: { type: String, default: null },
   IsActive: { type: Boolean, default: true },

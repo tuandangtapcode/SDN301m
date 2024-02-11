@@ -11,7 +11,7 @@ const insertGenre = body => http.post(apiInsertGenre, body, {
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
-const updateGenre = (id, body) => http.post(`${apiUpdateGenre}/${id}`, body, {
+const updateGenre = body => http.post(apiUpdateGenre, body, {
   headers: {
     'Content-Type': 'multipart/form-data',
     'token': `Bearer ${localStorage.getItem('token')}`

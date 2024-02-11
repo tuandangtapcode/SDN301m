@@ -4,7 +4,6 @@ import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import ModalCustom from "src/components/ModalCustom"
 import { BsFillTrash3Fill } from "react-icons/bs"
-import TextArea from "antd/es/input/TextArea"
 import ComicService from "src/services/ComicService"
 import ImageService from "src/services/ImageService"
 import { toast } from "react-toastify"
@@ -57,7 +56,7 @@ const InsertUpdateComic = ({
       if (resComic?.isError) return toast.error(resComic.msg)
       lstChapters.forEach(chapter => {
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
-          const resImage = await ImageService.insertImage({
+          await ImageService.insertImage({
             Chapter: chapter?.ChapterID,
             Image: i?.originFileObj,
             Comic: resComic?.data,
@@ -155,7 +154,8 @@ const InsertUpdateComic = ({
             <Form.Item
               name="ShortDecription"
             >
-              <TextArea
+              <InputCustom
+                textArea
                 style={{ height: '120px' }}
                 label="ShortDecription"
               />
@@ -224,7 +224,7 @@ const InsertUpdateComic = ({
         </Row>
       </Form>
     </ModalCustom>
-  );
+  )
 }
 
-export default InsertUpdateComic;
+export default InsertUpdateComic

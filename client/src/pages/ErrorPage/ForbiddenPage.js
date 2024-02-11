@@ -14,6 +14,6 @@ const ForbiddenPage = () => {
       subTitle="Sorry, you are not authorized to access this page."
       extra={<Button type="primary" className=" fw-700" onClick={() => navigate('/')}>Back Home</Button>}
     />
-  );
+  )
 }
-export default ForbiddenPage;
+export default ForbiddenPage

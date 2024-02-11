@@ -8,7 +8,7 @@ const Week = () => {
     <SpinCustom spinning={loading}>
       Week
     </SpinCustom>
-  );
+  )
 }
 
-export default Week;
+export default Week

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
 import { Popover } from "antd"
@@ -12,7 +12,10 @@ color: black;
 const PopoverMain = () => {
 
   const [arrowDropdownMain, setArrowDropdownMain] = useState(false)
+  const popoverRef = useRef()
   const navigate = useNavigate()
+
+  console.log('popoverRef', !!popoverRef?.current && popoverRef?.current?.open);
 
   const content = (
     <div style={{ width: '600px', padding: '12px' }} className="d-flex-sb">
@@ -24,7 +27,10 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
-                navigate('/genres/1')
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
+                // navigate('/genres/1')
               }}
             >
               Action & Adventure
@@ -33,6 +39,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -42,6 +51,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -51,6 +63,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -60,6 +75,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -69,6 +87,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -80,6 +101,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -89,6 +113,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -98,6 +125,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -107,6 +137,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -116,6 +149,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -125,6 +161,9 @@ const PopoverMain = () => {
               className="fs-18 cursor-pointer"
               onClick={() => {
                 setArrowDropdownMain(false)
+                if (!!popoverRef?.current) {
+                  popoverRef.current.setVisible(false)
+                }
                 navigate('/genres/1')
               }}
             >
@@ -141,6 +180,9 @@ const PopoverMain = () => {
             className="fs-18 cursor-pointer"
             onClick={() => {
               setArrowDropdownMain(false)
+              if (!!popoverRef?.current) {
+                popoverRef.current.setVisible(false)
+              }
               navigate('/authors')
             }}
           >
@@ -153,6 +195,9 @@ const PopoverMain = () => {
             className="fs-18 cursor-pointer"
             onClick={() => {
               setArrowDropdownMain(false)
+              if (!!popoverRef?.current) {
+                popoverRef.current.setVisible(false)
+              }
               navigate('/genres')
             }}
           >
@@ -175,22 +220,21 @@ const PopoverMain = () => {
   return (
     <Popover
       content={content}
-      // trigger={["click"]}
+      ref={popoverRef}
+      trigger={["click"]}
       placement="bottomLeft"
       arrow={false}
       className="mt-15"
-      open={arrowDropdownMain}
     >
       <ButtonCustom
         className="noBackground"
+        onClick={() => setArrowDropdownMain(true)}
         icon={arrowDropdownMain ? <CaretUpOutlined /> : <CaretDownOutlined />}
-        onMouseOver={() => setArrowDropdownMain(true)}
-        onMouseOut={() => setArrowDropdownMain(false)}
       >
         DISCOVER
       </ButtonCustom>
-    </Popover>
-  );
+    </Popover >
+  )
 }
 
-export default PopoverMain;
+export default PopoverMain

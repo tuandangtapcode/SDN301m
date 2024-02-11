@@ -8,7 +8,7 @@ const ButtonCustom = (props) => {
     >
       {props?.children}
     </ButtomCustomStyled>
-  );
+  )
 }
 
-export default ButtonCustom;
+export default ButtonCustom

@@ -8,7 +8,7 @@ const All = () => {
     <SpinCustom spinning={loading}>
       All
     </SpinCustom>
-  );
+  )
 }
 
-export default All;
+export default All

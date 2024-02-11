@@ -27,7 +27,7 @@ const ModalCustom = (props) => {
     >
       {props?.children}
     </ModalCustomStyled>
-  );
+  )
 }
 
-export default ModalCustom;
+export default ModalCustom

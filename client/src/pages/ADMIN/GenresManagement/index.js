@@ -1,7 +1,7 @@
 const GenresManagement = () => {
   return (
     <div>GenresManagement</div>
-  );
+  )
 }
 
-export default GenresManagement;
+export default GenresManagement

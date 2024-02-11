@@ -14,6 +14,6 @@ const NotFoundPage = () => {
       subTitle="Sorry, the page you visited does not exist."
       extra={<Button type="primary" className="fw-700 greendBackground" onClick={() => navigate('/')}>Back Home</Button>}
     />
-  );
+  )
 }
-export default NotFoundPage;
+export default NotFoundPage

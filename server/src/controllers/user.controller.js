@@ -84,6 +84,15 @@ const updateProfileCustomer = async (req, res) => {
   }
 }
 
+const changePassword = async (req, res) => {
+  try {
+    const respone = await UserService.fncChangePassword(req)
+    return res.status(respone.StatusCode).json(respone)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const UserController = {
   getListAuthour,
@@ -94,7 +103,8 @@ const UserController = {
   registerByGoogle,
   getListUser,
   deactiveAccount,
-  updateProfileCustomer
+  updateProfileCustomer,
+  changePassword
 }
 
 export default UserController

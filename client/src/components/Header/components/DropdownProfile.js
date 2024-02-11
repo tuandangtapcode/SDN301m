@@ -22,31 +22,52 @@ const DropdownProfile = () => {
     navigate('/login')
   }
 
-  const items = [
-    {
-      label: (
-        <Link to={'/profile'}>View Profile</Link>
-      ),
-      key: '1',
-    },
-    {
-      label: (
-        <Link to={'/mycomic'}>My comic</Link>
-      ),
-      key: '2',
-    },
-    {
-      label: (
-        <Link to={'/change-password'}>Change password</Link>
-      ),
-      key: '4',
-    },
-    {
-      label: 'Log out',
-      key: '5',
-      onClick: () => handleLogout()
-    },
-  ]
+  const items = !!global?.user?.Email && !!global?.user?.Password ?
+    [
+      {
+        label: (
+          <Link to={'/profile'}>View Profile</Link>
+        ),
+        key: '1',
+      },
+      {
+        label: (
+          <Link to={'/mycomic'}>My comic</Link>
+        ),
+        key: '2',
+      },
+      {
+        label: (
+          <Link to={'/change-password'}>Change password</Link>
+        ),
+        key: '4',
+      },
+      {
+        label: 'Log out',
+        key: '5',
+        onClick: () => handleLogout()
+      },
+    ]
+    :
+    [
+      {
+        label: (
+          <Link to={'/profile'}>View Profile</Link>
+        ),
+        key: '1',
+      },
+      {
+        label: (
+          <Link to={'/mycomic'}>My comic</Link>
+        ),
+        key: '2',
+      },
+      {
+        label: 'Log out',
+        key: '5',
+        onClick: () => handleLogout()
+      },
+    ]
 
   return (
     <>
@@ -67,12 +88,10 @@ const DropdownProfile = () => {
               </BadgeStyled>
             </Dropdown>
 
-            <Dropdown menu={{ items }} open={arrowDropdownProfile}>
+            <Dropdown menu={{ items }} trigger={["click"]}>
               <ButtonCustom
                 className=" noBackground"
                 icon={arrowDropdownProfile ? <CaretUpOutlined /> : <CaretDownOutlined />}
-                onMouseOver={() => setArrowDropdownProfile(true)}
-                onMouseOut={() => setArrowDropdownProfile(false)}
               >
                 My Profile
               </ButtonCustom>
@@ -95,7 +114,7 @@ const DropdownProfile = () => {
           </div>
       }
     </>
-  );
+  )
 }
 
-export default DropdownProfile;
+export default DropdownProfile

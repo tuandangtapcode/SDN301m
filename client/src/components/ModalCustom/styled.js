@@ -8,7 +8,7 @@ export const ModalCustomStyled = styled(Modal)`
 }
 .ant-modal-title {
  color: #db6784;
- font-size: 20px;
+ font-size: 25px;
  font-weight: 700;
 }
 .ant-modal-footer {

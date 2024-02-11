@@ -24,8 +24,7 @@ const fncInsertGenre = async (req) => {
 
 const fncUpdateGenre = async (req) => {
   try {
-    const id = req.params.id
-    const { Title } = req.body
+    const { id, Title } = req.body
     const checkExistGenre = await Genre.find({ _id: id })
     const checkExistTitle = await Genre.findOne({ Title })
     if (!!checkExistTitle && checkExistGenre._id !== checkExistTitle._id) {

@@ -46,7 +46,7 @@ const Rating = () => {
         </Col>
       </Row>
     </SpinCustom>
-  );
+  )
 }
 
-export default Rating;
+export default Rating

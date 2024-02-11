@@ -10,19 +10,16 @@ const AdminRoutes = () => {
 
   return (
     <>
-      <LayoutAdmin>
-        <Outlet />
-      </LayoutAdmin>
-      {/* {
-        (!!global?.user?._id && global?.user?.IsAdmin) ?
-        <LayoutAdmin>
-          <Outlet />
-        </LayoutAdmin>
-        :
-        <ForbiddenPage />
-      } */}
+      {
+        (!!global?.user?._id && global?.user?.RoleID === 1) ?
+          <LayoutAdmin>
+            <Outlet />
+          </LayoutAdmin>
+          :
+          <ForbiddenPage />
+      }
     </>
-  );
+  )
 }
 
-export default AdminRoutes;
+export default AdminRoutes

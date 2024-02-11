@@ -35,7 +35,7 @@ const AuthorDetail = () => {
         <Rating />
       </Col>
     </Row>
-  );
+  )
 }
 
-export default AuthorDetail;
+export default AuthorDetail

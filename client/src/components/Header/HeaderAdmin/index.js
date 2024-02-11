@@ -59,7 +59,7 @@ const HeaderAdmin = () => {
         </div>
       </HeaderStyled>
     </HeaderContainerStyled>
-  );
+  )
 }
 
-export default HeaderAdmin;
+export default HeaderAdmin

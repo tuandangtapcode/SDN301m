@@ -8,7 +8,7 @@ const Month = () => {
     <SpinCustom spinning={loading}>
       Month
     </SpinCustom>
-  );
+  )
 }
 
-export default Month;
+export default Month

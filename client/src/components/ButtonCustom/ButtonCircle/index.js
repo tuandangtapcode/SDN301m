@@ -7,7 +7,7 @@ const ButtonCircle = (props) => {
     >
       {props?.children}
     </ButtonCicleStyled>
-  );
+  )
 }
 
-export default ButtonCircle;
+export default ButtonCircle

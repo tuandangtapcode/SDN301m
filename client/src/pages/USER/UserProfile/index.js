@@ -5,6 +5,7 @@ import { AiFillEdit } from "react-icons/ai"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { useState } from "react"
 import UpdateProfile from "./components/UpdateProfile"
+import LstIcons from "src/components/ListIcons"
 
 const UserProfile = () => {
 
@@ -20,8 +21,8 @@ const UserProfile = () => {
         <div className="full-name d-flex">
           <p className="fs-25 fw-600 mr-8">{global?.user?.FullName}</p>
           <ButtonCustom
-            className="fs-22 text-green"
-            icon={<AiFillEdit />}
+            className="fs-22"
+            icon={LstIcons.ICON_EDIt}
             onClick={() => setModalUpdateProfile(true)}
           />
         </div>

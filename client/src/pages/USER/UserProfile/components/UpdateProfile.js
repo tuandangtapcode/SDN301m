@@ -81,12 +81,6 @@ const UpdateProfile = ({ open, onCancel }) => {
             <Form.Item
               name='image'
               className="mb-24"
-              rules={[
-                {
-                  required: form.getFieldValue("image") ? false : true,
-                  message: "Please choose your avatar",
-                },
-              ]}
             >
               <Upload.Dragger
                 beforeUpload={file => handleBeforeUpload(file)}

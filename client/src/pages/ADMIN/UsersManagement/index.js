@@ -6,6 +6,8 @@ import UserService from "src/services/UserService"
 import { BsBan } from "react-icons/bs"
 import ConfirmModal from "src/components/ModalCustom/ConfirmModal"
 import socket from "src/utils/socket"
+import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import LstIcons from "src/components/ListIcons"
 
 const UsersManagement = () => {
 
@@ -112,8 +114,8 @@ const UsersManagement = () => {
       title: "Ban",
       align: "center",
       render: (_, record) => (
-        <BsBan
-          className="text-red fw-700"
+        <ButtonCustom
+          icon={LstIcons.ICON_BAN}
           onClick={() =>
             ConfirmModal({
               record,
@@ -124,7 +126,8 @@ const UsersManagement = () => {
                 handleBanned(record?._id)
                 close()
               },
-            })}
+            })
+          }
         />
       )
     }

@@ -18,8 +18,9 @@ const checkEmailExist = async (Email) => {
 
 //Authors
 const fncGetListAuthor = async (req) => {
-  const { TextSearch, CurrentPage, PageSize } = req.body
+
   try {
+    const { TextSearch, CurrentPage, PageSize } = req.body
     // const regex = { $text: { $search: TextSearch } }
     // const query = { FullName: regex, IsPosted: true }
     const query = { IsPosted: false, FullName: { $regex: TextSearch, $options: 'i' } }
@@ -87,6 +88,7 @@ const fncLogin = async (req) => {
     if (!getUser) return response({}, true, "Email không tồn tại", 200)
     const check = bcrypt.compareSync(Password, getUser.Password)
     if (!check) return response({}, true, "Mật khẩu không chính xác", 200)
+    if (!getUser.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
     const access_token = accessToken({
       id: getUser._id,
       RoleID: getUser.RoleID,
@@ -97,11 +99,12 @@ const fncLogin = async (req) => {
   }
 }
 
-const fncLoginByGoole = async (req) => {
+const fncLoginByGoogle = async (req) => {
   try {
     const email = req.body.email
     const getUser = await User.findOne({ Email: email })
     if (!getUser) return response({}, true, 'Email không tồn tại', 200)
+    if (!getUser.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
     const access_token = accessToken({
       id: getUser._id,
       IsAdmin: getUser.IsAdmin,
@@ -116,9 +119,7 @@ const fncRegister = async (req) => {
   try {
     const { Password, Email } = req.body
     const checkExist = await checkEmailExist(Email)
-    if (!checkExist) {
-      return response({}, true, 'Email đã tồn tại', 200)
-    }
+    if (!checkExist) return response({}, true, 'Email đã tồn tại', 200)
     const hashPassword = bcrypt.hashSync(Password, saltRounds)
     const refresh_token = refreshToken()
     const hashUser = {
@@ -133,13 +134,11 @@ const fncRegister = async (req) => {
   }
 }
 
-const fncRegisterByGoole = async (req) => {
+const fncRegisterByGoogle = async (req) => {
   try {
     const { email, given_name, picture, RoleID } = req.body
     const checkExist = await checkEmailExist(email)
-    if (!checkExist) {
-      return response({}, true, 'Email đã tồn tại', 200)
-    }
+    if (!checkExist) return response({}, true, 'Email đã tồn tại', 200)
     const refresh_token = refreshToken()
     const newUser = await User.create({
       Email: email,
@@ -162,7 +161,10 @@ const fncUpdateProfileCustomer = async (req) => {
       ...req.body,
       AvatarPath: !!req.file ? req.file.path : user?.AvatarPath,
       AvatarPathId: !!req.file ? req.file.filename : user?.AvatarPathId,
-    })
+    }, { new: true })
+    if (!!req.file && !!user.AvatarPathId) {
+      cloudinaryV2.uploader.destroy(user.AvatarPathId)
+    }
     return response(updateProfile, false, "Cập nhật tên thành công", 200)
   } catch (error) {
     if (!!req.file) cloudinaryV2.uploader.destroy(req.file.filename)
@@ -189,9 +191,9 @@ const UserService = {
   fncGetListAuthor,
   fncGetDetailProfile,
   fncLogin,
-  fncLoginByGoole,
+  fncLoginByGoogle,
   fncRegister,
-  fncRegisterByGoole,
+  fncRegisterByGoogle,
   fncGetListUser,
   fnDeactiveAccount,
   fncUpdateProfileCustomer,

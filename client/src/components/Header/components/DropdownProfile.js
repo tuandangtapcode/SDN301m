@@ -1,13 +1,13 @@
 import { useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
-import { Badge, Dropdown } from "antd"
+import { Dropdown } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import globalSlice from "src/redux/globalSlice"
 import { AiFillBell } from "react-icons/ai"
 import { BadgeStyled } from "../styled"
+import LstIcons from "src/components/ListIcons"
 
 const DropdownProfile = () => {
 
@@ -91,7 +91,7 @@ const DropdownProfile = () => {
             <Dropdown menu={{ items }} trigger={["click"]}>
               <ButtonCustom
                 className=" noBackground"
-                icon={arrowDropdownProfile ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
               >
                 My Profile
               </ButtonCustom>

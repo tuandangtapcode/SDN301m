@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom"
-import DropdownProfile from "../components/DropdownProfile"
 import { BadgeStyled, HeaderContainerStyled, HeaderStyled } from "../styled"
 import { Dropdown } from "antd"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { AiFillBell } from "react-icons/ai"
+import LstIcons from "src/components/ListIcons"
 
 const HeaderAdmin = () => {
 
@@ -31,7 +31,7 @@ const HeaderAdmin = () => {
           <div className="d-flex-sb">
             <img
               style={{ width: '70px', height: '70px', cursor: "pointer" }}
-              src="logoApp.jpg"
+              src="Lire Le Logo Du Livre _ Vecteur Premium (1).png"
               alt=""
               onClick={() => navigate('/dashboard')}
             />
@@ -45,7 +45,7 @@ const HeaderAdmin = () => {
               >
                 <ButtonCustom
                   className="noBackground"
-                  icon={<AiFillBell className="fs-20" style={{ color: 'white' }} />}
+                  icon={LstIcons.ICON_BELL}
                 />
               </BadgeStyled>
             </Dropdown>

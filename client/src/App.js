@@ -255,9 +255,9 @@ const App = () => {
   const getListGenres = async () => {
     try {
       setLoading(true)
-      const res = await GenreService.getAllGenres()
+      const res = await GenreService.getAllGenres({})
       if (res?.isError) return
-      dispatch(globalSlice.actions.setGenres(res?.data))
+      dispatch(globalSlice.actions.setGenres(res?.data?.List))
     } finally {
       setLoading(false)
     }
@@ -272,8 +272,13 @@ const App = () => {
         navigate('/forbidden')
       }
     }
-    getListGenres()
   }, [])
+
+  useEffect(() => {
+    if (!!global?.user?.RoleID && global?.user?.RoleID !== 1) {
+      getListGenres()
+    }
+  }, [global?.user])
 
 
   socket.on('get-deactive', (data) => {
@@ -284,7 +289,10 @@ const App = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={1500}
+        hideProgressBar={true}
+      />
       <div>{appRoutes}</div>
 
       {

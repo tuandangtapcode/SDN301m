@@ -5,6 +5,11 @@ export const getRegexEmail = () => {
   return re
 }
 
+export const getRegexPassowrd = () => {
+  const re = /^[A-Z][a-zA-Z0-9]{5,}$/
+  return re
+}
+
 export const getRegexDOB = (dateString) => {
   return moment(dateString, 'DD/MM/YYYY', true).isValid()
 }

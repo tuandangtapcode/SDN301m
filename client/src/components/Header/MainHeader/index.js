@@ -3,6 +3,7 @@ import DropdownProfile from "../components/DropdownProfile"
 import PopoverMain from "../components/PopoverMain"
 import { HeaderContainerStyled, HeaderStyled, InputHeaderStyled } from "../styled"
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
+import LstIcons from "src/components/ListIcons"
 
 const MainHeader = () => {
 
@@ -21,8 +22,8 @@ const MainHeader = () => {
             />
             <PopoverMain />
             <InputHeaderStyled
-              allowClear={{ clearIcon: <CloseOutlined className="text" /> }}
-              prefix={<SearchOutlined className="text" />}
+              allowClear={{ clearIcon: LstIcons.ICON_CLOSE }}
+              prefix={LstIcons.ICON_SEARCH}
               placeholder='Search by title, author, or keyword'
               size="large"
             />

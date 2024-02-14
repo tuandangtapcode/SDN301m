@@ -2,11 +2,31 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const Images = new Schema({
-  Image: { type: String, default: null },
-  ImageId: { type: String, default: null },
-  Comic: { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' },
-  Chapter: { type: Number },
-  SortOrder: { type: Number }
+  Image: {
+    type: String,
+    require: true
+  },
+  ImageName: {
+    type: String,
+    require: true
+  },
+  ImageId: {
+    type: String,
+    require: true
+  },
+  Comic: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comics',
+    require: true
+  },
+  Chapter: {
+    type: Number,
+    require: true
+  },
+  SortOrder: {
+    type: Number,
+    require: true
+  }
 })
 
 const ImagesModel = mongoose.model('Images', Images)

@@ -3,6 +3,7 @@ const router = express.Router()
 import UserController from "../controllers/user.controller.js"
 import { authUsernMidleware, authAdminMidleware } from "../middlewares/auth.middleware.js"
 import upload from '../middlewares/clouddinary.middleware.js'
+import UserValidation from "../validations/user.validation.js"
 
 router.post("/getListAuthor",
   UserController.getListAuthour
@@ -40,6 +41,7 @@ router.get("/deactiveAccount/:id",
 router.post("/updateProfile",
   upload('Avatar').single("Avatar"),
   // authUsernMidleware,
+  UserValidation.updateProfile,
   UserController.updateProfileCustomer
 )
 router.post("/changePassword",

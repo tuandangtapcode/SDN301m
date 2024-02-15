@@ -14,6 +14,15 @@ const getAllComicsByGenre = async (req, res) => {
   }
 }
 
+const getAllComicsByAuthor = async (req, res) => {
+  try {
+    const response = await ComicService.fncGetAllComicsByAuthor(req)
+    return res.status(response.StatusCode).json(response)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 const insertComic = async (req, res) => {
   const response = await ComicService.fncInsertComic(req)
   return res.status(response.StatusCode).json(response)
@@ -37,9 +46,9 @@ const updateComic = async (req, res) => {
   }
 }
 
-const getComicDetail = async (req, res) => {
+const getDetailComic = async (req, res) => {
   try {
-    const response = await comicService.fncGetComicDetail(req)
+    const response = await ComicService.fncGetDetailComic(req)
     return res.status(response.StatusCode).json(response)
   } catch (error) {
     return res.status(500).json(error.toString())
@@ -51,7 +60,8 @@ const ComicController = {
   deleteComic,
   updateComic,
   getAllComicsByGenre,
-  getComicDetail
+  getDetailComic,
+  getAllComicsByAuthor
 }
 
 export default ComicController

@@ -5,9 +5,11 @@ const fncGetAllGenres = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
     let genres
-    const regex = new RegExp(TextSearch, "i")
     if (!!CurrentPage && !!PageSize && !!TextSearch) {
-      genres = await Genre.find({ Title: regex }).skip((CurrentPage - 1) * PageSize).limit(PageSize)
+      genres = await Genre
+        .find({ Title: { $regex: TextSearch, $options: 'i' } })
+        .skip((CurrentPage - 1) * PageSize)
+        .limit(PageSize)
     } else {
       genres = await Genre.find()
     }
@@ -38,13 +40,9 @@ const fncUpdateGenre = async (req) => {
   try {
     const { id, Title } = req.body
     const checkExistGenre = await Genre.find({ _id: id })
-    if (!checkExistGenre) {
-      return response({}, true, `Thể loại truyện không tồn tại`, 200)
-    }
+    if (!checkExistGenre) return response({}, true, `Thể loại truyện không tồn tại`, 200)
     const checkExistTitle = await Genre.findOne({ Title })
-    if (!!checkExistTitle) {
-      return response({}, true, `Thể loại truyện: ${Title} đã tồn tại`, 200)
-    }
+    if (!!checkExistTitle) return response({}, true, `Thể loại truyện: ${Title} đã tồn tại`, 200)
     await Genre.updateOne({ _id: id }, req.body)
     return response({}, false, "Cập nhật thành công", 200)
   } catch (error) {

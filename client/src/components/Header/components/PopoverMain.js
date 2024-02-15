@@ -175,6 +175,7 @@ const PopoverMain = () => {
 
   return (
     <Dropdown
+      className="mr-8"
       trigger={['click']}
       menu={{
         items

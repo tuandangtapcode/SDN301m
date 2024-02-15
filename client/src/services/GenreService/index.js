@@ -1,7 +1,9 @@
 import http from '../index'
 import {
   apiDeleteGenre,
-  apiGetAllGenres, apiInsertGenre, apiUpdateGenre,
+  apiGetAllGenres,
+  apiInsertGenre,
+  apiUpdateGenre,
 } from './urls'
 
 const getAllGenres = body => http.post(apiGetAllGenres, body)

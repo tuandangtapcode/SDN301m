@@ -18,13 +18,13 @@ const checkEmailExist = async (Email) => {
 
 //Authors
 const fncGetListAuthor = async (req) => {
-
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
     const query = { RoleID: 3, FullName: { $regex: TextSearch, $options: 'i' } }
     const skip = (CurrentPage - 1) * PageSize
     const limit = PageSize
-    const authors = await User.find(query)
+    const authors = await User
+      .find(query)
       .skip(skip)
       .limit(limit)
     return response(
@@ -41,9 +41,10 @@ const fncGetListAuthor = async (req) => {
 const fncGetListUser = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
-    const regex = new RegExp(TextSearch, "i")
-    const query = { FullName: regex, RoleID: { $ne: 1 } }
-    const users = await User.find(query).skip((CurrentPage - 1) * PageSize).limit(PageSize)
+    const users = await User
+      .find({ FullName: { $regex: TextSearch, $options: 'i' }, RoleID: { $ne: 1 } })
+      .skip((CurrentPage - 1) * PageSize)
+      .limit(PageSize)
     return response(
       { List: users, Total: users.length },
       false,
@@ -57,8 +58,9 @@ const fncGetListUser = async (req) => {
 
 const fnDeactiveAccount = async (req) => {
   try {
-    const UserID = req.params.id
+    const UserID = req.params.UserID
     const user = await User.findByIdAndUpdate({ _id: UserID }, { IsActive: false })
+    if (!user) return response({}, true, "Không tồn tại user", 200)
     return response(user, false, "Khóa tài khoản thành công", 200)
   } catch (error) {
     return response({}, true, error.tostring(), 500)
@@ -67,25 +69,23 @@ const fnDeactiveAccount = async (req) => {
 
 const fncGetDetailProfile = async (req) => {
   try {
-    const UserID = req.body.UserID
-    const detail = await User.findOne({ _id: UserID })
+    const UserID = req.params.UserID
+    const detail = await User.findOne({ _id: UserID }).select('Description FullName AvatarPath _id RoleID')
+    if (!detail) return response({}, true, "Không tồn tại user", 200)
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {
-    return response({}, true, error.toString(), 200)
+    return response({}, true, error.toString(), 500)
   }
 }
 
 const fncGetDetailAuthour = async (req) => {
   try {
     const UserID = req.query.UserID
-    const detail = await User.findOne({ _id: UserID })
-    return response({
-      Description: detail.Description,
-      FullName: detail.FullName,
-      AvatarPath: detail.AvatarPath,
-    }, false, "Lấy ra thành công", 200)
+    const detail = await User.findOne({ _id: UserID }).select('Description FullName AvatarPath')
+    if (!detail) return response({}, true, "Không tồn tại user", 200)
+    return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {
-    return response({}, true, error.toString(), 200)
+    return response({}, true, error.toString(), 500)
   }
 }
 
@@ -115,7 +115,7 @@ const fncLoginByGoogle = async (req) => {
     if (!getUser.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
     const access_token = accessToken({
       id: getUser._id,
-      IsAdmin: getUser.IsAdmin,
+      RoleID: getUser.RoleID,
     })
     return response(access_token, false, 'Login thành công', 200)
   } catch (error) {
@@ -165,6 +165,7 @@ const fncUpdateProfileCustomer = async (req) => {
   try {
     const id = req.body.UserID
     const user = await User.findOne({ _id: id })
+    if (!user) return response({}, true, "Không tồn tại user", 200)
     const updateProfile = await User.findByIdAndUpdate({ _id: id }, {
       ...req.body,
       AvatarPath: !!req.file ? req.file.path : user?.AvatarPath,
@@ -184,6 +185,7 @@ const fncChangePassword = async (req) => {
   try {
     const { OldPassword, NewPassword, UserID } = req.body
     const user = await User.findOne({ _id: UserID })
+    if (!user) return response({}, true, "Không tồn tại user", 200)
     const check = bcrypt.compareSync(OldPassword, user.Password)
     if (!check) return response({}, true, 'Mật khẩu không chính xác', 200)
     const hashPassword = bcrypt.hashSync(NewPassword, saltRounds)

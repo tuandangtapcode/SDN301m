@@ -244,8 +244,11 @@ const App = () => {
   const getProfile = async (UserID, token) => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile({ UserID }, token)
-      if (res?.isError) return toast.error(res?.msg)
+      const res = await UserService.getDetailProfile(UserID, token)
+      if (res?.isError) {
+        localStorage.removeItem('token')
+        return
+      }
       dispatch(globalSlice.actions.setUser(res?.data))
     } finally {
       setLoading(false)

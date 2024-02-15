@@ -1,7 +1,8 @@
 import express from "express"
 const router = express.Router()
 import UserController from "../controllers/user.controller.js"
-import { authUsernMidleware, authAdminMidleware } from "../middlewares/auth.middleware.js"
+import { authMiddleware } from '../middlewares/auth.middleware.js'
+import Roles from '../utils/roles.js'
 import upload from '../middlewares/clouddinary.middleware.js'
 import UserValidation from "../validations/user.validation.js"
 
@@ -20,8 +21,7 @@ router.post('/register',
 router.post('/registerByGoogle',
   UserController.registerByGoogle
 )
-router.post("/getDetailProfile",
-  // authUsernMidleware,
+router.get("/getDetailProfile/:UserID",
   UserController.getDetailProfile
 )
 router.get("/getDetailAuthour",
@@ -34,21 +34,21 @@ router.post("/register",
   UserController.register
 )
 router.get("/getListUser",
-  // authAdminMidleware,
+  // authMiddleware([Roles.ROLE_ADMIN]),
   UserController.getListUser
 )
-router.get("/deactiveAccount/:id",
-  // authAdminMidleware,
+router.get("/deactiveAccount/:UserID",
+  // authMiddleware([Roles.ROLE_ADMIN]),
   UserController.deactiveAccount
 )
 router.post("/updateProfile",
   upload('Avatar').single("Avatar"),
-  // authUsernMidleware,
+  authMiddleware([Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM]),
   UserValidation.updateProfile,
   UserController.updateProfileCustomer
 )
 router.post("/changePassword",
-  // authUsernMidleware,
+  // authMiddleware([Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM]),
   UserController.changePassword
 )
 

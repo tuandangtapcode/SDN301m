@@ -57,7 +57,7 @@ const LoginPage = () => {
   const getProfile = async (UserID, token) => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile({ UserID }, token)
+      const res = await UserService.getDetailProfile(UserID, token)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
       localStorage.setItem('token', token)

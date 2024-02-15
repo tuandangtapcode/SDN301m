@@ -1,2 +1,7 @@
 export const apiGetAllComics = "comic/getAllComics"
 export const apiInsertComic = "comic/insertComic"
+export const apiUpdateComic = "comic/updateComic"
+export const apiGetDetailComic = "comic/getDetailComic"
+export const apiDeleteComic = "comic/deleteComic"
+export const apiGetAllComicsByGenre = "comic/getAllComicsByGenre"
+export const apiGetAllComicsByAuthor = "comic/getAllComicsByAuthor"

@@ -1,24 +1,25 @@
 import express from 'express'
 const router = express.Router()
 import GenreController from '../controllers/genre.controller.js'
-import { authAdminMidleware } from '../middlewares/auth.middleware.js'
+import { authMiddleware } from '../middlewares/auth.middleware.js'
+import Roles from '../utils/roles.js'
 import GenreValidation from '../validations/genre.validation.js'
 
 router.post('/getAllGenres',
   GenreController.getAllGenres
 )
 router.post('/insertGenre',
-  // authAdminMidleware,
+  // authMiddleware([Roles.ROLE_ADMIN]),
   // GenreValidation.insertGenre,
   GenreController.insertGenre
 )
 router.post('/updateGenre',
-  // authAdminMidleware,
+  authMiddleware([Roles.ROLE_ADMIN]),
   // GenreValidation.updateGenre,
   GenreController.updateGenre
 )
 router.delete('/deleteGenre/:id',
-  // authAdminMidleware,
+  // authMiddleware([Roles.ROLE_ADMIN]),
   GenreController.deleteGenre
 )
 

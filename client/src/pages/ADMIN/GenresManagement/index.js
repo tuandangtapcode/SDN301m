@@ -115,8 +115,8 @@ const GenresManagement = () => {
 
   return (
     <SpinCustom spinning={loading}>
-      <div className="d-flex-sb mt-25 mb-25">
-        <p className="text-matte fs-25 fw-600">Genres Management</p>
+      <div className="d-flex-sb mb-10">
+        <p className="title-type-1">Genres Management</p>
         <ButtonCustom
           className="greendBackground medium"
           onClick={() => setInsertUpdateGenre(true)}

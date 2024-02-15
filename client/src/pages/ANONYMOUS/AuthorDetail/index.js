@@ -1,37 +1,43 @@
 import { Col, Row } from "antd"
 import Content from "./component/Content"
 import { useEffect, useState } from "react"
-import UserService from "src/services/UserService"
 import { useParams } from "react-router-dom"
 import Rating from "src/components/Rating"
 import SpinCustom from "src/components/SpinCustom"
+import ComicService from "src/services/ComicService"
 
 const AuthorDetail = () => {
+
   const [loading, setLoading] = useState(false)
   const [detail, setDetail] = useState(false)
-  const UserID = useParams()
+  const { AuthorID } = useParams()
+  const [pagination, setPagination] = useState({
+    TextSearch: "",
+    CurrentPage: 1,
+    PageSize: 10,
+  })
 
-  console.log(UserID);
-  const getList = async () => {
+  const getInforAuthor = async () => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailAuthour(UserID?.AuthorID)
-      if (res.IsError) return
+      const res = await ComicService.getAllComicsByAuthor({ ...pagination, UserID: AuthorID, IsPrivated: false })
+      if (res.isError) return
       setDetail(res?.data)
     } finally {
       setLoading(false)
     }
   }
+
   useEffect(() => {
-    getList()
-  }, [])
+    getInforAuthor()
+  }, [pagination, AuthorID])
 
   return (
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]} className="mt-20 mb-20">
         <Col span={18}>
           <Content
-            detail={detail}
+            detail={detail?.Author}
             setDetail={setDetail}
           />
         </Col>
@@ -40,7 +46,7 @@ const AuthorDetail = () => {
         </Col>
       </Row>
     </SpinCustom>
-  );
+  )
 }
 
 export default AuthorDetail

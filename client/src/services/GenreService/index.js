@@ -4,16 +4,14 @@ import {
   apiGetAllGenres, apiInsertGenre, apiUpdateGenre,
 } from './urls'
 
-const getAllGenres = () => http.get(apiGetAllGenres)
+const getAllGenres = body => http.post(apiGetAllGenres, body)
 const insertGenre = body => http.post(apiInsertGenre, body, {
   headers: {
-    'Content-Type': 'multipart/form-data',
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
-const updateGenre = (id, body) => http.post(`${apiUpdateGenre}/${id}`, body, {
+const updateGenre = body => http.post(apiUpdateGenre, body, {
   headers: {
-    'Content-Type': 'multipart/form-data',
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })

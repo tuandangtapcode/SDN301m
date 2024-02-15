@@ -29,12 +29,10 @@ const LoginPage = () => {
       const res = await UserService.loginByGoogle(userInfor)
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
-      localStorage.setItem('token', res?.data)
-      getProfile(user.payload.id)
-      if (!user?.payload?.IsAdmin) {
-        navigate('/')
+      if (!!user.payload.id) {
+        getProfile(user.payload.id, res?.data)
       } else {
-        navigate('/dashboard')
+        navigate('/forbidden')
       }
     },
   })
@@ -46,24 +44,25 @@ const LoginPage = () => {
       const res = await UserService.login(values)
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
-      localStorage.setItem('token', res?.data)
-      getProfile(user.payload.id)
-      if (!user?.payload?.IsAdmin) {
-        navigate('/')
+      if (!!user.payload.id) {
+        getProfile(user.payload.id, res?.data)
       } else {
-        navigate('/dashboard')
+        navigate('/forbidden')
       }
     } finally {
       setLoading(false)
     }
   }
 
-  const getProfile = async (UserID) => {
+  const getProfile = async (UserID, token) => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile(UserID)
+      const res = await UserService.getDetailProfile({ UserID }, token)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
+      localStorage.setItem('token', token)
+      if (res?.data?.RoleID === 1) navigate('/dashboard')
+      else navigate('/')
     } finally {
       setLoading(false)
     }
@@ -87,7 +86,7 @@ const LoginPage = () => {
             <Form.Item
               name="Email"
               rules={[
-                { required: true, message: "Hãy nhập vào email" },
+                { required: true, message: "Please enter your email" },
                 { pattern: getRegexEmail(), message: "Email sai định dạng" }
               ]}
             >
@@ -101,7 +100,7 @@ const LoginPage = () => {
             <Form.Item
               name="Password"
               rules={[
-                { required: true, message: "Hãy nhập vào pasword" },
+                { required: true, message: "Please enter new pasword" },
               ]}
             >
               <InputCustom
@@ -145,7 +144,7 @@ const LoginPage = () => {
         </Row>
       </Form>
     </LoginContainerStyled>
-  );
+  )
 }
 
-export default LoginPage;
+export default LoginPage

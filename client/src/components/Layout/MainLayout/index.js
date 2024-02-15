@@ -17,7 +17,7 @@ const MainLayout = ({ children }) => {
       </ContentStyled>
       <Footer />
     </div>
-  );
+  )
 }
 
-export default MainLayout;
+export default MainLayout

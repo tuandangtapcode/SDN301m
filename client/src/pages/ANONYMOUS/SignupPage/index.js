@@ -1,40 +1,35 @@
 import { useEffect, useState } from "react"
-import { LoginContainerStyled } from "../LoginPage/styeld"
-import { Col, Row, Form } from "antd"
-import InputCustom from "src/components/FloatInput/InputCustom"
-import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
-import ButtonCustom from "src/components/ButtonCustom/MyButton"
-import { useGoogleLogin } from "@react-oauth/google"
+import { Col, Row, Form, Steps } from "antd"
 import UserService from "src/services/UserService"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
-import { getRegexEmail } from "src/lib/stringUtils"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
+import { SignupContainerStyled } from "./styled"
+import FormInfor from "./components/FormInfor"
+import FormSelectRole from "./components/FormSelectRole"
 
 const SignupPage = () => {
 
   const [form] = Form.useForm()
   const [loading, setLoading] = useState()
+  const [current, setCurrent] = useState(0)
+  const [isAgree, setIsAgree] = useState(false)
+  const [inforFromGoogle, setInforFromGoogle] = useState()
+  const [inforFromForm, setInforFromForm] = useState()
   const global = useSelector(globalSelector)
   const navigate = useNavigate()
 
-  const registerByGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      const userInfor = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
-      const res = await UserService.registerByGoogle(userInfor)
-      if (res?.isError) return toast.error(res?.msg)
-      toast.success(res?.msg)
-      navigate('/login')
-    },
-  })
-
-
-  const registerByForm = async () => {
+  const handleRegister = async () => {
     try {
       setLoading(true)
       const values = await form.validateFields()
-      const res = await UserService.register(values)
+      let res = {}
+      if (!!inforFromGoogle) {
+        res = await UserService.registerByGoogle({ ...inforFromGoogle, RoleID: values?.RoleID })
+      } else {
+        res = await UserService.register({ ...inforFromForm, RoleID: values?.RoleID })
+      }
       if (res?.isError) return toast.error(res?.msg)
       toast.success(res?.msg)
       navigate('/login')
@@ -43,12 +38,45 @@ const SignupPage = () => {
     }
   }
 
+  const steps = [
+    {
+      title: 'Form infor',
+      content: <FormInfor
+        current={current}
+        setCurrent={setCurrent}
+        setInforFromForm={setInforFromForm}
+        setInforFromGoogle={setInforFromGoogle}
+        form={form}
+      />
+    },
+    {
+      title: 'Form select role',
+      content: <FormSelectRole
+        current={current}
+        setCurrent={setCurrent}
+        isAgree={isAgree}
+        setIsAgree={setIsAgree}
+        loading={loading}
+        handleRegister={handleRegister}
+      />
+    }
+  ]
+
+  const items = steps.map((item) => ({
+    key: item.title,
+  }))
+
   useEffect(() => {
     if (!!global?.user?._id) navigate('/')
   }, [])
 
   return (
-    <LoginContainerStyled>
+    <SignupContainerStyled>
+      <Steps
+        current={current}
+        items={items}
+        progressDot={true}
+      />
       <Form form={form} className="mt-30">
         <Row gutter={[16, 0]}>
           <Col span={24}>
@@ -56,82 +84,11 @@ const SignupPage = () => {
               <p className="fs-25 fw-600">Sign up to use</p>
             </div>
           </Col>
-          <Col span={24}>
-            <Form.Item
-              name="FullName"
-              rules={[
-                { required: true, message: "Hãy nhập vào email" },
-              ]}
-            >
-              <InputCustom
-                isRequired
-                label="FullName"
-              />
-            </Form.Item>
-          </Col>
-          <Col span={24}>
-            <Form.Item
-              name="Email"
-              rules={[
-                { required: true, message: "Hãy nhập vào email" },
-                { pattern: getRegexEmail(), message: "Email sai định dạng" }
-              ]}
-            >
-              <InputCustom
-                isRequired
-                label="Email"
-              />
-            </Form.Item>
-          </Col>
-          <Col span={24}>
-            <Form.Item
-              name="Password"
-              rules={[
-                { required: true, message: "Hãy nhập vào pasword" },
-              ]}
-            >
-              <InputCustom
-                isPass
-                isRequired
-                label="Mật khẩu"
-              />
-            </Form.Item>
-          </Col>
-          <Col span={24}>
-            <ButtomCustomStyled
-              className="submit fw-600 fs-18"
-              loading={loading}
-              onClick={() => registerByForm()}
-            >
-              Sign up
-            </ButtomCustomStyled>
-          </Col>
-          <Col span={24}>
-            <div className="text-center text-gray fs-20 mt-10 mb-10">
-              OR
-            </div>
-          </Col>
-          <Col span={24}>
-            <ButtonCustom
-              className="d-flex-center login-google medium mb-15"
-              onClick={() => registerByGoogle()}
-            >
-              <span className="icon-google"></span>
-              <span className="ml-12">Sign in with Google</span>
-            </ButtonCustom>
-          </Col>
-          <Col span={24}>
-            <ButtonCustom
-              className="d-flex-center login-facebook medium mb-30"
-            >
-              <span className="icon-facebook"></span>
-              <span className="ml-12">Sign in with Facebook</span>
-            </ButtonCustom>
-          </Col>
+          {steps[current].content}
         </Row>
       </Form>
-    </LoginContainerStyled>
-  );
+    </SignupContainerStyled>
+  )
 }
 
-export default SignupPage;
+export default SignupPage

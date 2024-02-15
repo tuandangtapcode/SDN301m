@@ -2,8 +2,15 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const Notificaitons = new Schema({
-  Content: { type: String },
-  Author: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+  Content: {
+    type: String,
+    require: true
+  },
+  Author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users',
+    require: true
+  },
 
 })
 

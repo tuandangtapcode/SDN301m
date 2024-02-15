@@ -18,12 +18,24 @@ a {
   text-decoration: none;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .text-white {
   color: white;
 }
 
 .text-green {
   color: #17a288;
+}
+
+.active-green {
+  color: rgb(9, 216, 9);
+}
+
+.text-red {
+  color: red;
 }
 
 .text-matte {

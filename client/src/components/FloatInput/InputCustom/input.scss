@@ -19,7 +19,7 @@
 
     &:focus {
       color: #222d4b;
-      border-color: #0d99ff;
+      // border-color: #0d99ff;
       outline: 0;
       background-color: #fff !important;
     }
@@ -33,12 +33,12 @@
     }
 
     &:focus+label {
-      color: #0d99ff;
+      // color: #0d99ff;
       z-index: 3;
     }
 
     &:hover+label {
-      color: #0d99ff;
+      // color: #0d99ff;
       z-index: 3;
     }
 

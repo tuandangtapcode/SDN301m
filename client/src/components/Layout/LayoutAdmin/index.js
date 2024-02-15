@@ -48,7 +48,7 @@ const LayoutAdmin = ({ children }) => {
         </Row>
       </MenuAdminStyled>
     </div>
-  );
+  )
 }
 
-export default LayoutAdmin;
+export default LayoutAdmin

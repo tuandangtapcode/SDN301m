@@ -123,7 +123,7 @@ const ComicsManagement = () => {
         />
       }
     </SpinCustom>
-  );
+  )
 }
 
-export default ComicsManagement;
+export default ComicsManagement

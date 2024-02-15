@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom"
-import DropdownProfile from "../components/DropdownProfile"
 import { BadgeStyled, HeaderContainerStyled, HeaderStyled } from "../styled"
 import { Dropdown } from "antd"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { AiFillBell } from "react-icons/ai"
+import LstIcons from "src/components/ListIcons"
 
 const HeaderAdmin = () => {
 
@@ -45,7 +45,7 @@ const HeaderAdmin = () => {
               >
                 <ButtonCustom
                   className="noBackground"
-                  icon={<AiFillBell className="fs-20" style={{ color: 'white' }} />}
+                  icon={LstIcons.ICON_BELL}
                 />
               </BadgeStyled>
             </Dropdown>
@@ -59,7 +59,7 @@ const HeaderAdmin = () => {
         </div>
       </HeaderStyled>
     </HeaderContainerStyled>
-  );
+  )
 }
 
-export default HeaderAdmin;
+export default HeaderAdmin

@@ -4,7 +4,6 @@ import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import ModalCustom from "src/components/ModalCustom"
 import { BsFillTrash3Fill } from "react-icons/bs"
-import TextArea from "antd/es/input/TextArea"
 import ComicService from "src/services/ComicService"
 import ImageService from "src/services/ImageService"
 import { toast } from "react-toastify"
@@ -52,16 +51,17 @@ const InsertUpdateComic = ({
         Genres: values?.Genres,
         Avatar: values?.image?.file,
         Author: global?.user?._id,
-        Chapters: lstChapters
+        Chapters: lstChapters,
+        Status: true
       })
       if (resComic?.isError) return toast.error(resComic.msg)
       lstChapters.forEach(chapter => {
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
-          const resImage = await ImageService.insertImage({
+          await ImageService.insertImage({
             Chapter: chapter?.ChapterID,
             Image: i?.originFileObj,
             Comic: resComic?.data,
-            SortOrder: index + 1
+            SortOrder: values[`SortOrder_${chapter?.Name}`]
           })
         })
       })
@@ -155,7 +155,8 @@ const InsertUpdateComic = ({
             <Form.Item
               name="ShortDecription"
             >
-              <TextArea
+              <InputCustom
+                textArea
                 style={{ height: '120px' }}
                 label="ShortDecription"
               />
@@ -167,6 +168,7 @@ const InsertUpdateComic = ({
               ]}
             >
               <Select
+                isRequired
                 placeholder="Genre"
                 mode="multiple"
               >
@@ -181,7 +183,7 @@ const InsertUpdateComic = ({
           <Col span={24}>
             {
               lstChapters.map(i =>
-                <Row>
+                <Row gutter={[16]}>
                   <Col span={23} style={{ width: '100%' }}>
                     <Form.Item
                       name={i?.Name}
@@ -204,7 +206,7 @@ const InsertUpdateComic = ({
                           }
                         }}
                       >
-                        <div >
+                        <div className="d-flex-center" style={{ height: '10px' }}>
                           {i?.Name}
                         </div>
                       </Upload.Dragger>
@@ -224,7 +226,7 @@ const InsertUpdateComic = ({
         </Row>
       </Form>
     </ModalCustom>
-  );
+  )
 }
 
-export default InsertUpdateComic;
+export default InsertUpdateComic

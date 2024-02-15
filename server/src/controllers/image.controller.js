@@ -9,6 +9,7 @@ const insertImage = async (req, res) => {
   }
 }
 
+
 const ImageController = {
   insertImage
 }

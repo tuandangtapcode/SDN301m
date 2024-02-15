@@ -130,6 +130,6 @@ const Authors = () => {
         </Col> */}
       </Row>
     </SpinCustom>
-  );
+  )
 }
-export default Authors;
+export default Authors

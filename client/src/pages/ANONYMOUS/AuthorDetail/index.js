@@ -41,4 +41,4 @@ const AuthorDetail = () => {
   );
 }
 
-export default AuthorDetail;
+export default AuthorDetail

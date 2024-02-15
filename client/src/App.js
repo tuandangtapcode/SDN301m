@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useRoutes } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify'
-// import { getProfileUser } from "src/services/UserService"
 import { useDispatch, useSelector } from "react-redux"
 import globalSlice from "src/redux/globalSlice"
 import { jwtDecode } from "jwt-decode"
@@ -10,6 +9,8 @@ import NotFoundPage from "src/pages/ErrorPage/NotFoundPage"
 import { globalSelector } from "src/redux/selector"
 import UserService from "./services/UserService"
 import GenreService from "./services/GenreService"
+import socket from "./utils/socket"
+import DeactiveModal from "./components/DeactiveModal"
 
 
 // ANONYMOUS
@@ -172,7 +173,7 @@ const routes = [
         )
       },
       {
-        path: '/comic/:ComicID/chapter/:ChapterID',
+        path: '/comics/:ComicID/chapter/:ChapterID',
         element: (
           <LazyLoadingComponent>
             <ComicContent />
@@ -180,7 +181,7 @@ const routes = [
         )
       },
       {
-        path: '/comic/:ComicID',
+        path: '/comics/:ComicID',
         element: (
           <LazyLoadingComponent>
             <ComicDetail />
@@ -231,22 +232,21 @@ const routes = [
   },
 ]
 
-function App() {
+const App = () => {
 
   const appRoutes = useRoutes(routes)
-  const dispatch = useDispatch()
   const global = useSelector(globalSelector)
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const [modalDeactive, setModalDeactive] = useState(false)
 
-  const getProfile = async (UserID) => {
+  const getProfile = async (UserID, token) => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile(UserID)
+      const res = await UserService.getDetailProfile({ UserID }, token)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
-      if (res?.data?.IsAdmin) navigate('/dashboard')
-      else navigate('/')
     } finally {
       setLoading(false)
     }
@@ -255,33 +255,53 @@ function App() {
   const getListGenres = async () => {
     try {
       setLoading(true)
-      const res = await GenreService.getAllGenres()
+      const res = await GenreService.getAllGenres({})
       if (res?.isError) return
-      dispatch(globalSlice.actions.setGenres(res?.data))
+      dispatch(globalSlice.actions.setGenres(res?.data?.List))
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    try {
-      if (localStorage.getItem('token')) {
-        const user = jwtDecode(localStorage.getItem('token'))
-        if (!!user.payload.id) getProfile(user.payload.id)
+    if (!!localStorage.getItem('token')) {
+      const user = jwtDecode(localStorage.getItem('token'))
+      if (!!user.payload.id) {
+        getProfile(user.payload.id, localStorage.getItem('token'))
       } else {
-        navigate('/')
+        navigate('/forbidden')
       }
-    } catch (error) {
-      localStorage.removeItem('token')
-      navigate('/')
     }
-    getListGenres()
   }, [])
+
+  useEffect(() => {
+    if (!!global?.user?.RoleID && global?.user?.RoleID !== 1) {
+      getListGenres()
+    }
+  }, [global?.user])
+
+
+  socket.on('get-deactive', (data) => {
+    if (global?.user?._id === data) {
+      setModalDeactive(true)
+    }
+  })
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={1500}
+        hideProgressBar={true}
+      />
       <div>{appRoutes}</div>
+
+      {
+        !!modalDeactive &&
+        <DeactiveModal
+          open={modalDeactive}
+          onCancel={() => setModalDeactive(false)}
+        />
+      }
     </>
   )
 }

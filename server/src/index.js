@@ -1,5 +1,5 @@
 import express from 'express'
-import { Server as SocketServer } from 'socket.io'
+import { Server } from 'socket.io'
 import http from "http"
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -9,11 +9,7 @@ import routes from './routes/index.js'
 
 const app = express()
 const server = http.createServer(app)
-const io = new SocketServer(server, {
-  // cors: {
-  //   origin: "http://localhost:3000",
-  // },
-})
+const io = new Server(server, { cors: "http://localhost:3000" })
 
 // Connect DB
 connect()
@@ -31,15 +27,23 @@ routes(app)
 
 io.on("connection", (socket) => {
 
-  socket.on('send-comment', function (data) {
+  console.log(`người dùng ${socket.id} đã kết nối`)
+
+  socket.on('send-comment', (data) => {
     io.sockets.emit('get-comments', data)
   })
 
-  socket.on('disconnect', function () {
+  socket.on('send-deactive', (data) => {
+    io.sockets.emit('get-deactive', data)
+  })
+
+  // socket.on
+
+  socket.on('disconnect', () => {
     console.log(`người dùng ${socket.id} đã ngắt kết nối`)
   })
 })
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`App listening at http://localhost:${process.env.PORT}`)
 })

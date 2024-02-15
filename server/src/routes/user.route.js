@@ -1,10 +1,11 @@
 import express from "express"
 const router = express.Router()
 import UserController from "../controllers/user.controller.js"
-import { authAdminMidleware } from "../middlewares/auth.middleware.js"
+import { authUsernMidleware, authAdminMidleware } from "../middlewares/auth.middleware.js"
+import upload from '../middlewares/clouddinary.middleware.js'
+import UserValidation from "../validations/user.validation.js"
 
 router.post("/getListAuthor",
-  // authAdminMidleware,
   UserController.getListAuthour
 )
 router.post('/login',
@@ -19,7 +20,8 @@ router.post('/register',
 router.post('/registerByGoogle',
   UserController.registerByGoogle
 )
-router.get("/getDetailProfile/:id",
+router.post("/getDetailProfile",
+  // authUsernMidleware,
   UserController.getDetailProfile
 )
 router.post("/login",
@@ -29,13 +31,22 @@ router.post("/register",
   UserController.register
 )
 router.get("/getListUser",
+  // authAdminMidleware,
   UserController.getListUser
 )
-router.get("/deactive-account/:id",
+router.get("/deactiveAccount/:id",
+  // authAdminMidleware,
   UserController.deactiveAccount
 )
-router.put("/updateProfile",
+router.post("/updateProfile",
+  upload('Avatar').single("Avatar"),
+  // authUsernMidleware,
+  UserValidation.updateProfile,
   UserController.updateProfileCustomer
+)
+router.post("/changePassword",
+  // authUsernMidleware,
+  UserController.changePassword
 )
 
 export default router

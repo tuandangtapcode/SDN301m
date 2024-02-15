@@ -14,7 +14,7 @@ const SpinCustom = (props) => {
         />
       }
     />
-  );
+  )
 }
 
-export default SpinCustom;
+export default SpinCustom

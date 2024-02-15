@@ -24,7 +24,7 @@ export const authAdminMidleware = (req, res, next) => {
       )
     }
     const { payload } = decode
-    if (payload.is_admin) {
+    if (payload.RoleID === 1) {
       next()
     } else {
       return res.status(403).json(
@@ -42,7 +42,7 @@ export const authUsernMidleware = (req, res, next) => {
     )
   }
   const token = req.headers.token.split(' ')[1]
-  const userid = req.body.Author || req.params.id
+  const UserID = req.body.UserID
   jwt.verify(token, process.env.ACCESS_TOKEN, function (err, decode) {
     if (err) {
       return res.status(401).json(
@@ -50,7 +50,7 @@ export const authUsernMidleware = (req, res, next) => {
       )
     }
     const { payload } = decode
-    if (!payload.is_admin && payload.id === userid) {
+    if (payload.RoleID !== 1 && payload.id === UserID) {
       next()
     } else {
       return res.status(403).json(

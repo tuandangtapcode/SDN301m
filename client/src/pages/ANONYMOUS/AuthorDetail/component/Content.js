@@ -12,8 +12,8 @@ const Content = ({
   console.log(detail)
   return (
     <Row gutter={[16, 16]}>
-      <Col span={10}>
-        {detail?.Avatar}
+      <Col span={10} >
+        <img alt="example" src={detail?.AvatarPath} style={{ maxWidth: '100%' }} />
       </Col>
       <Col span={14}>
         <Row gutter={[16, 16]}>

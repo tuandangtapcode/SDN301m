@@ -85,7 +85,7 @@ const Authors = () => {
               style={{
                 width: 240,
               }}
-              cover={<img alt="example" src={i.Avatar} />}
+              cover={<img alt="example" src={i.AvatarPath} />}
             >
               <Meta title={i.FullName} description={i.Description} />
               <Button

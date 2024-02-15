@@ -79,7 +79,11 @@ const fncGetDetailAuthour = async (req) => {
   try {
     const UserID = req.query.UserID
     const detail = await User.findOne({ _id: UserID })
-    return response(detail, false, "Lấy ra thành công", 200)
+    return response({
+      Description: detail.Description,
+      FullName: detail.FullName,
+      AvatarPath: detail.AvatarPath,
+    }, false, "Lấy ra thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 200)
   }

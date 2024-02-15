@@ -24,6 +24,9 @@ router.post("/getDetailProfile",
   // authUsernMidleware,
   UserController.getDetailProfile
 )
+router.get("/getDetailAuthour",
+  UserController.getDetailAuthour
+)
 router.post("/login",
   UserController.login
 )

@@ -23,6 +23,37 @@ const fncGetAllComics = async (req) => {
   }
 }
 
+const fncGetAllComicsByGenres = async (req) => {
+  try {
+    const { TextSearch, CurrentPage, PageSize, GenreTitle } = req.body
+    const query = {};
+    if (TextSearch) {
+      query.Title = { $regex: TextSearch, $options: 'i' };
+    }
+    if (GenreTitle) {
+      query.Genres = GenreTitle;
+    }
+    const comics = await Comic.find(query)
+      .skip((CurrentPage - 1) * PageSize)
+      .limit(PageSize)
+      .populate('Author', ['_id', 'FullName'])
+      .populate('Genres', ['Title']);
+
+    if (!comics.length) {
+      return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenreTitle}"`);
+    }
+    const total = await Comic.countDocuments(query);
+    return response(
+      { List: comics, Total: comics.length },
+      false,
+      'Lấy data thành công',
+      200
+    )
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 const fncInsertComic = async (req) => {
   try {
     const { Title } = req.body
@@ -59,11 +90,36 @@ const fncUpdateComic = async (req) => {
   }
 }
 
+const fncDeleteComic = async (req) => {
+  try {
+    const id = req.params.id
+    await Comic.findByIdAndDelete({ _id: id })
+    return response({}, false, "Xóa thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncGetComicsDetail = async (req) => {
+    try {
+      const id = req.params.id
+      const comic = await Comic.findById({ _id: id})
+      .populate('Author', ['_id', 'FullName'])
+      .populate('Genres', ['Title']);
+      return response(comic,false,'Lấy data thành công',200)
+    } catch (error) {
+      return response({}, true, error.toString(), 500)
+    }
+}
 
 const ComicService = {
   fncGetAllComics,
   fncInsertComic,
-  fncUpdateComic
+  fncUpdateComic,
+  fncDeleteComic,
+  fncUpdateComic,
+  fncGetAllComicsByGenres,
+  fncGetComicsDetail
 }
 
 export default ComicService

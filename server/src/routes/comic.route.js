@@ -10,6 +10,22 @@ router.post('/insertComic',
   upload('Avatar').single('Avatar'),
   ComicController.insertComic
 )
+//Chưa test
+router.post('/getDetailComic',
+  ComicController.getComicDetail
+)
+//Chưa test
+router.delete('/deleteComic',
+  ComicController.deleteComic
+)
+//Chưa test
+router.put('/updateComic',
+  ComicController.updateComic
+)
+//Chưa test
+router.post('/getAllComicsbyGenre',
+  ComicController.getAllComicsByGenre
+)
 router.post('/insertComic',
   upload('Avatar').single('Avatar'),
   ComicController.updateComic

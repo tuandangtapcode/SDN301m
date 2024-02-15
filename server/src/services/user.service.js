@@ -21,13 +21,7 @@ const fncGetListAuthor = async (req) => {
 
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
-    // const regex = { $text: { $search: TextSearch } }
-    // const query = { FullName: regex, IsPosted: true }
-    const query = { IsPosted: false, FullName: { $regex: TextSearch, $options: 'i' } }
-    // if (!!TextSearch) {
-    // query.FullName = { $regex: TextSearch, $options: 'i' }
-    // }
-    // console.log(query)
+    const query = { RoleID: 3, FullName: { $regex: TextSearch, $options: 'i' } }
     const skip = (CurrentPage - 1) * PageSize
     const limit = PageSize
     const authors = await User.find(query)
@@ -76,6 +70,20 @@ const fncGetDetailProfile = async (req) => {
     const UserID = req.body.UserID
     const detail = await User.findOne({ _id: UserID })
     return response(detail, false, "Lấy ra thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 200)
+  }
+}
+
+const fncGetDetailAuthour = async (req) => {
+  try {
+    const UserID = req.query.UserID
+    const detail = await User.findOne({ _id: UserID })
+    return response({
+      Description: detail.Description,
+      FullName: detail.FullName,
+      AvatarPath: detail.AvatarPath,
+    }, false, "Lấy ra thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 200)
   }
@@ -190,6 +198,7 @@ const fncChangePassword = async (req) => {
 const UserService = {
   fncGetListAuthor,
   fncGetDetailProfile,
+  fncGetDetailAuthour,
   fncLogin,
   fncLoginByGoogle,
   fncRegister,

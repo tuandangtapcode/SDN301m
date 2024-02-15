@@ -1,7 +1,7 @@
-import { Card, Col, Row } from "antd"
+import { Button, Card, Col, Row } from "antd"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import TableCustom from "src/components/TableCustom"
+import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import SpinCustom from "src/components/SpinCustom"
 import UserService from "src/services/UserService"
@@ -79,16 +79,22 @@ const Authors = () => {
           />
         </Col>
         {listData.map(i =>
-          <Col span={6}>
+          <Col xs={24} sm={12} md={12} lg={12} xl={6}>
             <Card
               hoverable
               style={{
                 width: 240,
               }}
-              cover={<img alt="example" src={i.Avatar} />}
-              onClick={(e) => console.log(e)}
+              cover={<img alt="example" src={i.AvatarPath} />}
             >
               <Meta title={i.FullName} description={i.Description} />
+              <Button
+                style={{
+                  marginTop: '15px',
+                  marginLeft: "22%",
+                }}
+                onClick={() => navigate(`/authors/${i?._id}`)}
+              >More Detail</Button>
             </Card>
           </Col>
         )}

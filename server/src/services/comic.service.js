@@ -100,16 +100,6 @@ const fncDeleteComic = async (req) => {
   }
 }
 
-const fncUpdateComic = async (req) => {
-  try {
-    const id = req.params.id
-    await Comic.updateOne({ _id: id }, req.body)
-    return response({}, false, "Update truyện thành công", 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
 const fncGetComicsDetail = async (req) => {
     try {
       const id = req.params.id
@@ -125,8 +115,7 @@ const fncGetComicsDetail = async (req) => {
 const ComicService = {
   fncGetAllComics,
   fncInsertComic,
-  fncUpdateComic
-  fncInsertComic,
+  fncUpdateComic,
   fncDeleteComic,
   fncUpdateComic,
   fncGetAllComicsByGenres,

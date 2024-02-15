@@ -55,7 +55,7 @@ const InsertUpdateGenre = ({ open, onCancel, onOk }) => {
       open={open}
       onCancel={onCancel}
       footer={renderFooter()}
-      title={!!open?._id ? "Update genre" : "Insert genre"}
+      title={!!open?._id ? <div className="text-center">Update genre</div> : <div className="text-center">Insert genre</div>}
       width="70vw"
     >
       <Form form={form}>

@@ -275,10 +275,8 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    if (!!global?.user?.RoleID && global?.user?.RoleID !== 1) {
-      getListGenres()
-    }
-  }, [global?.user])
+    getListGenres()
+  }, [])
 
 
   socket.on('get-deactive', (data) => {

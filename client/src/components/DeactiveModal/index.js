@@ -8,7 +8,7 @@ const DeactiveModal = ({ open, onCancel }) => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  console.log('open', open);
+
   const handleLogout = () => {
     localStorage.removeItem('token')
     dispatch(globalSlice.actions.setUser({}))
@@ -20,7 +20,7 @@ const DeactiveModal = ({ open, onCancel }) => {
     <ModalCustom
       open={open}
       // onCancel={onCancel}
-      title="Notification of locked account"
+      title={<div className="text-center">NOTIFICATION</div>}
       width="40vw"
       footer={
         <div className="d-flex-end">
@@ -33,7 +33,7 @@ const DeactiveModal = ({ open, onCancel }) => {
         </div>
       }
     >
-      <p className="fs-18 fw-600">YOUR ACCOUNT IS BANNED FOR TERMS AND PRIVACY VIOLAIONS!</p>
+      <p className="fs-18 fw-600">Your account is banned for terms and privacy violations!</p>
     </ModalCustom>
   )
 }

@@ -7,6 +7,7 @@ import SpinCustom from "src/components/SpinCustom"
 import TableCustom from "src/components/TableCustom"
 import GenreService from "src/services/GenreService"
 import InsertUpdateGenre from "./components/InsertUpdateGenre"
+import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
 
 const GenresManagement = () => {
 
@@ -50,10 +51,12 @@ const GenresManagement = () => {
   const lstBtn = (record) => (
     [
       {
+        name: 'Edit',
         icon: LstIcons.ICON_EDIt,
         onClick: () => setInsertUpdateGenre(record)
       },
       {
+        name: 'Delete',
         icon: LstIcons.ICON_DELETE,
         onClick: () => {
           ConfirmModal({
@@ -80,25 +83,27 @@ const GenresManagement = () => {
       ),
     },
     {
-      title: "Tên thể loại",
+      title: "Name",
       align: "center",
       dataIndex: "Title",
       key: "Title",
       width: 170
     },
     {
-      title: "Mô tả",
+      title: "Decription",
       align: "center",
       dataIndex: "ShortDecription",
       key: "ShortDecription",
     },
     {
-      title: "Thao tác",
+      title: "Action",
       align: "center",
       render: (_, record) => (
         <Space>
           {lstBtn(record).map(i =>
-            <ButtonCustom
+            <ButtonCircle
+              className="normal"
+              title={i?.name}
               icon={i?.icon}
               onClick={i?.onClick}
             />

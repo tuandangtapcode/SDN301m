@@ -18,10 +18,20 @@ const insertComic = async (req, res) => {
   }
 }
 
+const updateComic = async (req, res) => {
+  try {
+    const response = await ComicService.fncUpdateComic(req)
+    return res.status(response.StatusCode).json(response)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const ComicController = {
   getAllComics,
-  insertComic
+  insertComic,
+  updateComic
 }
 
 export default ComicController

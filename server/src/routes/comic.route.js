@@ -11,6 +11,10 @@ router.post('/insertComic',
   ComicController.insertComic
 )
 //Chưa test
+router.post('/getDetailComic',
+  ComicController.getComicDetail
+)
+//Chưa test
 router.delete('/deleteComic',
   ComicController.deleteComic
 )

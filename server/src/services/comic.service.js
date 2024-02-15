@@ -89,12 +89,25 @@ const fncUpdateComic = async (req) => {
   }
 }
 
+const fncGetComicsDetail = async (req) => {
+    try {
+      const id = req.params.id
+      const comic = await Comic.findById({ _id: id})
+      .populate('Author', ['_id', 'FullName'])
+      .populate('Genres', ['Title']);
+      return response(comic,false,'Lấy data thành công',200)
+    } catch (error) {
+      return response({}, true, error.toString(), 500)
+    }
+}
+
 const ComicService = {
   fncGetAllComics,
   fncInsertComic,
   fncDeleteComic,
   fncUpdateComic,
-  fncGetAllComicsByGenres
+  fncGetAllComicsByGenres,
+  fncGetComicsDetail
 }
 
 export default ComicService

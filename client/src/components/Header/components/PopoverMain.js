@@ -181,7 +181,7 @@ const PopoverMain = () => {
       }}
     >
       <ButtonCustom
-        className="noBackground"
+        className="noBackground-textwhite"
         onClick={() => setArrowDropdownMain(!arrowDropdownMain)}
         icon={arrowDropdownMain ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
       >

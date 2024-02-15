@@ -1,7 +1,7 @@
 import { Modal } from "antd"
 
 const ConfirmModal = ({
-  width = 400,
+  width = 500,
   title,
   description,
   okText = "Xóa",

@@ -10,5 +10,9 @@ router.post('/insertComic',
   upload('Avatar').single('Avatar'),
   ComicController.insertComic
 )
+router.post('/insertComic',
+  upload('Avatar').single('Avatar'),
+  ComicController.updateComic
+)
 
 export default router

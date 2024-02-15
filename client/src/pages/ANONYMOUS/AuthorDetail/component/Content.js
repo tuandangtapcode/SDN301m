@@ -5,12 +5,15 @@ import {
   AiOutlineInstagram
 } from "react-icons/ai"
 
-const Content = ({ detail }) => {
+const Content = ({
+  detail,
+  setDetail,
+}) => {
   console.log(detail)
   return (
     <Row gutter={[16, 16]}>
       <Col span={10}>
-        {detail.Avatar}
+        {detail?.Avatar}
       </Col>
       <Col span={14}>
         <Row gutter={[16, 16]}>

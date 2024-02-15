@@ -11,6 +11,7 @@ import {
   apiChangePassword,
   apiGetListUser,
   apiDeactiveAccount,
+  apiGetDetailAuthour,
 } from './urls'
 
 
@@ -25,6 +26,7 @@ const getDetailProfile = (body, token) => http.post(apiGetDetailProfile, body, {
     'token': `Bearer ${token}`
   }
 })
+const getDetailAuthour = UserID => http.get(`${apiGetDetailAuthour}?UserID=${UserID}`)
 const login = body => http.post(apiLogin, body)
 const loginByGoogle = body => http.post(apiLoginByGoogle, body)
 const register = body => http.post(apiRegister, body)
@@ -56,6 +58,7 @@ const UserService = {
   getInforByGoogleLogin,
   getListAuthour,
   getDetailProfile,
+  getDetailAuthour,
   login,
   loginByGoogle,
   register,

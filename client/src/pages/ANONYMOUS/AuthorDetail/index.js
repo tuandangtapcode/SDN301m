@@ -11,10 +11,11 @@ const AuthorDetail = () => {
   const [detail, setDetail] = useState(false)
   const UserID = useParams()
 
+  console.log(UserID);
   const getList = async () => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile(UserID?.AuthorID)
+      const res = await UserService.getDetailAuthour(UserID?.AuthorID)
       if (res.IsError) return
       setDetail(res?.data)
     } finally {
@@ -31,6 +32,7 @@ const AuthorDetail = () => {
         <Col span={18}>
           <Content
             detail={detail}
+            setDetail={setDetail}
           />
         </Col>
         <Col span={6}>

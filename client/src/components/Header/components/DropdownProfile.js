@@ -81,7 +81,7 @@ const DropdownProfile = () => {
                 style={{ fontSize: '10px', padding: '0px 1px 4px 0px' }}
               >
                 <ButtonCustom
-                  className="noBackground"
+                  className="noBackground-textwhite"
                   icon={<AiFillBell className="fs-20" style={{ color: 'white' }} />}
                   onClick={() => setArrowDropdownProfile(false)}
                 />
@@ -90,7 +90,7 @@ const DropdownProfile = () => {
 
             <Dropdown menu={{ items }} trigger={["click"]}>
               <ButtonCustom
-                className=" noBackground"
+                className=" noBackground-textwhite"
                 icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
               >
                 My Profile
@@ -100,13 +100,13 @@ const DropdownProfile = () => {
           :
           <div>
             <ButtonCustom
-              className="noBackground fs-17 fw-600"
+              className="noBackground-textwhite fs-17 fw-600"
               onClick={() => navigate('/login')}
             >
               Login
             </ButtonCustom>
             <ButtonCustom
-              className="noBackground fs-17 fw-600"
+              className="noBackground-textwhite fs-17 fw-600"
               onClick={() => navigate('/signup')}
             >
               Sign up

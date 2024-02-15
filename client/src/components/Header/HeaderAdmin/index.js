@@ -44,14 +44,14 @@ const HeaderAdmin = () => {
                 style={{ fontSize: '10px', padding: '0px 1px 6px 2px', borderColor: 'transparent' }}
               >
                 <ButtonCustom
-                  className="noBackground"
+                  className="noBackground-textwhite"
                   icon={LstIcons.ICON_BELL}
                 />
               </BadgeStyled>
             </Dropdown>
 
             <Dropdown menu={{ items }} trigger={['click']}>
-              <ButtonCustom className="normal noBackground">
+              <ButtonCustom className="noBackground-textwhite">
                 Admintrator
               </ButtonCustom>
             </Dropdown>

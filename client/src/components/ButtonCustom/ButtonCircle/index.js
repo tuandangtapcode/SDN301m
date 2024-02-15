@@ -1,12 +1,18 @@
+import { Tooltip } from "antd"
 import { ButtonCicleStyled } from "./styled"
 
 const ButtonCircle = (props) => {
   return (
-    <ButtonCicleStyled
-      {...props}
+    <Tooltip
+      title={props?.title}
+      arrow={false}
     >
-      {props?.children}
-    </ButtonCicleStyled>
+      <ButtonCicleStyled
+        {...props}
+      >
+        {props?.children}
+      </ButtonCicleStyled>
+    </Tooltip>
   )
 }
 

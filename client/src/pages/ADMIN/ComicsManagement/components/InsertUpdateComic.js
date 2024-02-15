@@ -61,7 +61,7 @@ const InsertUpdateComic = ({
             Chapter: chapter?.ChapterID,
             Image: i?.originFileObj,
             Comic: resComic?.data,
-            SortOrder: values[`SortOrder_${chapter?.Name}`]
+            SortOrder: index + 1
           })
         })
       })

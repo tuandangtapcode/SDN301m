@@ -8,6 +8,8 @@ import ConfirmModal from "src/components/ModalCustom/ConfirmModal"
 import socket from "src/utils/socket"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import LstIcons from "src/components/ListIcons"
+import { Space } from "antd"
+import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
 
 const UsersManagement = () => {
 
@@ -32,7 +34,7 @@ const UsersManagement = () => {
     }
   }
 
-  const handleBanned = async (UserID) => {
+  const handleBannedOrUnban = async (UserID) => {
     try {
       setLoading(true)
       const res = await UserService.deactiveAccount(UserID)
@@ -66,6 +68,43 @@ const UsersManagement = () => {
       RoleName: "Customer normal"
     }
   ]
+
+  const lstBtn = (record) => (
+    [
+      {
+        name: 'Ban',
+        icon: LstIcons.ICON_BLOCK,
+        onClick: () => {
+          ConfirmModal({
+            record,
+            title: `Do you want to ban this this?`,
+            okText: "Yes",
+            cancelText: "No",
+            onOk: async close => {
+              handleBannedOrUnban(record?._id)
+              close()
+            },
+          })
+        }
+      },
+      {
+        name: 'Unban',
+        icon: LstIcons.ICON_UNBLOCK,
+        onClick: () => {
+          ConfirmModal({
+            record,
+            title: `Do you want to unban this this?`,
+            okText: "Yes",
+            cancelText: "No",
+            onOk: async close => {
+              handleBannedOrUnban(record?._id)
+              close()
+            },
+          })
+        }
+      }
+    ]
+  )
 
   const column = [
     {
@@ -114,28 +153,23 @@ const UsersManagement = () => {
       title: "Ban",
       align: "center",
       render: (_, record) => (
-        <ButtonCustom
-          icon={LstIcons.ICON_BAN}
-          onClick={() =>
-            ConfirmModal({
-              record,
-              title: `Do you want to ban this account?`,
-              okText: "Yes",
-              cancelText: "No",
-              onOk: async close => {
-                handleBanned(record?._id)
-                close()
-              },
-            })
-          }
-        />
+        <Space>
+          {lstBtn(record).map(i =>
+            <ButtonCircle
+              className="normal"
+              title={i?.name}
+              icon={i?.icon}
+              onClick={i?.onClick}
+            />
+          )}
+        </Space>
       )
     }
   ]
 
   return (
     <SpinCustom spinning={loading}>
-      <p className="text-center text-matte fs-25 fw-600 mt-30 mb-30">Comics Management</p>
+      <p className="text-center text-matte fs-25 fw-600 mt-30 mb-30">Users Management</p>
       <TableCustom
         isPrimary
         columns={column}

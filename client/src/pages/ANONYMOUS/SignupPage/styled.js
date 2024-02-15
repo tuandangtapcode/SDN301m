@@ -60,4 +60,13 @@ margin: auto;
 .ant-steps.ant-steps-dot .ant-steps-item-tail::after, .ant-steps.ant-steps-dot.ant-steps-small .ant-steps-item-tail::after {
   width: 100% !important;
 }
+
+.icon-back {
+  background-color: transparent;
+  border-color: transparent;
+  &:hover {
+    color: #aaa !important;
+    border-color: transparent !important;
+    }
+}
 `

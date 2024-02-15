@@ -1,7 +1,7 @@
 import { Modal } from "antd"
 
 const ConfirmModal = ({
-  width = 400,
+  width = 500,
   title,
   description,
   okText = "Xóa",
@@ -21,12 +21,12 @@ const ConfirmModal = ({
     maskClosable: true,
     okButtonProps: {
       style: {
-        padding: "12px 30px 35px 30px",
+        // padding: "12px 30px 35px 30px",
         fontWeight: 600,
         color: 'black',
         fontSize: '15px',
         borderRadius: 24,
-        background: `rgb(29, 185, 84)`,
+        background: `#17a288`,
       },
     },
     cancelButtonProps: {
@@ -49,4 +49,4 @@ const ConfirmModal = ({
   })
 }
 
-export default ConfirmModal;
+export default ConfirmModal

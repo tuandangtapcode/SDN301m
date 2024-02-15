@@ -30,8 +30,7 @@ const LoginPage = () => {
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
       if (!!user.payload.id) {
-        localStorage.setItem('token', res?.data)
-        getProfile(user.payload.id)
+        getProfile(user.payload.id, res?.data)
       } else {
         navigate('/forbidden')
       }
@@ -46,8 +45,7 @@ const LoginPage = () => {
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
       if (!!user.payload.id) {
-        localStorage.setItem('token', res?.data)
-        getProfile(user.payload.id)
+        getProfile(user.payload.id, res?.data)
       } else {
         navigate('/forbidden')
       }
@@ -56,12 +54,13 @@ const LoginPage = () => {
     }
   }
 
-  const getProfile = async (UserID) => {
+  const getProfile = async (UserID, token) => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile(UserID)
+      const res = await UserService.getDetailProfile({ UserID }, token)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
+      localStorage.setItem('token', token)
       if (res?.data?.RoleID === 1) navigate('/dashboard')
       else navigate('/')
     } finally {
@@ -87,7 +86,7 @@ const LoginPage = () => {
             <Form.Item
               name="Email"
               rules={[
-                { required: true, message: "Hãy nhập vào email" },
+                { required: true, message: "Please enter your email" },
                 { pattern: getRegexEmail(), message: "Email sai định dạng" }
               ]}
             >
@@ -101,7 +100,7 @@ const LoginPage = () => {
             <Form.Item
               name="Password"
               rules={[
-                { required: true, message: "Hãy nhập vào pasword" },
+                { required: true, message: "Please enter new pasword" },
               ]}
             >
               <InputCustom
@@ -145,7 +144,7 @@ const LoginPage = () => {
         </Row>
       </Form>
     </LoginContainerStyled>
-  );
+  )
 }
 
-export default LoginPage;
+export default LoginPage

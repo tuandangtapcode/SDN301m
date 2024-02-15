@@ -1,7 +1,7 @@
 const MyComic = () => {
   return (
     <div>MyComic</div>
-  );
+  )
 }
 
-export default MyComic;
+export default MyComic

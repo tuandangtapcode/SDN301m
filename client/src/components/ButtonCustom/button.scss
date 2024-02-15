@@ -1,13 +1,12 @@
 .normal {
-  background-color: white !important;
-  border-color: black !important;
+  background-color: transparent !important;
 
   &:hover {
     color: black !important;
   }
 }
 
-.noBackground {
+.noBackground-textwhite {
   background-color: transparent !important;
   color: white !important;
 
@@ -18,7 +17,7 @@
 
 .greendBackground {
   background-color: #50a994 !important;
-  color: black;
+  color: black !important;
 
   &:hover {
     color: black !important;
@@ -27,8 +26,8 @@
 
 .greendBorder {
   border-color: #50a994 !important;
-  background-color: transparent;
-  color: black;
+  background-color: transparent !important;
+  color: black !important;
 
   &:hover {
     color: black !important;

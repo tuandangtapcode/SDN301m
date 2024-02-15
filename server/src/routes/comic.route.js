@@ -26,5 +26,9 @@ router.put('/updateComic',
 router.post('/getAllComicsbyGenre',
   ComicController.getAllComicsByGenre
 )
+router.post('/insertComic',
+  upload('Avatar').single('Avatar'),
+  ComicController.updateComic
+)
 
 export default router

@@ -69,6 +69,27 @@ const fncInsertComic = async (req) => {
   }
 }
 
+const fncUpdateComic = async (req) => {
+  try {
+    const { id, Title } = req.body
+    const checkExist = await Comic.findOne({ _id: id })
+    if (!checkExist) return response({}, true, 'Truyện không tồn tại', 200)
+    const checkExistTitle = await Comic.findOne({ Title })
+    if (!!checkExistTitle && checkExist._id !== checkExistTitle._id) {
+      cloudinaryV2.uploader.destroy(req.file.filename)
+      return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)
+    }
+    const updateComic = await Comic.updateOne({ _id: id }, {
+      ...req.body,
+      AvatarPath: !!req.file ? req.file.path : checkExistTitle?.AvatarPath,
+      AvatarPathId: !!req.file ? req.file.filename : checkExistTitle?.AvatarPathId,
+    })
+    return response(updateComic, false, "Cập nhật thành công thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 const fncDeleteComic = async (req) => {
   try {
     const id = req.params.id
@@ -103,6 +124,8 @@ const fncGetComicsDetail = async (req) => {
 
 const ComicService = {
   fncGetAllComics,
+  fncInsertComic,
+  fncUpdateComic
   fncInsertComic,
   fncDeleteComic,
   fncUpdateComic,

@@ -10,19 +10,16 @@ const UserRoutes = () => {
 
   return (
     <>
-      <MainLayout>
-        <Outlet />
-      </MainLayout>
-      {/* {
-        (!!global?.user?._id && global?.user?.IsAdmin) ?
+      {
+        (!!global?.user?._id && global?.user?.RoleID !== 1) ?
           <MainLayout>
             <Outlet />
           </MainLayout>
           :
           <ForbiddenPage />
-      } */}
+      }
     </>
-  );
+  )
 }
 
-export default UserRoutes;
+export default UserRoutes

@@ -48,13 +48,13 @@ const ComicsManagement = () => {
       ),
     },
     {
-      title: "Tên truyện",
+      title: "Name",
       align: "center",
       dataIndex: "Title",
       key: "Title",
     },
     {
-      title: "Thể loại",
+      title: "Genres",
       align: "center",
       render: (_, record, index) => (
         record?.Genres?.map(i =>
@@ -63,28 +63,28 @@ const ComicsManagement = () => {
       ),
     },
     {
-      title: "Tác giả",
+      title: "Author",
       align: "center",
       render: (_, record, index) => (
         <div>{record?.Author?.FullName}</div>
       ),
     },
     {
-      title: "Ngày cập nhật",
+      title: "Updated date",
       align: "center",
       render: (_, record, index) => (
         <div>{moment(record?.CreatedAt).format("DD/MM/YYYY")}</div>
       ),
     },
     {
-      title: "Lượt thích",
+      title: "Likes",
       align: "center",
       render: (_, record, index) => (
         <div>{record?.Likes}</div>
       ),
     },
     {
-      title: "Lượt đọc",
+      title: "Reads",
       align: "center",
       render: (_, record, index) => (
         <div>{record?.Reads}</div>
@@ -95,7 +95,7 @@ const ComicsManagement = () => {
   return (
     <SpinCustom spinning={loading}>
       <div className="d-flex-sb mb-15">
-        <p className="text-matte fs-20 fw-600">Comics Management</p>
+        <p className="title-type-1">Comics Management</p>
         <ButtonCustom
           className="greendBackground medium"
           onClick={() => {
@@ -113,6 +113,21 @@ const ComicsManagement = () => {
         isPrimary
         columns={column}
         dataSource={comics}
+        pagination={{
+          hideOnSinglePage: total <= 10,
+          current: pagination?.CurrentPage,
+          pageSize: pagination?.PageSize,
+          responsive: true,
+          total: total,
+          locale: { items_per_page: "" },
+          showSizeChanger: total > 10,
+          onChange: (CurrentPage, PageSize) =>
+            setPagination({
+              ...pagination,
+              CurrentPage,
+              PageSize,
+            }),
+        }}
       />
       {
         !!insertUpdateComic &&
@@ -123,7 +138,7 @@ const ComicsManagement = () => {
         />
       }
     </SpinCustom>
-  );
+  )
 }
 
-export default ComicsManagement;
+export default ComicsManagement

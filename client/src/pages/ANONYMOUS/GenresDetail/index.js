@@ -1,7 +1,7 @@
 const GenresDetail = () => {
   return (
     <div>GenresDetail</div>
-  );
+  )
 }
 
-export default GenresDetail;
+export default GenresDetail

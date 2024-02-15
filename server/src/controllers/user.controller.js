@@ -18,6 +18,15 @@ const getDetailProfile = async (req, res) => {
   }
 }
 
+const getDetailAuthour = async (req, res) => {
+  try {
+    const detail = await UserService.fncGetDetailAuthour(req)
+    return res.status(detail.StatusCode).json(detail)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 // Get List Customer
 const getListUser = async (req, res) => {
   try {
@@ -49,7 +58,7 @@ const login = async (req, res) => {
 
 const loginByGoogle = async (req, res) => {
   try {
-    const respone = await UserService.fncLoginByGoole(req)
+    const respone = await UserService.fncLoginByGoogle(req)
     return res.status(respone.StatusCode).json(respone)
   } catch (error) {
     return res.status(500).json(error.toString())
@@ -67,7 +76,7 @@ const register = async (req, res) => {
 
 const registerByGoogle = async (req, res) => {
   try {
-    const respone = await UserService.fncRegisterByGoole(req)
+    const respone = await UserService.fncRegisterByGoogle(req)
     return res.status(respone.StatusCode).json(respone)
   } catch (error) {
     return res.status(500).json(error.toString())
@@ -84,17 +93,28 @@ const updateProfileCustomer = async (req, res) => {
   }
 }
 
+const changePassword = async (req, res) => {
+  try {
+    const respone = await UserService.fncChangePassword(req)
+    return res.status(respone.StatusCode).json(respone)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const UserController = {
   getListAuthour,
   getDetailProfile,
+  getDetailAuthour,
   login,
   loginByGoogle,
   register,
   registerByGoogle,
   getListUser,
   deactiveAccount,
-  updateProfileCustomer
+  updateProfileCustomer,
+  changePassword
 }
 
 export default UserController

@@ -52,6 +52,8 @@ const SignupPage = () => {
     {
       title: 'Form select role',
       content: <FormSelectRole
+        current={current}
+        setCurrent={setCurrent}
         isAgree={isAgree}
         setIsAgree={setIsAgree}
         loading={loading}
@@ -86,7 +88,7 @@ const SignupPage = () => {
         </Row>
       </Form>
     </SignupContainerStyled>
-  );
+  )
 }
 
-export default SignupPage;
+export default SignupPage

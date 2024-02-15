@@ -2,9 +2,20 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const Comments = new Schema({
-  Content: { type: String },
-  Author: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
-  Comic: { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' },
+  Content: {
+    type: String,
+    require: true
+  },
+  Author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users',
+    require: true
+  },
+  Comic: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comics',
+    require: true
+  },
 
 })
 

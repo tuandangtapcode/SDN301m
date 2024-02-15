@@ -3,6 +3,9 @@ import User from "../models/user.js"
 import { accessToken, refreshToken } from "../utils/jwt.js"
 import bcrypt from 'bcrypt'
 const saltRounds = 10
+import cloudinary from 'cloudinary'
+
+const cloudinaryV2 = cloudinary.v2
 
 const checkEmailExist = async (Email) => {
   let check = true
@@ -15,15 +18,10 @@ const checkEmailExist = async (Email) => {
 
 //Authors
 const fncGetListAuthor = async (req) => {
-  const { TextSearch, CurrentPage, PageSize } = req.body
+
   try {
-    // const regex = { $text: { $search: TextSearch } }
-    // const query = { FullName: regex, IsPosted: true }
-    const query = { IsPosted: false, FullName: { $regex: TextSearch, $options: 'i' } }
-    // if (!!TextSearch) {
-    // query.FullName = { $regex: TextSearch, $options: 'i' }
-    // }
-    // console.log(query)
+    const { TextSearch, CurrentPage, PageSize } = req.body
+    const query = { RoleID: 3, FullName: { $regex: TextSearch, $options: 'i' } }
     const skip = (CurrentPage - 1) * PageSize
     const limit = PageSize
     const authors = await User.find(query)
@@ -44,11 +42,14 @@ const fncGetListUser = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
     const regex = new RegExp(TextSearch, "i")
-    const query = { FullName: regex, IsAdmin: false }
-    const skip = (CurrentPage - 1) * PageSize
-    const limit = PageSize
-    const authors = await User.find(query).skip(skip).limit(limit)
-    return response(authors, false, "Lấy ra thành công", 200)
+    const query = { FullName: regex, RoleID: { $ne: 1 } }
+    const users = await User.find(query).skip((CurrentPage - 1) * PageSize).limit(PageSize)
+    return response(
+      { List: users, Total: users.length },
+      false,
+      "Lấy ra thành công",
+      200
+    )
   } catch (error) {
     return response({}, true, error.tostring(), 500)
   }
@@ -56,11 +57,9 @@ const fncGetListUser = async (req) => {
 
 const fnDeactiveAccount = async (req) => {
   try {
-    const { id } = req.params
-    const user = await User.findById(id)
-    user.IsActive = false
-    await user.save()
-    return response({}, false, "Khóa tài khoản thành công", 200)
+    const UserID = req.params.id
+    const user = await User.findByIdAndUpdate({ _id: UserID }, { IsActive: false })
+    return response(user, false, "Khóa tài khoản thành công", 200)
   } catch (error) {
     return response({}, true, error.tostring(), 500)
   }
@@ -68,10 +67,23 @@ const fnDeactiveAccount = async (req) => {
 
 const fncGetDetailProfile = async (req) => {
   try {
-    const UserID = req.params.id
-    const query = { _id: UserID }
-    const detail = await User.findOne(query)
+    const UserID = req.body.UserID
+    const detail = await User.findOne({ _id: UserID })
     return response(detail, false, "Lấy ra thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 200)
+  }
+}
+
+const fncGetDetailAuthour = async (req) => {
+  try {
+    const UserID = req.query.UserID
+    const detail = await User.findOne({ _id: UserID })
+    return response({
+      Description: detail.Description,
+      FullName: detail.FullName,
+      AvatarPath: detail.AvatarPath,
+    }, false, "Lấy ra thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 200)
   }
@@ -84,9 +96,10 @@ const fncLogin = async (req) => {
     if (!getUser) return response({}, true, "Email không tồn tại", 200)
     const check = bcrypt.compareSync(Password, getUser.Password)
     if (!check) return response({}, true, "Mật khẩu không chính xác", 200)
+    if (!getUser.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
     const access_token = accessToken({
       id: getUser._id,
-      IsAdmin: getUser.IsAdmin,
+      RoleID: getUser.RoleID,
     })
     return response(access_token, false, "Login thành công", 200)
   } catch (error) {
@@ -94,11 +107,12 @@ const fncLogin = async (req) => {
   }
 }
 
-const fncLoginByGoole = async (req) => {
+const fncLoginByGoogle = async (req) => {
   try {
     const email = req.body.email
     const getUser = await User.findOne({ Email: email })
     if (!getUser) return response({}, true, 'Email không tồn tại', 200)
+    if (!getUser.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
     const access_token = accessToken({
       id: getUser._id,
       IsAdmin: getUser.IsAdmin,
@@ -113,9 +127,7 @@ const fncRegister = async (req) => {
   try {
     const { Password, Email } = req.body
     const checkExist = await checkEmailExist(Email)
-    if (!checkExist) {
-      return response({}, true, 'Email đã tồn tại', 200)
-    }
+    if (!checkExist) return response({}, true, 'Email đã tồn tại', 200)
     const hashPassword = bcrypt.hashSync(Password, saltRounds)
     const refresh_token = refreshToken()
     const hashUser = {
@@ -130,18 +142,16 @@ const fncRegister = async (req) => {
   }
 }
 
-const fncRegisterByGoole = async (req) => {
+const fncRegisterByGoogle = async (req) => {
   try {
     const { email, given_name, picture, RoleID } = req.body
     const checkExist = await checkEmailExist(email)
-    if (!checkExist) {
-      return response({}, true, 'Email đã tồn tại', 200)
-    }
+    if (!checkExist) return response({}, true, 'Email đã tồn tại', 200)
     const refresh_token = refreshToken()
     const newUser = await User.create({
       Email: email,
       FullName: given_name,
-      Avatar: picture,
+      AvatarPath: picture,
       ResfreshToken: refresh_token,
       RoleID: RoleID
     })
@@ -151,16 +161,34 @@ const fncRegisterByGoole = async (req) => {
   }
 }
 
-// Update name của customer theo customer_id
 const fncUpdateProfileCustomer = async (req) => {
   try {
-    const { id, newName } = req.body
-    const query = { _id: id }
-    const detail = await User.findOne(query)
-    // Update the name
-    detail.FullName = newName
-    await detail.save()
-    return response(detail, false, "Cập nhật tên thành công", 200)
+    const id = req.body.UserID
+    const user = await User.findOne({ _id: id })
+    const updateProfile = await User.findByIdAndUpdate({ _id: id }, {
+      ...req.body,
+      AvatarPath: !!req.file ? req.file.path : user?.AvatarPath,
+      AvatarPathId: !!req.file ? req.file.filename : user?.AvatarPathId,
+    }, { new: true })
+    if (!!req.file && !!user.AvatarPathId) {
+      cloudinaryV2.uploader.destroy(user.AvatarPathId)
+    }
+    return response(updateProfile, false, "Cập nhật tên thành công", 200)
+  } catch (error) {
+    if (!!req.file) cloudinaryV2.uploader.destroy(req.file.filename)
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncChangePassword = async (req) => {
+  try {
+    const { OldPassword, NewPassword, UserID } = req.body
+    const user = await User.findOne({ _id: UserID })
+    const check = bcrypt.compareSync(OldPassword, user.Password)
+    if (!check) return response({}, true, 'Mật khẩu không chính xác', 200)
+    const hashPassword = bcrypt.hashSync(NewPassword, saltRounds)
+    const userUpdate = await User.findByIdAndUpdate({ _id: UserID }, { Password: hashPassword })
+    return response(userUpdate, false, "Mật khẩu được cập nhật thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -170,13 +198,15 @@ const fncUpdateProfileCustomer = async (req) => {
 const UserService = {
   fncGetListAuthor,
   fncGetDetailProfile,
+  fncGetDetailAuthour,
   fncLogin,
-  fncLoginByGoole,
+  fncLoginByGoogle,
   fncRegister,
-  fncRegisterByGoole,
+  fncRegisterByGoogle,
   fncGetListUser,
   fnDeactiveAccount,
-  fncUpdateProfileCustomer
+  fncUpdateProfileCustomer,
+  fncChangePassword
 }
 
 export default UserService

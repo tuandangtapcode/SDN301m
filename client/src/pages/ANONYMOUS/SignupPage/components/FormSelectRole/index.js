@@ -1,7 +1,10 @@
-import { Checkbox, Col, Form, Radio } from "antd";
-import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled";
+import { Button, Checkbox, Col, Form, Radio } from "antd"
+import { AiOutlineLeft } from "react-icons/ai"
+import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 
 const FormSelectRole = ({
+  current,
+  setCurrent,
   handleRegister,
   isAgree,
   setIsAgree,
@@ -10,6 +13,15 @@ const FormSelectRole = ({
 
   return (
     <>
+      <Col>
+        <Button
+          className="d-flex align-items-center icon-back text-gray fs-18 mb-15"
+          onClick={() => setCurrent(current - 1)}
+        >
+          <AiOutlineLeft className="mr-8" />
+          <span>Quay lại</span>
+        </Button>
+      </Col>
       <Col span={24} className="d-flex-sb">
         <Form.Item
           name="RoleID"
@@ -42,7 +54,7 @@ const FormSelectRole = ({
         </ButtomCustomStyled>
       </Col>
     </>
-  );
+  )
 }
 
-export default FormSelectRole;
+export default FormSelectRole

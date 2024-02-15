@@ -1,13 +1,13 @@
 import { useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
-import { Badge, Dropdown } from "antd"
+import { Dropdown } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import globalSlice from "src/redux/globalSlice"
 import { AiFillBell } from "react-icons/ai"
 import { BadgeStyled } from "../styled"
+import LstIcons from "src/components/ListIcons"
 
 const DropdownProfile = () => {
 
@@ -22,31 +22,52 @@ const DropdownProfile = () => {
     navigate('/login')
   }
 
-  const items = [
-    {
-      label: (
-        <Link to={'/profile'}>View Profile</Link>
-      ),
-      key: '1',
-    },
-    {
-      label: (
-        <Link to={'/mycomic'}>My comic</Link>
-      ),
-      key: '2',
-    },
-    {
-      label: (
-        <Link to={'/change-password'}>Change password</Link>
-      ),
-      key: '4',
-    },
-    {
-      label: 'Log out',
-      key: '5',
-      onClick: () => handleLogout()
-    },
-  ]
+  const items = !!global?.user?.Email && !!global?.user?.Password ?
+    [
+      {
+        label: (
+          <Link to={'/profile'}>View Profile</Link>
+        ),
+        key: '1',
+      },
+      {
+        label: (
+          <Link to={'/mycomic'}>My comic</Link>
+        ),
+        key: '2',
+      },
+      {
+        label: (
+          <Link to={'/change-password'}>Change password</Link>
+        ),
+        key: '4',
+      },
+      {
+        label: 'Log out',
+        key: '5',
+        onClick: () => handleLogout()
+      },
+    ]
+    :
+    [
+      {
+        label: (
+          <Link to={'/profile'}>View Profile</Link>
+        ),
+        key: '1',
+      },
+      {
+        label: (
+          <Link to={'/mycomic'}>My comic</Link>
+        ),
+        key: '2',
+      },
+      {
+        label: 'Log out',
+        key: '5',
+        onClick: () => handleLogout()
+      },
+    ]
 
   return (
     <>
@@ -60,19 +81,17 @@ const DropdownProfile = () => {
                 style={{ fontSize: '10px', padding: '0px 1px 4px 0px' }}
               >
                 <ButtonCustom
-                  className="noBackground"
+                  className="noBackground-textwhite"
                   icon={<AiFillBell className="fs-20" style={{ color: 'white' }} />}
                   onClick={() => setArrowDropdownProfile(false)}
                 />
               </BadgeStyled>
             </Dropdown>
 
-            <Dropdown menu={{ items }} open={arrowDropdownProfile}>
+            <Dropdown menu={{ items }} trigger={["click"]}>
               <ButtonCustom
-                className=" noBackground"
-                icon={arrowDropdownProfile ? <CaretUpOutlined /> : <CaretDownOutlined />}
-                onMouseOver={() => setArrowDropdownProfile(true)}
-                onMouseOut={() => setArrowDropdownProfile(false)}
+                className=" noBackground-textwhite"
+                icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
               >
                 My Profile
               </ButtonCustom>
@@ -81,13 +100,13 @@ const DropdownProfile = () => {
           :
           <div>
             <ButtonCustom
-              className="noBackground fs-17 fw-600"
+              className="noBackground-textwhite fs-17 fw-600"
               onClick={() => navigate('/login')}
             >
               Login
             </ButtonCustom>
             <ButtonCustom
-              className="noBackground fs-17 fw-600"
+              className="noBackground-textwhite fs-17 fw-600"
               onClick={() => navigate('/signup')}
             >
               Sign up
@@ -95,7 +114,7 @@ const DropdownProfile = () => {
           </div>
       }
     </>
-  );
+  )
 }
 
-export default DropdownProfile;
+export default DropdownProfile

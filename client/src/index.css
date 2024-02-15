@@ -30,6 +30,14 @@ a {
   color: #17a288;
 }
 
+.active-green {
+  color: rgb(9, 216, 9);
+}
+
+.text-red {
+  color: red;
+}
+
 .text-matte {
   color: #db6784;
 }

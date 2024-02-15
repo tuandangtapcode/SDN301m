@@ -18,6 +18,15 @@ const getDetailProfile = async (req, res) => {
   }
 }
 
+const getDetailAuthour = async (req, res) => {
+  try {
+    const detail = await UserService.fncGetDetailAuthour(req)
+    return res.status(detail.StatusCode).json(detail)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 // Get List Customer
 const getListUser = async (req, res) => {
   try {
@@ -97,6 +106,7 @@ const changePassword = async (req, res) => {
 const UserController = {
   getListAuthour,
   getDetailProfile,
+  getDetailAuthour,
   login,
   loginByGoogle,
   register,

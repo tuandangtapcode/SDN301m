@@ -94,7 +94,7 @@ const ComicsManagement = () => {
 
   return (
     <SpinCustom spinning={loading}>
-      <div className="d-flex-sb mb-15">
+      <div className="d-flex-sb mt-25 mb-25">
         <p className="text-matte fs-25 fw-600">Comics Management</p>
         <ButtonCustom
           className="greendBackground medium"

@@ -169,7 +169,7 @@ const UsersManagement = () => {
 
   return (
     <SpinCustom spinning={loading}>
-      <p className="text-center text-matte fs-25 fw-600 mt-30 mb-30">Users Management</p>
+      <p className="text-center text-matte fs-25 fw-600 mt-25 mb-25">Users Management</p>
       <TableCustom
         isPrimary
         columns={column}

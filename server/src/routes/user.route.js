@@ -33,7 +33,7 @@ router.post("/login",
 router.post("/register",
   UserController.register
 )
-router.get("/getListUser",
+router.post("/getListUser",
   // authMiddleware([Roles.ROLE_ADMIN]),
   UserController.getListUser
 )

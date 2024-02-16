@@ -13,6 +13,11 @@ export const HeaderStyled = styled.div`
   max-width: 70%;
   margin: auto;
 `
+export const ImageStyled = styled.img`
+width: 50px;
+height: 50px;
+border-radius: 50%;
+`
 
 export const InputHeaderStyled = styled(Input)`
 background-color: white;

@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { ImageStyled, UserProfileStyled } from "./styled"
-import { AiFillEdit } from "react-icons/ai"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { useState } from "react"
 import UpdateProfile from "./components/UpdateProfile"

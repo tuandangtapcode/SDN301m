@@ -8,6 +8,7 @@ import TableCustom from "src/components/TableCustom"
 import GenreService from "src/services/GenreService"
 import InsertUpdateGenre from "./components/InsertUpdateGenre"
 import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
+import InputCustom from "src/components/FloatInput/InputCustom"
 
 const GenresManagement = () => {
 
@@ -123,6 +124,13 @@ const GenresManagement = () => {
         >
           Create new genre
         </ButtonCustom>
+      </div>
+      <div className="mb-15">
+        <InputCustom
+          search
+          label="Enter name genre"
+          onSearch={e => setPagination({ ...pagination, TextSearch: e })}
+        />
       </div>
       <TableCustom
         isPrimary

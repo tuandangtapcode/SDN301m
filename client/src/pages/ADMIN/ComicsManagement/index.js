@@ -9,6 +9,12 @@ import { toast } from "react-toastify"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import moment from "moment"
+import LstIcons from "src/components/ListIcons"
+import ConfirmModal from "src/components/ModalCustom/ConfirmModal"
+import { Space } from "antd"
+import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
+import NotificaitonService from "src/services/NotificationService"
+import socket from "src/utils/socket"
 
 const ComicsManagement = () => {
 
@@ -39,10 +45,91 @@ const ComicsManagement = () => {
     getListComics()
   }, [pagination])
 
+  const handleChangeStatusComic = async (record, Status) => {
+    try {
+      setLoading(true)
+      const res = await ComicService.changeStatusComic({ ComicID: record?._id, Status })
+      if (res?.isError) return toast.error(res?.msg)
+      const body = {
+        Content: Status ? `${global?.user?.FullName} đã phê duyệt truyện của bạn` : `Truyện của bạn đã bị khóa vì những vi phạm cộng đồng. Nếu việc này tiếp diễn tài khoản của bạn sẽ bị cấm vĩnh viễn`,
+        Sender: global?.user?._id,
+        Receiver: record?.Author?._id
+      }
+      const resNoti = await NotificaitonService.createNotification(body)
+      if (resNoti?.isError) return
+      socket.emit('send-notification', { Content: body.Content, Receiver: body.Receiver, IsSeen: Status, CreatedAt: Date.now() })
+      getListComics()
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const lstBtn = (record) => (
+    [
+      {
+        name: 'Confirm',
+        disabled: record?.Status ? true : false,
+        icon: LstIcons.ICON_CONFIRM,
+        onClick: () => {
+          ConfirmModal({
+            record,
+            title: `Do you want to post this comic?`,
+            okText: "Yes",
+            cancelText: "No",
+            onOk: async close => {
+              handleChangeStatusComic(record, true)
+              close()
+            },
+          })
+        }
+      },
+      {
+        name: 'Report',
+        disabled: record?.Status ? false : true,
+        icon: LstIcons.ICON_CLOSE_RED,
+        onClick: () => {
+          ConfirmModal({
+            record,
+            title: `Do you want to un post this comic?`,
+            okText: "Yes",
+            cancelText: "No",
+            onOk: async close => {
+              handleChangeStatusComic(record, false)
+              close()
+            },
+          })
+        }
+      },
+      {
+        name: 'Edit',
+        disabled: record?.Author?._id === global?.user?._id ? false : true,
+        icon: LstIcons.ICON_EDIt,
+        // onClick: () => setInsertUpdateGenre(record)
+      },
+      {
+        name: 'Delete',
+        icon: LstIcons.ICON_DELETE,
+        onClick: () => {
+          ConfirmModal({
+            record,
+            title: `Do you want to delete this comic?`,
+            okText: "Yes",
+            cancelText: "No",
+            onOk: async close => {
+              // handleDeleteGenre(record?._id)
+              close()
+            },
+          })
+        }
+      }
+    ]
+  )
+
   const column = [
     {
       title: "STT",
       align: "center",
+      width: 60,
       render: (_, record, index) => (
         <div>{index + 1}</div>
       ),
@@ -56,6 +143,7 @@ const ComicsManagement = () => {
     {
       title: "Genres",
       align: "center",
+      width: 170,
       render: (_, record, index) => (
         record?.Genres?.map(i =>
           <p>{i?.Title}</p>
@@ -72,6 +160,7 @@ const ComicsManagement = () => {
     {
       title: "Updated date",
       align: "center",
+      width: 100,
       render: (_, record, index) => (
         <div>{moment(record?.CreatedAt).format("DD/MM/YYYY")}</div>
       ),
@@ -79,6 +168,7 @@ const ComicsManagement = () => {
     {
       title: "Likes",
       align: "center",
+      width: 80,
       render: (_, record, index) => (
         <div>{record?.Likes}</div>
       ),
@@ -86,8 +176,40 @@ const ComicsManagement = () => {
     {
       title: "Reads",
       align: "center",
+      width: 80,
       render: (_, record, index) => (
         <div>{record?.Reads}</div>
+      ),
+    },
+    {
+      title: "Status",
+      align: "center",
+      render: (_, record, index) => (
+        <>
+          {
+            record?.Status
+              ? <div className="active-green">Posted</div>
+              : <div className="text-red">Not posted yet</div>
+          }
+        </>
+      ),
+    },
+    {
+      title: "Action",
+      align: "center",
+      width: 170,
+      render: (_, record) => (
+        <Space>
+          {lstBtn(record).map(i =>
+            <ButtonCircle
+              className="normal"
+              disabled={i?.disabled}
+              title={i?.name}
+              icon={i?.icon}
+              onClick={i?.onClick}
+            />
+          )}
+        </Space>
       ),
     },
   ]

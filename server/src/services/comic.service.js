@@ -1,7 +1,6 @@
 import Comic from '../models/comic.js'
 import response from '../utils/response-result.js'
 import cloudinary from 'cloudinary'
-import User from '../models/user.js'
 
 const cloudinaryV2 = cloudinary.v2
 
@@ -55,8 +54,6 @@ const fncGetAllComicsByAuthor = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize, UserID, IsPrivated } = req.body
     let data, query
-    const user = await User.findOne({ _id: UserID })
-    if (!user) return response({}, true, "User không tồn tại", 200)
     if (!IsPrivated) {
       query = {
         Title: { $regex: TextSearch, $options: 'i' },
@@ -106,7 +103,7 @@ const fncUpdateComic = async (req) => {
       cloudinaryV2.uploader.destroy(req.file.filename)
       return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)
     }
-    const updateComic = await Comic.updateOne({ _id: id }, {
+    const updateComic = await Comic.updateOne({ _id: ComicID }, {
       ...req.body,
       AvatarPath: !!req.file ? req.file.path : checkExistTitle?.AvatarPath,
       AvatarPathId: !!req.file ? req.file.filename : checkExistTitle?.AvatarPathId,
@@ -141,6 +138,17 @@ const fncGetDetailComic = async (req) => {
   }
 }
 
+const fncChangeStatusComic = async (req) => {
+  try {
+    const { ComicID, Status } = req.body
+    const updateComic = await Comic.findByIdAndUpdate({ _id: ComicID }, { Status: Status })
+    if (!updateComic) return response({}, true, 'Truyện không tồn tại', 200)
+    return response({}, false, 'Cập nhật thành công', 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const ComicService = {
   fncGetAllComics,
@@ -150,7 +158,8 @@ const ComicService = {
   fncUpdateComic,
   fncGetAllComicsByGenres,
   fncGetDetailComic,
-  fncGetAllComicsByAuthor
+  fncGetAllComicsByAuthor,
+  fncChangeStatusComic
 }
 
 export default ComicService

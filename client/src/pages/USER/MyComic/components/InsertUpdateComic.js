@@ -31,12 +31,14 @@ const InsertUpdateComic = ({
   }
 
 
-  const handleBeforeUpload = async (file) => {
+  const handleBeforeUpload = async (file, type) => {
     const isAllowedType = file.type.includes("image")
     if (!isAllowedType) {
       message.error("Yêu cầu chọn file tài liệu (doc, docx, pdf, xls, xlsx)")
     } else {
-      setPreview(URL.createObjectURL(file))
+      if (type === 'Avatar') {
+        setPreview(URL.createObjectURL(file))
+      }
     }
     return isAllowedType ? false : Upload.LIST_IGNORE
   }
@@ -65,6 +67,7 @@ const InsertUpdateComic = ({
           })
         })
       })
+      toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
       onOk()
       onCancel()
     } finally {
@@ -87,7 +90,7 @@ const InsertUpdateComic = ({
             ...lstChapters,
             {
               ChapterID: lstChapters.length + 1,
-              Name: `Chapter ${lstChapters.length + 1}`
+              Name: `Chapter ${lstChapters.length + 1}`,
             }
           ])}
         >
@@ -126,7 +129,7 @@ const InsertUpdateComic = ({
               ]}
             >
               <Upload.Dragger
-                beforeUpload={file => handleBeforeUpload(file)}
+                beforeUpload={file => handleBeforeUpload(file, 'Avatar')}
                 style={{ width: '100%', height: '200px' }}
                 accept="image/*"
                 multiple={false}
@@ -196,10 +199,11 @@ const InsertUpdateComic = ({
                       ]}
                     >
                       <Upload.Dragger
-                        beforeUpload={file => handleBeforeUpload(file)}
+                        beforeUpload={file => handleBeforeUpload(file, 'image')}
                         accept="image/*"
                         className="pointer"
                         multiple="true"
+                        previewFile={false}
                         onRemove={file => {
                           if (!!file?.ObjectFileID) {
                             setDeleteDocs([...deleteDocs, file])

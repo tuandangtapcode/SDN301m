@@ -42,6 +42,10 @@ a {
   color: #db6784;
 }
 
+.text-black {
+  color: black;
+}
+
 .text-gray {
   color: #aaa;
 }

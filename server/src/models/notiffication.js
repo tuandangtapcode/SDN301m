@@ -6,12 +6,24 @@ const Notificaitons = new Schema({
     type: String,
     require: true
   },
-  Author: {
+  Sender: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users',
     require: true
   },
-
+  Receiver: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users',
+    require: true
+  },
+  IsSeen: {
+    type: Boolean,
+    default: false
+  },
+  CreatedAt: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 const NotificaitonsModel = mongoose.model('Notificaitons', Notificaitons)

@@ -34,7 +34,7 @@ const fncGetListAuthor = async (req) => {
       200
     )
   } catch (error) {
-    return response({}, true, error.tostring(), 500)
+    return response({}, true, error.toString(), 500)
   }
 }
 
@@ -52,7 +52,7 @@ const fncGetListUser = async (req) => {
       200
     )
   } catch (error) {
-    return response({}, true, error.tostring(), 500)
+    return response({}, true, error.toString(), 500)
   }
 }
 
@@ -63,14 +63,14 @@ const fnDeactiveAccount = async (req) => {
     if (!user) return response({}, true, "Không tồn tại user", 200)
     return response(user, false, "Khóa tài khoản thành công", 200)
   } catch (error) {
-    return response({}, true, error.tostring(), 500)
+    return response({}, true, error.toString(), 500)
   }
 }
 
 const fncGetDetailProfile = async (req) => {
   try {
     const UserID = req.params.UserID
-    const detail = await User.findOne({ _id: UserID }).select('Description FullName AvatarPath _id RoleID')
+    const detail = await User.findOne({ _id: UserID })
     if (!detail) return response({}, true, "Không tồn tại user", 200)
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {

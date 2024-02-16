@@ -37,6 +37,10 @@ io.on("connection", (socket) => {
     io.sockets.emit('get-deactive', data)
   })
 
+  socket.on('send-notification', (data) => {
+    io.sockets.emit('get-notification', data)
+  })
+
   // socket.on
 
   socket.on('disconnect', () => {

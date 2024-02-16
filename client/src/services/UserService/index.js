@@ -40,7 +40,7 @@ const changePassword = body => http.post(apiChangePassword, body, {
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
-const getListUser = () => http.get(apiGetListUser, {
+const getListUser = body => http.post(apiGetListUser, body, {
   headers: {
     'token': `Bearer ${localStorage.getItem('token')}`
   }

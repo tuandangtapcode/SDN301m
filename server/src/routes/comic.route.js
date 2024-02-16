@@ -35,5 +35,9 @@ router.post('/getAllComicsByGenre',
 router.post('/getAllComicsByAuthor',
   ComicController.getAllComicsByAuthor
 )
+router.post('/changeStatusComic',
+  // authMiddleware([Roles.ROLE_ADMIN]),
+  ComicController.changeStatusComic
+)
 
 export default router

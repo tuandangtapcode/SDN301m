@@ -8,4 +8,7 @@ router.post('/insertImage',
   ImageController.insertImage
 )
 
+router.post('/getChapter',
+  ImageController.getImageByChapter
+)
 export default router

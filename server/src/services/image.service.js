@@ -33,10 +33,29 @@ const fncUpdateImage = async (req) => {
   }
 }
 
+const fncGetAllImagesByChapter = async (req) =>{
+  try {
+    const {ComicID, Chapter} = req.body
+    const image = await Image.find({
+      Comic: { $elemMatch: ComicID },
+      Chapter: { $elemMatch: Chapter}
+    })
+    .populate('Comic', ['Title'])
+    return response(
+      { List: image, Total: image.length },
+      false,
+      'Lấy data thành công',
+      200
+    )
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
 
 const ImageService = {
   fncInsertImage,
-  fncUpdateImage
+  fncUpdateImage,
+  fncGetAllImagesByChapter,
 }
 
 export default ImageService

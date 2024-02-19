@@ -1,14 +1,13 @@
-import HeaderAdmin from "src/components/Header/HeaderAdmin"
 import { menuItem } from "./MenuItem"
 import { useLocation, useNavigate } from "react-router-dom"
-import { LayoutAdminStyled, MenuAdminStyled } from "./styled"
-import { Col, List, Menu, Row } from "antd"
+import { LayoutAdminStyled } from "./styled"
+import { Col, Menu, Row } from "antd"
 import { useDispatch } from "react-redux"
 import globalSlice from "src/redux/globalSlice"
-import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
 import { useState } from "react"
 import LstIcons from "src/components/ListIcons"
-import ButtonCustom from "src/components/ButtonCustom/MyButton"
+import socket from "src/utils/socket"
+import MainHeader from "src/components/Header"
 
 const LayoutAdmin = ({ children }) => {
 
@@ -20,6 +19,7 @@ const LayoutAdmin = ({ children }) => {
   const handleLogout = () => {
     localStorage.removeItem('token')
     dispatch(globalSlice.actions.setUser({}))
+    socket.disconnect()
     navigate('/login')
   }
 
@@ -33,7 +33,7 @@ const LayoutAdmin = ({ children }) => {
 
   return (
     <LayoutAdminStyled>
-      <HeaderAdmin />
+      <MainHeader />
       <Row style={{ flex: 1 }}>
         <Col span={collapsed ? 2 : 4}>
           <div

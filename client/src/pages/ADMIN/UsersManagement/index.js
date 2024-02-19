@@ -25,7 +25,7 @@ const UsersManagement = () => {
   const getUsers = async () => {
     try {
       setLoading(true)
-      const res = await UserService.getListUser()
+      const res = await UserService.getListUser(pagination)
       if (res?.isError) return
       setUsers(res?.data?.List)
       setTotal(res?.data?.Total)
@@ -73,6 +73,7 @@ const UsersManagement = () => {
     [
       {
         name: 'Ban',
+        disabled: record?.IsActive ? false : true,
         icon: LstIcons.ICON_BLOCK,
         onClick: () => {
           ConfirmModal({
@@ -89,6 +90,7 @@ const UsersManagement = () => {
       },
       {
         name: 'Unban',
+        disabled: record?.IsActive ? true : false,
         icon: LstIcons.ICON_UNBLOCK,
         onClick: () => {
           ConfirmModal({
@@ -156,6 +158,7 @@ const UsersManagement = () => {
         <Space>
           {lstBtn(record).map(i =>
             <ButtonCircle
+              disabled={i?.disabled}
               className="normal"
               title={i?.name}
               icon={i?.icon}

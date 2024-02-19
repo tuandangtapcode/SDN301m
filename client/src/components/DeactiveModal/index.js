@@ -3,6 +3,7 @@ import ModalCustom from "../ModalCustom"
 import { useNavigate } from "react-router-dom"
 import globalSlice from "src/redux/globalSlice"
 import { Button } from "antd"
+import socket from "src/utils/socket"
 
 const DeactiveModal = ({ open, onCancel }) => {
 
@@ -12,6 +13,7 @@ const DeactiveModal = ({ open, onCancel }) => {
   const handleLogout = () => {
     localStorage.removeItem('token')
     dispatch(globalSlice.actions.setUser({}))
+    socket.disconnect()
     onCancel()
     navigate('/')
   }

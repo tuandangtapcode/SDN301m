@@ -13,6 +13,7 @@ import globalSlice from "src/redux/globalSlice"
 import { useNavigate } from "react-router-dom"
 import { getRegexEmail } from "src/lib/stringUtils"
 import { globalSelector } from "src/redux/selector"
+import socket from "src/utils/socket"
 
 
 const LoginPage = () => {
@@ -61,6 +62,7 @@ const LoginPage = () => {
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
       localStorage.setItem('token', token)
+      socket.connect()
       if (res?.data?.RoleID === 1) navigate('/dashboard')
       else navigate('/')
     } finally {

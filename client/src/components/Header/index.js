@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import DropdownProfile from "../components/DropdownProfile"
-import PopoverMain from "../components/PopoverMain"
-import { HeaderContainerStyled, HeaderStyled, InputHeaderStyled } from "../styled"
-import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
+import DropdownProfile from "./components/DropdownProfile"
+import PopoverMain from "./components/PopoverMain"
+import { HeaderContainerStyled, HeaderStyled, InputHeaderStyled } from "./styled"
 import LstIcons from "src/components/ListIcons"
 
 const MainHeader = () => {

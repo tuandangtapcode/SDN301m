@@ -23,11 +23,6 @@ export const menuItem = () => {
       key: '/dashboard/comics',
     },
     {
-      icon: LstIcons.ICON_CONFIRM,
-      label: "Confirm comic",
-      key: '/dashboard/confirm-comic',
-    },
-    {
       icon: LstIcons.ICON_REPORT,
       label: "Report",
       key: '/dashboard/report',

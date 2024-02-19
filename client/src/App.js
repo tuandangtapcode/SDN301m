@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useRoutes } from "react-router-dom"
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from "react-redux"
 import globalSlice from "src/redux/globalSlice"
 import { jwtDecode } from "jwt-decode"
@@ -38,7 +38,6 @@ const Dashboard = React.lazy(() => import('src/pages/ADMIN/Dashboard'))
 const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManagement'))
 const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
-const ConfirmComic = React.lazy(() => import('src/pages/ADMIN/ConfirmComic'))
 const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
 
 
@@ -128,14 +127,6 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <UsersManagement />
-          </LazyLoadingComponent>
-        )
-      },
-      {
-        path: '/dashboard/confirm-comic',
-        element: (
-          <LazyLoadingComponent>
-            <ConfirmComic />
           </LazyLoadingComponent>
         )
       },
@@ -258,6 +249,7 @@ const App = () => {
         localStorage.removeItem('token')
         return
       }
+      socket.connect()
       dispatch(globalSlice.actions.setUser(res?.data))
     } finally {
       setLoading(false)

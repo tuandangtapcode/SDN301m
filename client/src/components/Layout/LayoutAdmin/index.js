@@ -35,7 +35,7 @@ const LayoutAdmin = ({ children }) => {
     <LayoutAdminStyled>
       <MainHeader />
       <Row style={{ flex: 1 }}>
-        <Col span={4}>
+        <Col span={collapsed ? 2 : 4}>
           <div
             className="menu-container"
             style={{
@@ -56,11 +56,11 @@ const LayoutAdmin = ({ children }) => {
               <div className="mr-8">
                 {collapsed ? LstIcons.ICON_MENUUNFOLD : LstIcons.ICON_MENUFOLD}
               </div>
-              <p style={{ display: collapsed ? "none" : "block" }}>Collapsed</p>
+              {/* <p style={{ display: collapsed ? "none" : "block" }}>Collapsed</p> */}
             </div>
           </div>
         </Col>
-        <Col span={20}>
+        <Col span={collapsed ? 22 : 20}>
           <div className="content-container">
             {children}
           </div>

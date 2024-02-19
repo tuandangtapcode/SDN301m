@@ -7,7 +7,7 @@ import { TbLock, TbLockOpen, TbCategoryFilled } from "react-icons/tb"
 import { AiOutlineBarChart } from "react-icons/ai"
 import { FaUsers, FaBookReader } from "react-icons/fa"
 import { BiLogIn } from "react-icons/bi"
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
+import { MenuFoldOutlined, MenuUnfoldOutlined, ExceptionOutlined } from "@ant-design/icons"
 import { CgSandClock } from "react-icons/cg"
 
 const LstIcons = {
@@ -29,6 +29,7 @@ const LstIcons = {
   ICON_LOGOUT: <BiLogIn className="fs-20" />,
   ICON_MENUFOLD: <MenuFoldOutlined />,
   ICON_MENUUNFOLD: <MenuUnfoldOutlined />,
+  ICON_REPORT: <ExceptionOutlined />,
   ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />
 }
 

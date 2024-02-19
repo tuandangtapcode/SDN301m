@@ -7,7 +7,7 @@ import { TbLock, TbLockOpen, TbCategoryFilled } from "react-icons/tb"
 import { AiOutlineBarChart } from "react-icons/ai"
 import { FaUsers, FaBookReader } from "react-icons/fa"
 import { BiLogIn } from "react-icons/bi"
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
+import { MenuFoldOutlined, MenuUnfoldOutlined, ExceptionOutlined } from "@ant-design/icons"
 
 const LstIcons = {
   ICON_EDIt: <AiFillEdit className="text-green fs-18" />,
@@ -26,7 +26,8 @@ const LstIcons = {
   ICON_CONFIRM: <AiFillCheckCircle className="fs-18" />,
   ICON_LOGOUT: <BiLogIn className="fs-20" />,
   ICON_MENUFOLD: <MenuFoldOutlined />,
-  ICON_MENUUNFOLD: <MenuUnfoldOutlined />
+  ICON_MENUUNFOLD: <MenuUnfoldOutlined />,
+  ICON_REPORT: <ExceptionOutlined />,
 }
 
 export default LstIcons

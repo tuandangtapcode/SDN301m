@@ -39,6 +39,7 @@ const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManageme
 const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
 const ConfirmComic = React.lazy(() => import('src/pages/ADMIN/ConfirmComic'))
+const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
 
 
 function LazyLoadingComponent({ children }) {
@@ -135,6 +136,14 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <ConfirmComic />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/report',
+        element: (
+          <LazyLoadingComponent>
+            <Report />
           </LazyLoadingComponent>
         )
       },

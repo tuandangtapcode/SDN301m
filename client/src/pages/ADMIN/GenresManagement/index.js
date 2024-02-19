@@ -91,7 +91,7 @@ const GenresManagement = () => {
     },
     {
       title: "Decription",
-      align: "center",
+      // align: "center",
       dataIndex: "ShortDecription",
       key: "ShortDecription",
     },

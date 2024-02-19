@@ -28,6 +28,11 @@ export const menuItem = () => {
       key: '/dashboard/confirm-comic',
     },
     {
+      icon: LstIcons.ICON_REPORT,
+      label: "Report",
+      key: '/dashboard/report',
+    },
+    {
       icon: <div style={{ marginLeft: '-5px' }}>{LstIcons.ICON_LOGOUT}</div>,
       label: "Log out",
       key: 'logout',

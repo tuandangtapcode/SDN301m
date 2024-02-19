@@ -33,30 +33,6 @@ const Authors = () => {
     getList()
   }, [pagination])
 
-  const columns = [
-    {
-      title: "#",
-      width: 50,
-      align: "center",
-      render: (_, record, index) => (
-        <div className="text-center">{index + 1}</div>
-      ),
-    },
-    {
-      title: "Author",
-      width: 500,
-      dataIndex: "FullName",
-      key: "FullName",
-      align: "center",
-      render: (_, record) => (
-        <span
-          onClick={() => navigate(`/authors/${record?._id}`)}
-        >
-          {record?.FullName}
-        </span>
-      )
-    },
-  ]
 
   return (
     <SpinCustom spinning={loading}>

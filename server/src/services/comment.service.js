@@ -1,5 +1,10 @@
+import Comments from '../models/comment.js'
+import response from '../utils/response-result.js'
+import cloudinary from 'cloudinary'
 
-// const fncAbc
+const fncAddCommentForEachChapter = async(req) => {
+  
+}
 
 const CommentService = {
 

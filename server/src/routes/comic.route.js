@@ -40,4 +40,20 @@ router.post('/changeStatusComic',
   ComicController.changeStatusComic
 )
 
+router.post('/followComic',
+  ComicController.followComic
+)
+
+router.post('/unfollowComic',
+  ComicController.unfollowComic
+)
+
+router.post('/getAllComicFollowed',
+  ComicController.getAllComicsFollow
+)
+
+router.get('/likeComic/:ComicID',
+  ComicController.likeComic
+)
+
 export default router

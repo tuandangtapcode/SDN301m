@@ -40,7 +40,7 @@ const Users = new Schema({
   },
   Follows: {
     type: [
-      { ComicID: { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' } }
+      { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' }
     ],
     default: []
   },

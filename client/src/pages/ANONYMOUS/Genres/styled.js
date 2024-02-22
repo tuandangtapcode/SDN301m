@@ -21,7 +21,6 @@ border: 1px solid #ddd;
   color: #db6784;
 }
 `
-
 export const RowStyled = styled.div`
 padding: 12px 8px;
 border-bottom: 1px solid #ddd;
@@ -29,4 +28,10 @@ cursor: pointer;
 &:hover {
   color: #db6784;
 }
+`
+
+export const DivBorder = styled.div`
+padding: 12px 8px;
+border: 1px solid #ddd;
+margin-bottom: 30px;
 `

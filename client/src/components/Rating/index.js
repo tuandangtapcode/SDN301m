@@ -41,7 +41,6 @@ const Rating = () => {
               onChange={(key) => {
                 setActiveKey(key);
               }}
-              type="card"
             />
           </PageStyles>
         </Col>

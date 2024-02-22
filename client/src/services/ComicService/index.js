@@ -16,7 +16,7 @@ const insertComic = body => http.post(apiInsertComic, body, {
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
-const udpateComic = body => http.post(apiUpdateComic, body, {
+const udpateComic = body => http.put(apiUpdateComic, body, {
   headers: {
     'Content-Type': 'multipart/form-data',
     'token': `Bearer ${localStorage.getItem('token')}`

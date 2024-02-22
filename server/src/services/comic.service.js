@@ -112,20 +112,21 @@ const fncInsertComic = async (req) => {
 
 const fncUpdateComic = async (req) => {
   try {
-    const { ComicID, UserID, Title } = req.body
-    const checkExist = await Comic.findOne({ _id: ComicID, Author: UserID })
+    const { ComicID, Author, Title } = req.body
+    const checkExist = await Comic.findOne({ _id: ComicID, Author: Author })
     if (!checkExist) return response(checkExist, true, 'Truyện không tồn tại', 200)
     const checkExistTitle = await Comic.findOne({ Title })
-    if (!!checkExistTitle && checkExist._id !== checkExistTitle._id) {
-      cloudinaryV2.uploader.destroy(req.file.filename)
+    if (!!checkExistTitle && !checkExist._id.equals(checkExistTitle._id)) {
+      if (!!req.file) cloudinaryV2.uploader.destroy(req.file.filename)
       return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)
     }
-    const updateComic = await Comic.updateOne({ _id: ComicID }, {
+    const updateComic = await Comic.findByIdAndUpdate({ _id: ComicID, Author: Author }, {
       ...req.body,
       AvatarPath: !!req.file ? req.file.path : checkExistTitle?.AvatarPath,
       AvatarPathId: !!req.file ? req.file.filename : checkExistTitle?.AvatarPathId,
+      CreatedAt: Date.now()
     })
-    return response(updateComic, false, "Cập nhật thành công thành công", 200)
+    return response(updateComic?._id, false, "Cập nhật thành công thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }

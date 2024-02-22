@@ -157,11 +157,14 @@ const DropdownProfile = () => {
       {
         !!global?.user?._id ?
           <div className="d-flex-sb">
-            <ButtonCustom
-              className=" noBackground-textwhite fw-600 medium fs-18"
-            >
-              Premium
-            </ButtonCustom>
+            {
+              global?.user?.RoleID === 5 &&
+              <ButtonCustom
+                className=" noBackground-textwhite fw-600 medium fs-18"
+              >
+                Premium
+              </ButtonCustom>
+            }
             {
               global?.user?.RoleID === 1 ?
                 <ButtonCustom className="noBackground-textwhite">

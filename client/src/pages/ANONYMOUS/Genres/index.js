@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import ComicItemList from "src/components/ComicItemList"
 import SpinCustom from "src/components/SpinCustom"
 import ComicService from "src/services/ComicService"
-import { GenresStyled, RowStyled } from "./styled"
+import { DivBorder, GenresStyled, RowStyled } from "./styled"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { useNavigate, useParams } from "react-router-dom"
@@ -47,16 +47,16 @@ const Genres = () => {
 
   return (
     <SpinCustom spinning={loading}>
-      <Row className="mt-50">
+      <Row className="mt-50 mb-30" gutter={[16, 0]}>
         <Col span={16}>
           {
             !!GenresID &&
             <Col span={24}>
-              <div className="text-center">
-                <span>Truyện thể loại</span>
-                <span>{genresDetail?.Title}</span>
+              <div className="text-center mb-15">
+                <span className="fs-20">Truyện thể loại</span>
+                <span className="fs-20 fw-600 ml-8">{genresDetail?.Title}</span>
               </div>
-              <div className="text-center">{genresDetail?.ShortDecription}</div>
+              <DivBorder className="text-center">{genresDetail?.ShortDecription}</DivBorder>
             </Col>
           }
           <Row gutter={[16, 0]}>

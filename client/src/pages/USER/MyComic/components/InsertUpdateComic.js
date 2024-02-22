@@ -62,38 +62,48 @@ const InsertUpdateComic = ({
     setLstChapters([...newData, newChapter])
   }
 
-
+  console.log(open);
   const handleInsertUpdateComic = async () => {
     try {
       setLoading(true)
       const values = await form.validateFields()
-      // const resComic = await ComicService.insertComic({
-      //   Title: values?.Title,
-      //   ShortDecription: values?.ShortDecription,
-      //   Genres: values?.Genres,
-      //   Avatar: values?.image?.file,
-      //   Author: global?.user?._id,
-      //   Chapters: lstChapters,
-      //   Status: false
-      // })
-      // if (resComic?.isError) return toast.error(resComic.msg)
+      const body = {
+        Title: values?.Title,
+        ShortDecription: values?.ShortDecription,
+        Genres: values?.Genres,
+        Avatar: values?.image?.file,
+        Author: global?.user?._id,
+        Chapters: !!lstChapters.length
+          ? lstChapters?.map(i => ({
+            ChapterID: i?.ChapterID,
+            Name: i?.Name
+          }))
+          : [],
+        Status: false
+      }
+      const resComic = !!open?.Comic?._id
+        ? await ComicService.udpateComic({ ...body, ComicID: open?.Comic?._id, Status: true })
+        : await ComicService.insertComic(body)
+      if (resComic?.isError) return toast.error(resComic.msg)
       let insertImages = []
       lstChapters.forEach(chapter => {
         console.log(values[chapter?.Name]);
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
-          // const promiseInsertImage = ImageService.insertImage({
-          //   Chapter: chapter?.ChapterID,
-          //   Image: i?.originFileObj,
-          //   Comic: resComic?.data,
-          //   SortOrder: index + 1
-          // })
-          // insertImages.push(promiseInsertImage)
+          if (!!i?.originFileObj) {
+            const promiseInsertImage = ImageService.insertImage({
+              Chapter: chapter?.ChapterID,
+              Image: i?.originFileObj,
+              Comic: resComic?.data,
+              SortOrder: index + 1
+            })
+            insertImages.push(promiseInsertImage)
+          }
         })
       })
-      // await Promise.all(insertImages)
-      // toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
-      // onOk()
-      // onCancel()
+      await Promise.all(insertImages)
+      toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
+      onOk()
+      onCancel()
     } finally {
       setLoading(false)
     }
@@ -253,7 +263,7 @@ const InsertUpdateComic = ({
                         multiple="true"
                         onRemove={file => {
                           console.log(file);
-                          if (!!file?.ObjectFileID) {
+                          if (!!file?._id) {
                             setDeleteDocs([...deleteDocs, file])
                           }
                         }}

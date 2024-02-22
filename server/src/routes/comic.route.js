@@ -24,7 +24,7 @@ router.post('/deleteComic',
 )
 //Chưa test
 router.put('/updateComic',
-  // upload('Avatar').single('Avatar'),
+  upload('Avatar').single('Avatar'),
   // authMiddleware([Roles.ROLE_ADMIN, Roles.ROLE_AUTHOR]),
   ComicController.updateComic
 )

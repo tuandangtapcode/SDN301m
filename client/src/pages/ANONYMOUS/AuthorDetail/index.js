@@ -1,13 +1,14 @@
 import { Col, Row } from "antd"
 import Content from "./component/Content"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Rating from "src/components/Rating"
 import SpinCustom from "src/components/SpinCustom"
 import ComicService from "src/services/ComicService"
 
 const AuthorDetail = () => {
 
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [detail, setDetail] = useState(false)
   const { AuthorID } = useParams()
@@ -21,7 +22,7 @@ const AuthorDetail = () => {
     try {
       setLoading(true)
       const res = await ComicService.getAllComicsByAuthor({ ...pagination, UserID: AuthorID, IsPrivated: false })
-      if (res.isError) return
+      if (res.isError) return navigate('/not-found')
       setDetail(res?.data)
     } finally {
       setLoading(false)

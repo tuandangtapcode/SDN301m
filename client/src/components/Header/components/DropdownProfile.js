@@ -40,10 +40,10 @@ const DropdownProfile = () => {
     setNotifications(res?.data?.List)
     setNotifiNotSeen(res?.data?.NotSeen)
   }
-
   useEffect(() => {
+    console.log('global?.user?._id', global?.user?._id);
     if (global?.user?._id) getNotifications()
-  }, [global?.user?._id])
+  }, [])
 
   const menuItems = () => {
     let items
@@ -158,6 +158,27 @@ const DropdownProfile = () => {
       {
         !!global?.user?._id ?
           <div className="d-flex-sb">
+            <ButtonCustom
+              className=" noBackground-textwhite fw-600 medium fs-18"
+            >
+              Premium
+            </ButtonCustom>
+            {
+              global?.user?.RoleID === 1 ?
+                <ButtonCustom className="noBackground-textwhite">
+                  Admintrator
+                </ButtonCustom>
+                :
+                <Dropdown menu={{ items: menuItems() }} trigger={["click"]}>
+                  <ButtonCustom
+                    className=" noBackground-textwhite"
+                    onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
+                    icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
+                  >
+                    My Profile
+                  </ButtonCustom>
+                </Dropdown>
+            }
             <Dropdown
               menu={{ items: itemsNotification }}
               trigger={['click']}
@@ -179,22 +200,6 @@ const DropdownProfile = () => {
                 />
               </BadgeStyled>
             </Dropdown>
-
-            {
-              global?.user?.RoleID === 1 ?
-                <ButtonCustom className="noBackground-textwhite">
-                  Admintrator
-                </ButtonCustom>
-                :
-                <Dropdown menu={{ items: menuItems() }} trigger={["click"]}>
-                  <ButtonCustom
-                    className=" noBackground-textwhite"
-                    icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
-                  >
-                    My Profile
-                  </ButtonCustom>
-                </Dropdown>
-            }
           </div>
           :
           <div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useRoutes } from "react-router-dom"
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import { useDispatch, useSelector } from "react-redux"
 import globalSlice from "src/redux/globalSlice"
 import { jwtDecode } from "jwt-decode"
@@ -279,8 +279,8 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    getListGenres()
-  }, [])
+    if (!!global?.user?._id) getListGenres()
+  }, [global?.user?._id])
 
 
   socket.on('get-deactive', (data) => {

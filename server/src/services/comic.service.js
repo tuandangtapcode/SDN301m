@@ -1,6 +1,5 @@
 import Comic from '../models/comic.js'
 import Image from '../models/image.js'
-import User from '../models/user.js'
 import response from '../utils/response-result.js'
 import cloudinary from 'cloudinary'
 import User from '../models/user.js'
@@ -179,7 +178,7 @@ const fncFollowComic = async (req) => {
     }
     user.Follows.push(ComicID)
     await user.save();
-    return response({ message: 'Comic followed'}, false, 'Cập nhật thành công', 200)
+    return response({ message: 'Comic followed' }, false, 'Cập nhật thành công', 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -204,7 +203,7 @@ const fncUnfollowComic = async (req) => {
     }
     user.Follows.pull(comicID);
     await user.save();
-    return response({ message: 'Comic unfollowed'}, false, 'Cập nhật thành công', 200)
+    return response({ message: 'Comic unfollowed' }, false, 'Cập nhật thành công', 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }

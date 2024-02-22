@@ -17,7 +17,7 @@ export const ModalCustomStyled = styled(Modal)`
   margin-top: 12px !important;
 }
 .ant-modal-close {
-  color: white !important;
+  color: black !important;
   &:hover {
     background-color: #6a6a6a !important; 
     border-radius: 50% !important;

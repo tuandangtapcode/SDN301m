@@ -1,5 +1,5 @@
 import { Button, Col, Form, Row, Select, Upload, message } from "antd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import ModalCustom from "src/components/ModalCustom"
@@ -9,6 +9,8 @@ import ImageService from "src/services/ImageService"
 import { toast } from "react-toastify"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
+import { getBase64 } from "src/lib/getFileUpload"
+import PreviewImage from "./PreviewImage"
 
 const { Option } = Select
 
@@ -24,12 +26,12 @@ const InsertUpdateComic = ({
   const [deleteDocs, setDeleteDocs] = useState([])
   const [loading, setLoading] = useState(false)
   const [preview, setPreview] = useState()
+  const [previewImage, setPreviewImage] = useState()
 
   const handleDelete = (ChapterID) => {
     const newData = lstChapters.filter(i => i?.ChapterID !== ChapterID)
     setLstChapters(newData)
   }
-
 
   const handleBeforeUpload = async (file, type) => {
     const isAllowedType = file.type.includes("image")
@@ -43,37 +45,78 @@ const InsertUpdateComic = ({
     return isAllowedType ? false : Upload.LIST_IGNORE
   }
 
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setPreviewImage(file.url || file.preview)
+  }
+
+  const handleChange = ({ fileList: newFileList }, ChapterID) => {
+    const chapter = lstChapters.find(i => i?.ChapterID === ChapterID)
+    const newData = lstChapters.filter(i => i?.ChapterID !== ChapterID)
+    const newChapter = {
+      ...chapter,
+      ListImages: newFileList
+    }
+    setLstChapters([...newData, newChapter])
+  }
+
+
   const handleInsertUpdateComic = async () => {
     try {
       setLoading(true)
       const values = await form.validateFields()
-      const resComic = await ComicService.insertComic({
-        Title: values?.Title,
-        ShortDecription: values?.ShortDecription,
-        Genres: values?.Genres,
-        Avatar: values?.image?.file,
-        Author: global?.user?._id,
-        Chapters: lstChapters,
-        Status: false
-      })
-      if (resComic?.isError) return toast.error(resComic.msg)
+      // const resComic = await ComicService.insertComic({
+      //   Title: values?.Title,
+      //   ShortDecription: values?.ShortDecription,
+      //   Genres: values?.Genres,
+      //   Avatar: values?.image?.file,
+      //   Author: global?.user?._id,
+      //   Chapters: lstChapters,
+      //   Status: false
+      // })
+      // if (resComic?.isError) return toast.error(resComic.msg)
+      let insertImages = []
       lstChapters.forEach(chapter => {
+        console.log(values[chapter?.Name]);
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
-          await ImageService.insertImage({
-            Chapter: chapter?.ChapterID,
-            Image: i?.originFileObj,
-            Comic: resComic?.data,
-            SortOrder: index + 1
-          })
+          // const promiseInsertImage = ImageService.insertImage({
+          //   Chapter: chapter?.ChapterID,
+          //   Image: i?.originFileObj,
+          //   Comic: resComic?.data,
+          //   SortOrder: index + 1
+          // })
+          // insertImages.push(promiseInsertImage)
         })
       })
-      toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
-      onOk()
-      onCancel()
+      // await Promise.all(insertImages)
+      // toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
+      // onOk()
+      // onCancel()
     } finally {
       setLoading(false)
     }
   }
+  console.log(deleteDocs);
+  useEffect(() => {
+    let chapters = []
+    form.setFieldsValue(open?.Comic)
+    open?.Comic?.Chapters?.forEach(item => {
+      chapters.push({
+        ChapterID: item?.ChapterID,
+        Name: item?.Name,
+        ListImages: open?.Images?.filter(i => i?.Chapter === item?.ChapterID)
+          ?.map(i => (
+            {
+              ...i,
+              url: i?.Image
+            }
+          ))
+      })
+    })
+    setLstChapters(chapters)
+  }, [open])
 
   const renderFooter = () => {
     return (
@@ -91,6 +134,7 @@ const InsertUpdateComic = ({
             {
               ChapterID: lstChapters.length + 1,
               Name: `Chapter ${lstChapters.length + 1}`,
+              ListImages: []
             }
           ])}
         >
@@ -123,7 +167,7 @@ const InsertUpdateComic = ({
               className="mb-24"
               rules={[
                 {
-                  required: form.getFieldValue("image") ? false : true,
+                  required: form.getFieldValue("AvatarPath") ? false : true,
                   message: "Hãy chọn avatar cho truyện",
                 },
               ]}
@@ -139,7 +183,7 @@ const InsertUpdateComic = ({
                 <div >
                   Chọn ảnh cho truyện
                 </div>
-                <img style={{ width: '100%', height: '180px' }} src={!!preview ? preview : open?.avatarPath} alt="" />
+                <img style={{ width: '100%', height: '180px' }} src={!!preview ? preview : open?.Comic?.AvatarPath} alt="" />
               </Upload.Dragger>
             </Form.Item>
           </Col>
@@ -191,20 +235,24 @@ const InsertUpdateComic = ({
                     <Form.Item
                       name={i?.Name}
                       className="mb-24"
-                      rules={[
-                        {
-                          required: form.getFieldValue("image") ? false : true,
-                          message: "Hãy chọn file tải lên",
-                        },
-                      ]}
+                    // rules={[
+                    //   {
+                    //     required: form.getFieldValue("image") ? false : true,
+                    //     message: "Hãy chọn file tải lên",
+                    //   },
+                    // ]}
                     >
                       <Upload.Dragger
+                        listType="picture-circle"
                         beforeUpload={file => handleBeforeUpload(file, 'image')}
+                        fileList={i?.ListImages}
+                        onPreview={handlePreview}
+                        onChange={e => handleChange(e, i?.ChapterID)}
                         accept="image/*"
                         className="pointer"
                         multiple="true"
-                        previewFile={false}
                         onRemove={file => {
+                          console.log(file);
                           if (!!file?.ObjectFileID) {
                             setDeleteDocs([...deleteDocs, file])
                           }
@@ -223,12 +271,20 @@ const InsertUpdateComic = ({
                     >
                     </ButtonCustom>
                   </Col>
+
                 </Row>
               )
             }
           </Col>
         </Row>
       </Form>
+      {
+        !!previewImage &&
+        <PreviewImage
+          open={previewImage}
+          onCancel={() => setPreviewImage()}
+        />
+      }
     </ModalCustom>
   )
 }

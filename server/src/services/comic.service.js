@@ -1,4 +1,6 @@
 import Comic from '../models/comic.js'
+import Image from '../models/image.js'
+import User from '../models/user.js'
 import response from '../utils/response-result.js'
 import cloudinary from 'cloudinary'
 
@@ -54,6 +56,8 @@ const fncGetAllComicsByAuthor = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize, UserID, IsPrivated } = req.body
     let data, query
+    const user = await User.findOne({ _id: UserID })
+    if (!user) return response({}, true, "User không tồn tại", 200)
     if (!IsPrivated) {
       query = {
         Title: { $regex: TextSearch, $options: 'i' },
@@ -70,8 +74,15 @@ const fncGetAllComicsByAuthor = async (req) => {
       .find(query)
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
-    if (!IsPrivated) data = { List: comics, Total: comics.length, Author: user }
-    else data = { List: comics, Total: comics.length }
+    const comicsWithImages = await Promise.all(comics.map(async (comic) => {
+      const images = await Image.find({ Comic: comic._id }).exec()
+      return {
+        Comic: comic,
+        Images: images,
+      }
+    }))
+    if (!IsPrivated) data = { List: comicsWithImages, Total: comics.length, Author: user }
+    else data = { List: comicsWithImages, Total: comics.length }
     return response(data, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)

@@ -41,10 +41,10 @@ border-color: transparent;
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
-.icon-play {
+.icon-preview {
   display: none;
 }
-&:hover .icon-play {
+&:hover .icon-preview {
   display: block;
   animation: iconFadeIn ease 0.5s;
 }

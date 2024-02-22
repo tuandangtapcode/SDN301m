@@ -1,6 +1,6 @@
 import { AiFillEdit } from "react-icons/ai"
 import { BsFillTrash3Fill } from "react-icons/bs"
-import { AiFillBell, AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai"
+import { AiFillBell, AiFillCheckCircle, AiFillCloseCircle, AiFillEye } from "react-icons/ai"
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
 import { TbLock, TbLockOpen, TbCategoryFilled } from "react-icons/tb"
@@ -29,7 +29,8 @@ const LstIcons = {
   ICON_LOGOUT: <BiLogIn className="fs-20" />,
   ICON_MENUFOLD: <MenuFoldOutlined />,
   ICON_MENUUNFOLD: <MenuUnfoldOutlined />,
-  ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />
+  ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />,
+  ICON_PREVIEW: <AiFillEye className="fs-20" />
 }
 
 export default LstIcons

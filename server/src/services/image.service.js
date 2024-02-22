@@ -33,14 +33,10 @@ const fncUpdateImage = async (req) => {
   }
 }
 
-const fncGetAllImagesByChapter = async (req) =>{
+const fncGetAllImagesByChapter = async (req) => {
   try {
-    const {ComicID, Chapter} = req.body
-    const image = await Image.find({
-      Comic: { $elemMatch: ComicID },
-      Chapter: { $elemMatch: Chapter}
-    })
-    .populate('Comic', ['Title'])
+    const { ComicID, Chapter } = req.body
+    const image = await Image.find({ Comic: ComicID, Chapter: Chapter }).populate('Comic', ['Title'])
     return response(
       { List: image, Total: image.length },
       false,

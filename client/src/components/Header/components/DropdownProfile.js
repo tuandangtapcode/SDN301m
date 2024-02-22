@@ -41,7 +41,6 @@ const DropdownProfile = () => {
     setNotifiNotSeen(res?.data?.NotSeen)
   }
   useEffect(() => {
-    console.log('global?.user?._id', global?.user?._id);
     if (global?.user?._id) getNotifications()
   }, [])
 

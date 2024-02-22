@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useRoutes } from "react-router-dom"
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from "react-redux"
 import globalSlice from "src/redux/globalSlice"
 import { jwtDecode } from "jwt-decode"
@@ -21,7 +21,6 @@ const SignupPage = React.lazy(() => import('src/pages/ANONYMOUS/SignupPage'))
 const ComicContent = React.lazy(() => import('src/pages/ANONYMOUS/ComicContent'))
 const ComicDetail = React.lazy(() => import('src/pages/ANONYMOUS/ComicDetail'))
 const Genres = React.lazy(() => import('src/pages/ANONYMOUS/Genres'))
-const GenresDetail = React.lazy(() => import('src/pages/ANONYMOUS/GenresDetail'))
 const Authors = React.lazy(() => import('src/pages/ANONYMOUS/Authors'))
 const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail'))
 
@@ -200,7 +199,7 @@ const routes = [
         path: '/genres/:GenresID',
         element: (
           <LazyLoadingComponent>
-            <GenresDetail />
+            <Genres />
           </LazyLoadingComponent>
         )
       },

@@ -27,18 +27,25 @@ const fncGetAllComics = async (req) => {
 
 const fncGetAllComicsByGenres = async (req) => {
   try {
-    const { TextSearch, CurrentPage, PageSize, GenreID } = req.body
-    const comics = await Comic
-      .find({
+    const { TextSearch, CurrentPage, PageSize, GenresID } = req.body
+    let query
+    if (!!GenresID) {
+      query = {
         Title: { $regex: TextSearch, $options: 'i' },
-        Genres: { $elemMatch: GenreID }
-      })
+        Genres: GenresID,
+      }
+    } else {
+      query = {
+        Title: { $regex: TextSearch, $options: 'i' },
+      }
+    }
+    const comics = await Comic
+      .find(query)
+      .sort({ "CreatedAt": 1 })
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
-      .populate('Author', ['_id', 'FullName'])
-      .populate('Genres', ['Title'])
     if (!comics.length) {
-      return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenreID}"`)
+      return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenresID}"`, 200)
     }
     return response(
       { List: comics, Total: comics.length },

@@ -1,13 +1,32 @@
-import { AiFillEdit } from "react-icons/ai"
+import {
+  AiFillEdit,
+  AiFillHeart,
+  AiOutlineBarChart,
+  AiFillBell,
+  AiFillCheckCircle,
+  AiFillCloseCircle,
+  AiFillEye
+} from "react-icons/ai"
 import { BsFillTrash3Fill } from "react-icons/bs"
-import { AiFillBell, AiFillCheckCircle, AiFillCloseCircle, AiFillEye } from "react-icons/ai"
-import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
-import { TbLock, TbLockOpen, TbCategoryFilled } from "react-icons/tb"
-import { AiOutlineBarChart } from "react-icons/ai"
-import { FaUsers, FaBookReader } from "react-icons/fa"
+import {
+  TbLock,
+  TbLockOpen,
+  TbCategoryFilled
+} from "react-icons/tb"
+import {
+  FaUsers,
+  FaBookReader
+} from "react-icons/fa"
 import { BiLogIn } from "react-icons/bi"
-import { MenuFoldOutlined, MenuUnfoldOutlined, ExceptionOutlined } from "@ant-design/icons"
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ExceptionOutlined,
+  SearchOutlined,
+  CloseOutlined,
+  CaretUpOutlined,
+  CaretDownOutlined
+} from "@ant-design/icons"
 import { CgSandClock } from "react-icons/cg"
 
 const LstIcons = {
@@ -31,7 +50,9 @@ const LstIcons = {
   ICON_MENUUNFOLD: <MenuUnfoldOutlined />,
   ICON_PREVIEW: <AiFillEye className="fs-20" />,
   ICON_REPORT: <ExceptionOutlined />,
-  ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />
+  ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />,
+  ICON_EYE: <AiFillEye className="fs-15 mr-4 text-white" />,
+  ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white" />
 }
 
 export default LstIcons

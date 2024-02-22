@@ -6,6 +6,7 @@ import styled from "styled-components"
 const ContentStyled = styled.div`
 max-width: 70%;
 margin: auto;
+background-color: white;
 `
 
 const MainLayout = ({ children }) => {
@@ -16,7 +17,7 @@ const MainLayout = ({ children }) => {
         {children}
       </ContentStyled>
       <Footer />
-    </div>
+    </div >
   )
 }
 

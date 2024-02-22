@@ -64,7 +64,32 @@ const changeStatusComic = async (req, res) => {
   }
 }
 
+const followComic = async (req, res) => {
+  try {
+    const response = await ComicService.fncFollowComic(req)
+    return res.status(response.StatusCode).json(response)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
 
+const unfollowComic = async (req, res) => {
+  try {
+    const response = await ComicService.fncUnfollowComic(req)
+    return res.status(response.StatusCode).json(response)
+  } catch (error) {
+    return res.status(500).json(error.toString());
+  }
+}
+
+const getAllComicsFollow = async (req, res) => {
+  try {
+    const response = await ComicService.fncGetAllComicsFollowed(req)
+    return res.status(response.StatusCode).json(response)
+  } catch (error) {
+    return res.status(500).json(error.toString());
+  }
+}
 const ComicController = {
   getAllComics,
   insertComic,
@@ -73,7 +98,10 @@ const ComicController = {
   getAllComicsByGenre,
   getDetailComic,
   getAllComicsByAuthor,
-  changeStatusComic
+  changeStatusComic,
+  followComic,
+  unfollowComic,
+  getAllComicsFollow
 }
 
 export default ComicController

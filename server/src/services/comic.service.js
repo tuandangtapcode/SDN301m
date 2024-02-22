@@ -3,7 +3,7 @@ import Image from '../models/image.js'
 import User from '../models/user.js'
 import response from '../utils/response-result.js'
 import cloudinary from 'cloudinary'
-
+import User from '../models/user.js'
 const cloudinaryV2 = cloudinary.v2
 
 const fncGetAllComics = async (req) => {
@@ -160,6 +160,80 @@ const fncChangeStatusComic = async (req) => {
   }
 }
 
+const fncFollowComic = async (req) => {
+  try {
+    const { ComicID, UserID } = req.body
+    if (!UserID || !ComicID) {
+      return res.status(400).json({ message: 'Missing required parameters: userID and comicID' });
+    }
+    const user = await User.findById(UserID);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const comic = await Comic.findById(ComicID);
+    if (!comic) {
+      return res.status(404).json({ message: 'Comic not found' });
+    }
+    if (user.Follows.find(followedComic => followedComic.toString() === ComicID)) {
+      return res.status(400).json({ message: 'Comic already followed' });
+    }
+    user.Follows.push(ComicID)
+    await user.save();
+    return response({ message: 'Comic followed'}, false, 'Cập nhật thành công', 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncUnfollowComic = async (req) => {
+  try {
+    const { ComicID, UserID } = req.body
+    if (!UserID || !ComicID) {
+      return res.status(400).json({ message: 'Missing required parameters: userID and comicID' });
+    }
+    const user = await User.findById(UserID);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const comic = await Comic.findById(ComicID);
+    if (!comic) {
+      return res.status(404).json({ message: 'Comic not found' });
+    }
+    if (!user.Follows.find(followedComic => followedComic.toString() === comicID)) {
+      return res.status(400).json({ message: 'Comic not followed' });
+    }
+    user.Follows.pull(comicID);
+    await user.save();
+    return response({ message: 'Comic unfollowed'}, false, 'Cập nhật thành công', 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncGetAllComicsFollowed = async (req) => {
+  try {
+    const { userID } = req.body; // Assuming request body contains userID
+    if (!userID) {
+      return res.status(400).json({ message: 'Missing required parameter: userID' });
+    }
+    const user = await Users.findById(userID).populate('Follows');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const followedComics = user.Follows.map(comic => {
+      return {
+        comicID: comic._id,
+        title: comic.Title,
+        author: comic.Author.FullName,
+        coverImage: comic.AvatarPath,
+      };
+    });
+    return response({ followedComics }, false, 'Cập nhật thành công', 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const ComicService = {
   fncGetAllComics,
@@ -170,7 +244,10 @@ const ComicService = {
   fncGetAllComicsByGenres,
   fncGetDetailComic,
   fncGetAllComicsByAuthor,
-  fncChangeStatusComic
+  fncChangeStatusComic,
+  fncFollowComic,
+  fncUnfollowComic,
+  fncGetAllComicsFollowed
 }
 
 export default ComicService

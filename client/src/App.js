@@ -38,6 +38,7 @@ const Dashboard = React.lazy(() => import('src/pages/ADMIN/Dashboard'))
 const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManagement'))
 const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
+const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
 
 
 function LazyLoadingComponent({ children }) {
@@ -126,6 +127,14 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <UsersManagement />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/report',
+        element: (
+          <LazyLoadingComponent>
+            <Report />
           </LazyLoadingComponent>
         )
       },

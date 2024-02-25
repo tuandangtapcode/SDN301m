@@ -1,13 +1,13 @@
-import { Col, Row, Space } from "antd";
+import { Col, Row, Space } from "antd"
 import {
   AiFillFacebook,
   AiFillTwitterCircle,
   AiOutlineInstagram,
-} from "react-icons/ai";
-import List from "./List";
+} from "react-icons/ai"
+import List from "./List"
 
 const Content = ({ detail, setDetail }) => {
-  console.log(detail);
+  console.log(detail)
   return (
     <Row gutter={[16, 16]}>
       <Col span={10}>
@@ -45,7 +45,7 @@ const Content = ({ detail, setDetail }) => {
         <List />
       </Col>
     </Row>
-  );
-};
+  )
+}
 
-export default Content;
+export default Content

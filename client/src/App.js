@@ -10,7 +10,7 @@ import { globalSelector } from "src/redux/selector"
 import UserService from "./services/UserService"
 import GenreService from "./services/GenreService"
 import socket from "./utils/socket"
-import DeactiveModal from "./components/DeactiveModal"
+import DeactiveModal from "./components/ModalCustom/DeactiveModal"
 
 
 // ANONYMOUS
@@ -172,7 +172,7 @@ const routes = [
         )
       },
       {
-        path: '/comics/:ComicID/chapter/:ChapterID',
+        path: '/comic/:ComicID/chapter/:ChapterID',
         element: (
           <LazyLoadingComponent>
             <ComicContent />
@@ -180,7 +180,7 @@ const routes = [
         )
       },
       {
-        path: '/comics/:ComicID',
+        path: '/comic/:ComicID',
         element: (
           <LazyLoadingComponent>
             <ComicDetail />
@@ -196,7 +196,7 @@ const routes = [
         )
       },
       {
-        path: '/genres/:GenresID',
+        path: '/genres/:GenreID',
         element: (
           <LazyLoadingComponent>
             <Genres />

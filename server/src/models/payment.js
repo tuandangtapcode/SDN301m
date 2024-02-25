@@ -14,11 +14,9 @@ const Payments = new Schema({
   Content: {
     type: String,
     require: true
-  },
-  CreatedAt: {
-    type: Date,
-    default: Date.now
-  },
+  }
+}, {
+  timestamps: true
 })
 
 const PaymentsModel = mongoose.model('Payments', Payments)

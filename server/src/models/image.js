@@ -27,6 +27,8 @@ const Images = new Schema({
     type: Number,
     require: true
   }
+}, {
+  timestamps: true
 })
 
 const ImagesModel = mongoose.model('Images', Images)

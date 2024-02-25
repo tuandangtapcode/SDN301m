@@ -10,6 +10,7 @@ const fncGetAllComics = async (req) => {
     const { TextSearch, CurrentPage, PageSize } = req.body
     const comics = await Comic
       .find({ Title: { $regex: TextSearch, $options: 'i' } })
+      .sort({ "createdAt": -1 })
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
       .populate('Author', ['_id', 'FullName'])
@@ -27,12 +28,12 @@ const fncGetAllComics = async (req) => {
 
 const fncGetAllComicsByGenres = async (req) => {
   try {
-    const { TextSearch, CurrentPage, PageSize, GenresID } = req.body
+    const { TextSearch, CurrentPage, PageSize, GenreID } = req.body
     let query
-    if (!!GenresID) {
+    if (!!GenreID) {
       query = {
         Title: { $regex: TextSearch, $options: 'i' },
-        Genres: GenresID,
+        Genres: GenreID,
       }
     } else {
       query = {
@@ -41,11 +42,11 @@ const fncGetAllComicsByGenres = async (req) => {
     }
     const comics = await Comic
       .find(query)
-      .sort({ "CreatedAt": 1 })
+      .sort({ "createdAt": -1 })
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
     if (!comics.length) {
-      return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenresID}"`, 200)
+      return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenreID}"`, 200)
     }
     return response(
       { List: comics, Total: comics.length },
@@ -124,7 +125,6 @@ const fncUpdateComic = async (req) => {
       ...req.body,
       AvatarPath: !!req.file ? req.file.path : checkExistTitle?.AvatarPath,
       AvatarPathId: !!req.file ? req.file.filename : checkExistTitle?.AvatarPathId,
-      CreatedAt: Date.now()
     })
     return response(updateComic?._id, false, "Cập nhật thành công thành công", 200)
   } catch (error) {
@@ -241,6 +241,17 @@ const fncGetAllComicsFollowed = async (req) => {
   }
 }
 
+const fncGetAllChaptersByComic = async (req) => {
+  try {
+    const ComicID = req.params.ComicID
+    const chapters = await Comic.findOne({ _id: ComicID }).select('Chapters Title createdAt')
+    if (!chapters) return response({}, true, "Có lỗi", 200)
+    return response(chapters, false, "Lấy data thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const ComicService = {
   fncGetAllComics,
@@ -254,7 +265,8 @@ const ComicService = {
   fncChangeStatusComic,
   fncFollowComic,
   fncUnfollowComic,
-  fncGetAllComicsFollowed
+  fncGetAllComicsFollowed,
+  fncGetAllChaptersByComic
 }
 
 export default ComicService

@@ -9,11 +9,9 @@ const Genres = new Schema({
   ShortDecription: {
     type: String,
     require: true
-  },
-  CreatedAt: {
-    type: Date,
-    default: Date.now
-  },
+  }
+}, {
+  timestamps: true
 })
 
 const GenresModel = mongoose.model('Genres', Genres)

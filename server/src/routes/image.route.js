@@ -7,8 +7,8 @@ router.post('/insertImage',
   upload('Comic').single('Image'),
   ImageController.insertImage
 )
-
-router.post('/getChapter',
-  ImageController.getImageByChapter
+router.post('/getAllImagesByChapter',
+  ImageController.getImagesByChapter
 )
+
 export default router

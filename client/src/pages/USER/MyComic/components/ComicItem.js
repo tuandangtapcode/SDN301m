@@ -15,10 +15,10 @@ const ComicItem = ({ data, getComicsByAuhtor }) => {
       <CardStyled
         cover={<ImageStyled alt="example" src={data?.Comic?.AvatarPath} />}
       >
-        <div className="d-flex-sb">
-          <Meta title={data?.Comic?.Title} />
+        <Meta title={data?.Comic?.Title} />
+        <div className="mt-12">
           <ButtonCircle
-            className="normal icon-preview"
+            className="normal icon-preview mb-2"
             title={"review"}
             icon={LstIcons.ICON_PREVIEW}
             style={{

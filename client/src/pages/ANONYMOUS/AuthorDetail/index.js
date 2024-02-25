@@ -1,16 +1,17 @@
-import { Col, Row } from "antd";
-import Content from "./component/Content";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Rating from "src/components/Rating";
-import SpinCustom from "src/components/SpinCustom";
-import ComicService from "src/services/ComicService";
+import { Col, Row } from "antd"
+import Content from "./component/Content"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import Rating from "src/components/Rating"
+import SpinCustom from "src/components/SpinCustom"
+import ComicService from "src/services/ComicService"
 
 const AuthorDetail = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [detail, setDetail] = useState(false);
-  const { AuthorID } = useParams();
+  const [loading, setLoading] = useState(false)
+  const [detail, setDetail] = useState()
+  const [list, setList] = useState([])
+  const { AuthorID } = useParams()
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
@@ -25,10 +26,11 @@ const AuthorDetail = () => {
         UserID: AuthorID,
         IsPrivated: false,
       });
-      if (res.isError) return navigate("/not-found");
-      setDetail(res?.data);
+      if (res.isError) return navigate("/not-found")
+      setDetail(res?.data)
+      setList(res?.data?.List)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 
@@ -40,10 +42,15 @@ const AuthorDetail = () => {
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]} className="mt-20 mb-20">
         <Col span={16}>
-          <Content detail={detail?.Author} setDetail={setDetail} />
+          <Content 
+          detail={detail?.Author} 
+          setDetail={setDetail} 
+          list={list}
+          setList={setList}
+          />
         </Col>
         <Col span={8}>
-          <Rating />
+          <Rating/>
         </Col>
       </Row>
     </SpinCustom>

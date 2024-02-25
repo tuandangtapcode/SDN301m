@@ -6,8 +6,13 @@ import {
 } from "react-icons/ai";
 import List from "./List";
 
-const Content = ({ detail, setDetail }) => {
-  console.log(detail);
+const Content = ({ 
+  detail, 
+  setDetail,
+  list,
+  setList,
+}) => {
+
   return (
     <Row gutter={[16, 16]}>
       <Col span={10}>
@@ -42,7 +47,10 @@ const Content = ({ detail, setDetail }) => {
         </Row>
       </Col>
       <Col span={24}>
-        <List />
+        <List 
+        list={list}
+        setList={setList}
+        />
       </Col>
     </Row>
   );

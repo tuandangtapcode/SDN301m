@@ -34,10 +34,6 @@ const Users = new Schema({
     type: Boolean,
     default: true,
   },
-  CreatedAt: {
-    type: Date,
-    default: Date.now
-  },
   Follows: {
     type: [
       { type: mongoose.Schema.Types.ObjectId, ref: 'Comics' }
@@ -48,6 +44,8 @@ const Users = new Schema({
     type: Number,
     require: true
   },
+}, {
+  timestamps: true
 })
 
 const UsersModel = mongoose.model('Users', Users)

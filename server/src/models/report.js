@@ -1,26 +1,30 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
+
 const Schema = mongoose.Schema
 
-const Comments = new Schema({
+const Report = new Schema({
   Content: {
     type: String,
     require: true
   },
-  Author: {
+  Customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users',
     require: true
   },
-  Comic: {
+  Commic: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comics',
     require: true
   },
+  Status: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: true
 })
 
-const CommentsModel = mongoose.model('Comments', Comments)
+const ReportsModel = mongoose.Model("Reports", Report)
 
-export default CommentsModel
-
+export default ReportsModel

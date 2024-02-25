@@ -1,18 +1,8 @@
-import { Col, Row, Space } from "antd";
-import {
-  AiFillFacebook,
-  AiFillTwitterCircle,
-  AiOutlineInstagram,
-} from "react-icons/ai";
-import List from "./List";
+import { Col, Row, Space } from "antd"
+import List from "./List"
+import LstIcons from "src/components/ListIcons"
 
-const Content = ({ 
-  detail, 
-  setDetail,
-  list,
-  setList,
-}) => {
-
+const Content = ({ detail, setDetail, list, setList }) => {
   return (
     <Row gutter={[16, 16]}>
       <Col span={10}>
@@ -35,22 +25,15 @@ const Content = ({
           <Col span={24}>Sex: ...</Col>
           <Col span={24}>
             <Space direction="horizontal">
-              <AiFillFacebook style={{ fontSize: "25px", color: "#1773EA" }} />
-              <AiFillTwitterCircle
-                style={{ fontSize: "25px", color: "#4DA6E9" }}
-              />
-              <AiOutlineInstagram
-                style={{ fontSize: "25px", color: "#E4176A" }}
-              />
+              {LstIcons.ICON_FACEBOOK}
+              {LstIcons.ICON_TWITTER}
+              {LstIcons.ICON_INSTARGRAM}
             </Space>
           </Col>
         </Row>
       </Col>
       <Col span={24}>
-        <List 
-        list={list}
-        setList={setList}
-        />
+        <List list={list} setList={setList} />
       </Col>
     </Row>
   );

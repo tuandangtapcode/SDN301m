@@ -57,7 +57,7 @@ const MyComic = () => {
           </ButtonCustom>
         }
       </div>
-      <div className="mt-20 mb-30">
+      <div className="mt-20 mb-30 d-flex">
         {
           comics?.map(i =>
             <ComicItem data={i} getComicsByAuhtor={getComicsByAuhtor} />

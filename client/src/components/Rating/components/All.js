@@ -1,7 +1,7 @@
-import { Col, Row } from "antd";
-import { useState } from "react";
-import LstIcons from "src/components/ListIcons";
-import SpinCustom from "src/components/SpinCustom";
+import { Col, Row } from "antd"
+import { useState } from "react"
+import LstIcons from "src/components/ListIcons"
+import SpinCustom from "src/components/SpinCustom"
 
 const data = [
   {
@@ -44,10 +44,10 @@ const data = [
     chapter: "Chapter 3689",
     view: "26M",
   },
-];
+]
 
 const All = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   return (
     <SpinCustom spinning={loading}>
@@ -84,7 +84,7 @@ const All = () => {
         </Row>
       ))}
     </SpinCustom>
-  );
-};
+  )
+}
 
-export default All;
+export default All

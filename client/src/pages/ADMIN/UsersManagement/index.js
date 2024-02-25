@@ -135,7 +135,7 @@ const UsersManagement = () => {
       title: "Created date",
       align: "center",
       render: (_, record, index) => (
-        <div>{moment(record?.CreatedAt).format("DD/MM/YYYY")}</div>
+        <div>{moment(record?.createdAt).format("DD/MM/YYYY")}</div>
       ),
     },
     {

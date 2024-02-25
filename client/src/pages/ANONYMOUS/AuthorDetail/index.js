@@ -7,7 +7,7 @@ import SpinCustom from "src/components/SpinCustom"
 import ComicService from "src/services/ComicService"
 
 const AuthorDetail = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [detail, setDetail] = useState()
   const [list, setList] = useState([])
@@ -16,7 +16,7 @@ const AuthorDetail = () => {
     TextSearch: "",
     CurrentPage: 1,
     PageSize: 10,
-  });
+  })
 
   const getInforAuthor = async () => {
     try {
@@ -36,21 +36,21 @@ const AuthorDetail = () => {
 
   useEffect(() => {
     getInforAuthor();
-  }, [pagination, AuthorID]);
+  }, [pagination, AuthorID])
 
   return (
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]} className="mt-20 mb-20">
         <Col span={16}>
-          <Content 
-          detail={detail?.Author} 
-          setDetail={setDetail} 
-          list={list}
-          setList={setList}
+          <Content
+            detail={detail?.Author}
+            setDetail={setDetail}
+            list={list}
+            setList={setList}
           />
         </Col>
         <Col span={8}>
-          <Rating/>
+          <Rating />
         </Col>
       </Row>
     </SpinCustom>

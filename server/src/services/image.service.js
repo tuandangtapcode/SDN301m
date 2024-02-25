@@ -1,4 +1,5 @@
 import Image from '../models/image.js'
+import Comic from '../models/comic.js'
 import response from "../utils/response-result.js"
 
 const fncInsertImage = async (req) => {
@@ -36,17 +37,23 @@ const fncUpdateImage = async (req) => {
 const fncGetAllImagesByChapter = async (req) => {
   try {
     const { ComicID, Chapter } = req.body
-    const image = await Image.find({ Comic: ComicID, Chapter: Chapter }).populate('Comic', ['Title'])
-    return response(
-      { List: image, Total: image.length },
-      false,
-      'Lấy data thành công',
-      200
-    )
+    const updateComic = await Comic
+      .updateOne({ _id: ComicID, "Chapters.ChapterID": Chapter }, {
+        $inc: {
+          "Chapters.$.Reads": 1,
+          Reads: 1
+        }
+      })
+    if (!updateComic.matchedCount) return response(updateComic, true, "Có lỗi", 200)
+    const image = await Image
+      .find({ Comic: ComicID, Chapter: Chapter })
+      .sort({ "SortOrder": 1 })
+    return response(image, false, 'Lấy data thành công', 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
 }
+
 
 const ImageService = {
   fncInsertImage,

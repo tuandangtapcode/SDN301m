@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import ComicItemList from "src/components/ComicItemList"
 import SpinCustom from "src/components/SpinCustom"
 import ComicService from "src/services/ComicService"
-import { GenresStyled, RowStyled } from "./styled"
+import { DivBorder, GenresStyled, RowStyled } from "./styled"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { useNavigate, useParams } from "react-router-dom"
@@ -16,7 +16,7 @@ const Genres = () => {
   const [total, setTotal] = useState(0)
   const [genresDetail, setGenresDetail] = useState({})
   const [loading, setLoading] = useState(false)
-  const { GenresID } = useParams()
+  const { GenreID } = useParams()
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
@@ -26,7 +26,7 @@ const Genres = () => {
   const getComics = async () => {
     try {
       setLoading(true)
-      const res = await ComicService.getAllComicsByGenre({ ...pagination, GenresID })
+      const res = await ComicService.getAllComicsByGenre({ ...pagination, GenreID })
       if (res?.isError) return
       setComics(res?.data?.List)
       setTotal(res?.data?.Total)
@@ -37,26 +37,26 @@ const Genres = () => {
 
   useEffect(() => {
     getComics()
-  }, [pagination, GenresID])
+  }, [pagination, GenreID])
 
   useEffect(() => {
-    if (!!GenresID) {
-      setGenresDetail(global?.genres?.find(i => i?._id === GenresID))
+    if (!!GenreID) {
+      setGenresDetail(global?.genres?.find(i => i?._id === GenreID))
     }
-  }, [GenresID])
+  }, [GenreID])
 
   return (
     <SpinCustom spinning={loading}>
-      <Row className="mt-50">
+      <Row className="mt-50 mb-30" gutter={[16, 0]}>
         <Col span={16}>
           {
-            !!GenresID &&
+            !!GenreID &&
             <Col span={24}>
-              <div className="text-center">
-                <span>Truyện thể loại</span>
-                <span>{genresDetail?.Title}</span>
+              <div className="text-center mb-15">
+                <span className="fs-20">Truyện thể loại</span>
+                <span className="fs-20 fw-600 ml-8">{genresDetail?.Title}</span>
               </div>
-              <div className="text-center">{genresDetail?.ShortDecription}</div>
+              <DivBorder className="text-center">{genresDetail?.ShortDescription}</DivBorder>
             </Col>
           }
           <Row gutter={[16, 0]}>
@@ -84,7 +84,7 @@ const Genres = () => {
               {
                 global?.genres?.map(i =>
                   <Col span={12}>
-                    <RowStyled className={i?._id === GenresID ? "active" : ""} onClick={() => {
+                    <RowStyled className={i?._id === GenreID ? "active" : ""} onClick={() => {
                       navigate(`/genres/${i?._id}`)
                     }}
                     >

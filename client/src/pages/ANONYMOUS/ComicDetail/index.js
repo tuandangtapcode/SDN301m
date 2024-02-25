@@ -10,15 +10,22 @@ import LstIcons from "src/components/ListIcons"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { ComicDetailStyled } from "./styled"
 import { formatNumber } from "src/lib/stringUtils"
+import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
+import { useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
+import { toast } from "react-toastify"
+import ModalReport from "./components/ModalReport"
 
 
 const ComicDetail = () => {
 
   const { ComicID } = useParams()
   const navigate = useNavigate()
+  const global = useSelector(globalSelector)
   const [loading, setLoading] = useState()
   const [comic, setComic] = useState()
   const [totalChapter, setTotalChapter] = useState(0)
+  const [openModal, setOpenModal] = useState(false)
   const [showFullDescription, setShowFullDescription] = useState(false)
 
   const getComic = async () => {
@@ -33,9 +40,23 @@ const ComicDetail = () => {
     }
   }
 
+  const handleReport = () => {
+    if (!!global?.user?._id) {
+      setOpenModal({
+        UserID: global?.user?._id,
+        ComicID: comic?._id
+      })
+    } else {
+      toast.info("Vui lòng đăng nhập trước khi báo cáo!")
+      navigate("/login")
+    }
+  }
+
   useEffect(() => {
     getComic()
   }, [ComicID])
+
+  console.log(global);
 
   const column = [
     {
@@ -94,6 +115,14 @@ const ComicDetail = () => {
                     <span>Lượt theo dõi</span>
                   </div>
                 </div>
+                <div className="mt-20">
+                  <ButtonCircle
+                    className="normal"
+                    title="Báo cáo"
+                    icon={LstIcons.ICON_WARNING}
+                    onClick={() => handleReport()}
+                  />
+                </div>
               </Col>
             </Row>
           </Col>
@@ -137,6 +166,12 @@ const ComicDetail = () => {
           </Col>
         </Row>
       </ComicDetailStyled>
+      {openModal && (
+        <ModalReport
+          open={openModal}
+          onCancel={() => setOpenModal(false)}
+        />
+      )}
     </SpinCustom>
   )
 }

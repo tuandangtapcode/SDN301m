@@ -11,8 +11,9 @@ import "swiper/css/pagination"
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules"
 
-const List = () => {
+const List = ({ list, setList }) => {
   const [loading, setLoading] = useState(false)
+
   return (
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]}>
@@ -34,71 +35,28 @@ const List = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
           >
-            <SwiperSlide
-              className="d-flex-center"
-              style={{
-                height: "200px",
-                backgroundColor: "#1773EA",
-                color: "#fff",
-              }}
-            >
-              Slide 1
-            </SwiperSlide>
-            <SwiperSlide
-              className="d-flex-center"
-              style={{
-                height: "200px",
-                backgroundColor: "#1773EA",
-                color: "#fff",
-              }}
-            >
-              Slide 2
-            </SwiperSlide>
-            <SwiperSlide
-              className="d-flex-center"
-              style={{
-                height: "200px",
-                backgroundColor: "#1773EA",
-                color: "#fff",
-              }}
-            >
-              Slide 3
-            </SwiperSlide>
-            <SwiperSlide
-              className="d-flex-center"
-              style={{
-                height: "200px",
-                backgroundColor: "#1773EA",
-                color: "#fff",
-              }}
-            >
-              Slide 4
-            </SwiperSlide>
-            <SwiperSlide
-              className="d-flex-center"
-              style={{
-                height: "200px",
-                backgroundColor: "#1773EA",
-                color: "#fff",
-              }}
-            >
-              Slide 5
-            </SwiperSlide>
-            <SwiperSlide
-              className="d-flex-center"
-              style={{
-                height: "200px",
-                backgroundColor: "#1773EA",
-                color: "#fff",
-              }}
-            >
-              Slide 6
-            </SwiperSlide>
+            {list.length > 0 ? (
+              list.map((i) => (
+                <SwiperSlide
+                  className="d-flex-center"
+                  style={{
+                    height: "200px",
+                    width: "200px",
+                    backgroundImage: `${i?.AvatarPath}`,
+                    color: "#fff",
+                  }}
+                >
+                  Slide 1
+                </SwiperSlide>
+              ))
+            ) : (
+              <>1111</>
+            )}
           </Swiper>
         </Col>
       </Row>
     </SpinCustom>
-  )
-}
+  );
+};
 
-export default List
+export default List;

@@ -61,8 +61,6 @@ const InsertUpdateComic = ({
     }
     setLstChapters([...newData, newChapter])
   }
-
-  console.log(open);
   const handleInsertUpdateComic = async () => {
     try {
       setLoading(true)
@@ -76,18 +74,19 @@ const InsertUpdateComic = ({
         Chapters: !!lstChapters.length
           ? lstChapters?.map(i => ({
             ChapterID: i?.ChapterID,
-            Name: i?.Name
+            Name: i?.Name,
+            Reads: i?.Reads
           }))
           : [],
         Status: false
       }
+      const { Status, ...remainBody } = body
       const resComic = !!open?.Comic?._id
-        ? await ComicService.udpateComic({ ...body, ComicID: open?.Comic?._id, Status: true })
+        ? await ComicService.udpateComic({ ...remainBody, ComicID: open?.Comic?._id })
         : await ComicService.insertComic(body)
       if (resComic?.isError) return toast.error(resComic.msg)
       let insertImages = []
       lstChapters.forEach(chapter => {
-        console.log(values[chapter?.Name]);
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
           if (!!i?.originFileObj) {
             const promiseInsertImage = ImageService.insertImage({
@@ -101,14 +100,18 @@ const InsertUpdateComic = ({
         })
       })
       await Promise.all(insertImages)
-      toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
+      if (!open?.Comic?._id) {
+        toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
+      } else {
+        toast.success('Truyện đã được cập nhật thành công')
+      }
       onOk()
       onCancel()
     } finally {
       setLoading(false)
     }
   }
-  console.log(deleteDocs);
+
   useEffect(() => {
     let chapters = []
     form.setFieldsValue(open?.Comic)
@@ -116,6 +119,7 @@ const InsertUpdateComic = ({
       chapters.push({
         ChapterID: item?.ChapterID,
         Name: item?.Name,
+        Reads: item?.Reads,
         ListImages: open?.Images?.filter(i => i?.Chapter === item?.ChapterID)
           ?.map(i => (
             {
@@ -210,7 +214,7 @@ const InsertUpdateComic = ({
               />
             </Form.Item>
             <Form.Item
-              name="ShortDecription"
+              name="ShortDescription"
             >
               <InputCustom
                 textArea
@@ -225,8 +229,9 @@ const InsertUpdateComic = ({
               ]}
             >
               <Select
-                isRequired
                 placeholder="Genre"
+                allowClear
+                showSearch
                 mode="multiple"
               >
                 {
@@ -262,7 +267,6 @@ const InsertUpdateComic = ({
                         className="pointer"
                         multiple="true"
                         onRemove={file => {
-                          console.log(file);
                           if (!!file?._id) {
                             setDeleteDocs([...deleteDocs, file])
                           }

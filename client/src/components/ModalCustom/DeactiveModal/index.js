@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import ModalCustom from "../ModalCustom"
+import ModalCustom from ".."
 import { useNavigate } from "react-router-dom"
 import globalSlice from "src/redux/globalSlice"
 import { Button } from "antd"

@@ -34,13 +34,10 @@ const Comics = new Schema({
       {
         ChapterID: { type: Number },
         Name: { type: String },
-      }
+        Reads: { type: Number, default: 0 }
+      },
     ],
-    require: true
-  },
-  CreatedAt: {
-    type: Date,
-    default: Date.now
+    require: true,
   },
   Likes: {
     type: Number,
@@ -60,6 +57,8 @@ const Comics = new Schema({
   PostedBy: {
     type: Number
   }
+}, {
+  timestamps: true
 })
 
 const ComicsModel = mongoose.model('Comics', Comics)

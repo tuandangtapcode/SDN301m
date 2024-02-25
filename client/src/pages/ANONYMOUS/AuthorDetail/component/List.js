@@ -1,18 +1,18 @@
-import { Col, Row } from "antd";
-import { useState } from "react";
-import SpinCustom from "src/components/SpinCustom";
+import { Col, Row } from "antd"
+import { useState } from "react"
+import SpinCustom from "src/components/SpinCustom"
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react"
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
+import "swiper/css"
+import "swiper/css/pagination"
 
 // import required modules
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules"
 
 const List = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   return (
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]}>
@@ -98,7 +98,7 @@ const List = () => {
         </Col>
       </Row>
     </SpinCustom>
-  );
-};
+  )
+}
 
-export default List;
+export default List

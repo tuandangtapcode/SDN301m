@@ -7,6 +7,7 @@ export const ComicItemStyled = styled.div`
  width: 300px;
  padding: 20px 16px;
  border-radius: 8px;
+ margin-right: 12px;
  cursor: pointer;
  &:hover {
   background-color: white;

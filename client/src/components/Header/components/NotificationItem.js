@@ -7,7 +7,7 @@ const NotificationItem = ({ data }) => {
         {data?.Content}
       </p>
       <p>
-        {moment(data.CreatedAt).calendar()}
+        {moment(data.createdAt).calendar()}
       </p>
     </div>
   )

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const PageStyles = styled.div`
   .ant-table td {
@@ -14,15 +14,14 @@ export const PageStyles = styled.div`
     font-weight: 600;
   } */
   
-  .ant-tabs-tab-btn {
+  /* .ant-tabs-tab-btn {
     color: #ff5079;
     font-weight: 600;
-  }
+  } */
   .ant-tabs,.ant-tabs-tab {
     padding: 8px 29px;
-    margin: 0;
-  }
+      }
   .ant-tabs, .ant-tabs-tab+.ant-tabs-tab {
     margin: 0;
   }
-`;
+`

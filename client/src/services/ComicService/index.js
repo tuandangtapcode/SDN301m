@@ -2,9 +2,11 @@ import http from '../index'
 import {
   apiChangeStatusComic,
   apiDeleteComic,
+apiGetAllChaptersByComic,
   apiGetAllComics,
   apiGetAllComicsByAuthor,
   apiGetAllComicsByGenre,
+apiGetDetailComic,
   apiInsertComic,
   apiUpdateComic,
 } from './urls'
@@ -22,7 +24,7 @@ const udpateComic = body => http.put(apiUpdateComic, body, {
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
-const getDetailComic = ComicID => http.get(`${apiGetAllComics}/${ComicID}`)
+const getDetailComic = ComicID => http.get(`${apiGetDetailComic}/${ComicID}`)
 const deleteComic = body => http.post(apiDeleteComic, body, {
   headers: {
     'token': `Bearer ${localStorage.getItem('token')}`
@@ -35,6 +37,7 @@ const changeStatusComic = body => http.post(apiChangeStatusComic, body, {
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
+const getAllChaptersByComic = ComicID => http.get(`${apiGetAllChaptersByComic}/${ComicID}`)
 
 
 const ComicService = {
@@ -45,7 +48,8 @@ const ComicService = {
   deleteComic,
   getAllComicsByGenre,
   getAllComicsByAuthor,
-  changeStatusComic
+  changeStatusComic,
+  getAllChaptersByComic
 }
 
 export default ComicService

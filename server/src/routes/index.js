@@ -1,6 +1,6 @@
 import ComicRoute from './comic.route.js'
 import CommentRoute from './comment.route.js'
-import GenreRoute from './gene.route.js'
+import GenreRoute from './genre.route.js'
 import ImageRoute from './image.route.js'
 import UserRoute from './user.route.js'
 import NotificaitonRoute from './notiffication.route.js'

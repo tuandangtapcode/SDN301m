@@ -1,5 +1,5 @@
 import { Button, Col, Form, Row, Select, Upload, message } from "antd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import ModalCustom from "src/components/ModalCustom"
@@ -67,19 +67,30 @@ const InsertUpdateComic = ({
     try {
       setLoading(true)
       const values = await form.validateFields()
-      const resComic = await ComicService.insertComic({
+      const body = {
         Title: values?.Title,
         ShortDecription: values?.ShortDecription,
         Genres: values?.Genres,
         Avatar: values?.image?.file,
         Author: global?.user?._id,
-        Chapters: lstChapters,
+        Chapters: !!lstChapters.length
+          ? lstChapters?.map(i => ({
+            ChapterID: i?.ChapterID,
+            Name: i?.Name,
+          }))
+          : [],
         Status: true
-      })
+      }
+      const { Status, ...remainBody } = body
+      const resComic = !!open?.Comic?._id
+        ? await ComicService.udpateComic({ ...remainBody, ComicID: open?.Comic?._id })
+        : await ComicService.insertComic(body)
       if (resComic?.isError) return toast.error(resComic.msg)
       let insertImages = []
       lstChapters.forEach(chapter => {
+console.log(values[chapter?.Name]);
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
+if (!!i?.originFileObj) {
           const promiseInsertImage = ImageService.insertImage({
             Chapter: chapter?.ChapterID,
             Image: i?.originFileObj,
@@ -87,16 +98,41 @@ const InsertUpdateComic = ({
             SortOrder: index + 1
           })
           insertImages.push(promiseInsertImage)
+}
         })
       })
       await Promise.all(insertImages)
+if (!open?.Comic?._id) {
       toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
+} else {
+        toast.success('Truyện đã được cập nhật thành công')
+      }
       onOk()
       onCancel()
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    let chapters = []
+    form.setFieldsValue(open?.Comic)
+    open?.Comic?.Chapters?.forEach(item => {
+      chapters.push({
+        ChapterID: item?.ChapterID,
+        Name: item?.Name,
+        ListImages: open?.Images?.filter(i => i?.Chapter === item?.ChapterID)
+          ?.map(i => (
+            {
+              ...i,
+              url: i?.Image
+            }
+          ))
+      })
+    })
+    setLstChapters(chapters)
+  }, [open])
+  console.log(open);
 
   const renderFooter = () => {
     return (
@@ -195,7 +231,8 @@ const InsertUpdateComic = ({
               ]}
             >
               <Select
-                isRequired
+                allowClear
+                showSearch
                 placeholder="Genre"
                 mode="multiple"
               >

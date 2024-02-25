@@ -22,7 +22,6 @@ router.delete('/deleteGenre/:id',
   // authMiddleware([Roles.ROLE_ADMIN]),
   GenreController.deleteGenre
 )
-
 router.get('/getDetailGenre/:id',
   GenreController.getDetailGenre
 )

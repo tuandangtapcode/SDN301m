@@ -5,9 +5,14 @@ import {
   AiFillBell,
   AiFillCheckCircle,
   AiFillCloseCircle,
-  AiFillEye
+  AiFillEye,
 } from "react-icons/ai"
-import { BsFillTrash3Fill } from "react-icons/bs"
+import {
+  BsFillTrash3Fill,
+  BsFillTagsFill,
+  BsFillInfoCircleFill,
+  BsMenuButtonWide
+} from "react-icons/bs"
 import {
   TbLock,
   TbLockOpen,
@@ -15,7 +20,9 @@ import {
 } from "react-icons/tb"
 import {
   FaUsers,
-  FaBookReader
+  FaBookReader,
+  FaUser,
+  FaHome
 } from "react-icons/fa"
 import { BiLogIn } from "react-icons/bi"
 import {
@@ -40,7 +47,7 @@ const LstIcons = {
   ICON_BLOCK: <TbLock className="fs-18" />,
   ICON_UNBLOCK: <TbLockOpen className="fs-18" />,
   ICON_STATISTIC: <AiOutlineBarChart className="fs-18" />,
-  ICON_USER: <FaUsers className="fs-18" />,
+  ICON_USER_MANAGEMENT: <FaUsers className="fs-18" />,
   ICON_GENRES: <TbCategoryFilled className="fs-18" />,
   ICON_COMIC: <FaBookReader className="fs-18" />,
   ICON_CONFIRM: <AiFillCheckCircle className="fs-18 active-green" />,
@@ -52,7 +59,12 @@ const LstIcons = {
   ICON_REPORT: <ExceptionOutlined />,
   ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />,
   ICON_EYE: <AiFillEye className="fs-15 mr-4 text-white" />,
-  ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white" />
+  ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white" />,
+  ICON_USER: <FaUser />,
+  ICON_TAGS: <BsFillTagsFill />,
+  ICON_INFOR: <BsFillInfoCircleFill className="fs-20 mr-4" />,
+  ICON_MENU: <BsMenuButtonWide className="fs-18 mr-4" />,
+  ICON_HOME: <FaHome className="fs-28" />
 }
 
 export default LstIcons

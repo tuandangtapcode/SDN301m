@@ -196,7 +196,7 @@ const routes = [
         )
       },
       {
-        path: '/genres/:GenreID',
+        path: '/genre/:GenreID',
         element: (
           <LazyLoadingComponent>
             <Genres />
@@ -212,7 +212,7 @@ const routes = [
         )
       },
       {
-        path: '/authors/:AuthorID',
+        path: '/author/:AuthorID',
         element: (
           <LazyLoadingComponent>
             <AuthorDetail />

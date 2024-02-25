@@ -69,7 +69,7 @@ const Authors = () => {
                   marginTop: '15px',
                   marginLeft: "22%",
                 }}
-                onClick={() => navigate(`/authors/${i?._id}`)}
+                onClick={() => navigate(`/author/${i?._id}`)}
               >More Detail</Button>
             </Card>
           </Col>

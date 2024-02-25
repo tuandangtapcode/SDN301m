@@ -85,7 +85,7 @@ const Genres = () => {
                 global?.genres?.map(i =>
                   <Col span={12}>
                     <RowStyled className={i?._id === GenreID ? "active" : ""} onClick={() => {
-                      navigate(`/genres/${i?._id}`)
+                      navigate(`/genre/${i?._id}`)
                     }}
                     >
                       {i?.Title}

@@ -39,7 +39,6 @@ const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManageme
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
 const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
 
-
 function LazyLoadingComponent({ children }) {
   return (
     <React.Suspense

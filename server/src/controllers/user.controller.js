@@ -102,6 +102,15 @@ const changePassword = async (req, res) => {
   }
 }
 
+const followOrUnfollowComic = async (req, res) => {
+  try {
+    const respone = await UserService.fncFollowOrUnfollowComic(req)
+    return res.status(respone.StatusCode).json(respone)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const UserController = {
   getListAuthour,
@@ -114,7 +123,8 @@ const UserController = {
   getListUser,
   deactiveAccount,
   updateProfileCustomer,
-  changePassword
+  changePassword,
+  followOrUnfollowComic
 }
 
 export default UserController

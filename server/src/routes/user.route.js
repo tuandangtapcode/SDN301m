@@ -51,5 +51,8 @@ router.post("/changePassword",
   // authMiddleware([Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM]),
   UserController.changePassword
 )
+router.post("/followOrUnfollowComic",
+  UserController.followOrUnfollowComic
+)
 
 export default router

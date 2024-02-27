@@ -24,6 +24,15 @@
   }
 }
 
+.greendBackground-textwhite {
+  background-color: #50a994 !important;
+  color: white !important;
+
+  &:hover {
+    color: white !important;
+  }
+}
+
 .greendBorder {
   border-color: #50a994 !important;
   background-color: transparent !important;

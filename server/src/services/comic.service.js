@@ -7,9 +7,15 @@ const cloudinaryV2 = cloudinary.v2
 
 const fncGetAllComics = async (req) => {
   try {
-    const { TextSearch, CurrentPage, PageSize } = req.body
+    const { TextSearch, CurrentPage, PageSize, isAdmin } = req.body
+    let query
+    if (isAdmin) {
+      query = { Title: { $regex: TextSearch, $options: 'i' } }
+    } else {
+      query = { Title: { $regex: TextSearch, $options: 'i' }, Status: true }
+    }
     const comics = await Comic
-      .find({ Title: { $regex: TextSearch, $options: 'i' } })
+      .find(query)
       .sort({ "createdAt": -1 })
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
@@ -167,80 +173,6 @@ const fncChangeStatusComic = async (req) => {
   }
 }
 
-const fncFollowComic = async (req) => {
-  try {
-    const { ComicID, UserID } = req.body
-    if (!UserID || !ComicID) {
-      return res.status(400).json({ message: 'Missing required parameters: userID and comicID' });
-    }
-    const user = await User.findById(UserID);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    const comic = await Comic.findById(ComicID);
-    if (!comic) {
-      return res.status(404).json({ message: 'Comic not found' });
-    }
-    if (user.Follows.find(followedComic => followedComic.toString() === ComicID)) {
-      return res.status(400).json({ message: 'Comic already followed' });
-    }
-    user.Follows.push(ComicID)
-    await user.save();
-    return response({ message: 'Comic followed' }, false, 'Cập nhật thành công', 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
-const fncUnfollowComic = async (req) => {
-  try {
-    const { ComicID, UserID } = req.body
-    if (!UserID || !ComicID) {
-      return res.status(400).json({ message: 'Missing required parameters: userID and comicID' });
-    }
-    const user = await User.findById(UserID);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    const comic = await Comic.findById(ComicID);
-    if (!comic) {
-      return res.status(404).json({ message: 'Comic not found' });
-    }
-    if (!user.Follows.find(followedComic => followedComic.toString() === comicID)) {
-      return res.status(400).json({ message: 'Comic not followed' });
-    }
-    user.Follows.pull(comicID);
-    await user.save();
-    return response({ message: 'Comic unfollowed' }, false, 'Cập nhật thành công', 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
-const fncGetAllComicsFollowed = async (req) => {
-  try {
-    const { userID } = req.body; // Assuming request body contains userID
-    if (!userID) {
-      return res.status(400).json({ message: 'Missing required parameter: userID' });
-    }
-    const user = await Users.findById(userID).populate('Follows');
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    const followedComics = user.Follows.map(comic => {
-      return {
-        comicID: comic._id,
-        title: comic.Title,
-        author: comic.Author.FullName,
-        coverImage: comic.AvatarPath,
-      };
-    });
-    return response({ followedComics }, false, 'Cập nhật thành công', 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
 const fncGetAllChaptersByComic = async (req) => {
   try {
     const ComicID = req.params.ComicID
@@ -255,19 +187,19 @@ const fncGetAllChaptersByComic = async (req) => {
 const fncLikeComic = async (req) => {
   try {
     const comicID = req.params.ComicID
-    const comic = await Comics.findById(comicID);
+    const comic = await Comics.findById(comicID)
     if (!comic) {
-      return res.status(404).json({ message: 'Comic not found' });
+      return res.status(404).json({ message: 'Comic not found' })
     }
     const updateResult = await Comics.updateOne(
-      { _id: comicID }, 
-      { $inc: { likes: 1 } } 
-    );
+      { _id: comicID },
+      { $inc: { likes: 1 } }
+    )
 
     if (updateResult.matchedCount === 0) {
-      return res.status(404).json({ message: 'Comic not found' }); 
+      return res.status(404).json({ message: 'Comic not found' })
     }
-    return response({message: 'Comic liked successfully' }, false, 'Cập nhật thành công', 200)
+    return response({ message: 'Comic liked successfully' }, false, 'Cập nhật thành công', 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -284,9 +216,6 @@ const ComicService = {
   fncGetDetailComic,
   fncGetAllComicsByAuthor,
   fncChangeStatusComic,
-  fncFollowComic,
-  fncUnfollowComic,
-  fncGetAllComicsFollowed,
   fncGetAllChaptersByComic,
   fncLikeComic,
 }

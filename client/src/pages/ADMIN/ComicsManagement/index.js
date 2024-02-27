@@ -32,7 +32,7 @@ const ComicsManagement = () => {
   const getListComics = async () => {
     try {
       setLoading(true)
-      const res = await ComicService.getAllComics(pagination)
+      const res = await ComicService.getAllComics({ ...pagination, isAdmin: true })
       if (res?.isError) return
       setComics(res?.data?.List)
       setTotal(res?.data?.Total)

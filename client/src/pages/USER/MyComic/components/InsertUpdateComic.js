@@ -61,6 +61,7 @@ const InsertUpdateComic = ({
     }
     setLstChapters([...newData, newChapter])
   }
+
   const handleInsertUpdateComic = async () => {
     try {
       setLoading(true)
@@ -87,7 +88,7 @@ const InsertUpdateComic = ({
       if (resComic?.isError) return toast.error(resComic.msg)
       let insertImages = []
       lstChapters.forEach(chapter => {
-        values[chapter?.Name]?.fileList.forEach(async (i, index) => {
+        values[chapter?.Name]?.fileList.forEach((i, index) => {
           if (!!i?.originFileObj) {
             const promiseInsertImage = ImageService.insertImage({
               Chapter: chapter?.ChapterID,

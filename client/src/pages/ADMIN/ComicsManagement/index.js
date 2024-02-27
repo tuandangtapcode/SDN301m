@@ -57,7 +57,7 @@ const ComicsManagement = () => {
       }
       const resNoti = await NotificaitonService.createNotification(body)
       if (resNoti?.isError) return
-      socket.emit('send-notification', { Content: body.Content, Receiver: body.Receiver, IsSeen: Status, CreatedAt: Date.now() })
+      socket.emit('send-notification', { Content: body.Content, Receiver: body.Receiver, IsSeen: Status, createdAt: Date.now() })
       getListComics()
     } finally {
       setLoading(false)
@@ -162,7 +162,7 @@ const ComicsManagement = () => {
       align: "center",
       width: 100,
       render: (_, record, index) => (
-        <div>{moment(record?.CreatedAt).format("DD/MM/YYYY")}</div>
+        <div>{moment(record?.createdAt).format("DD/MM/YYYY")}</div>
       ),
     },
     {

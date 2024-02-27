@@ -1,13 +1,39 @@
-import { AiFillEdit } from "react-icons/ai"
-import { BsFillTrash3Fill } from "react-icons/bs"
-import { AiFillBell, AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai"
-import { SearchOutlined, CloseOutlined } from '@ant-design/icons'
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
-import { TbLock, TbLockOpen, TbCategoryFilled } from "react-icons/tb"
-import { AiOutlineBarChart } from "react-icons/ai"
-import { FaUsers, FaBookReader } from "react-icons/fa"
+import {
+  AiFillEdit,
+  AiFillHeart,
+  AiOutlineBarChart,
+  AiFillBell,
+  AiFillCheckCircle,
+  AiFillCloseCircle,
+  AiFillEye,
+} from "react-icons/ai"
+import {
+  BsFillTrash3Fill,
+  BsFillTagsFill,
+  BsFillInfoCircleFill,
+  BsMenuButtonWide
+} from "react-icons/bs"
+import {
+  TbLock,
+  TbLockOpen,
+  TbCategoryFilled
+} from "react-icons/tb"
+import {
+  FaUsers,
+  FaBookReader,
+  FaUser,
+  FaHome
+} from "react-icons/fa"
 import { BiLogIn } from "react-icons/bi"
-import { MenuFoldOutlined, MenuUnfoldOutlined, ExceptionOutlined } from "@ant-design/icons"
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  ExceptionOutlined,
+  SearchOutlined,
+  CloseOutlined,
+  CaretUpOutlined,
+  CaretDownOutlined
+} from "@ant-design/icons"
 import { CgSandClock } from "react-icons/cg"
 
 const LstIcons = {
@@ -21,7 +47,7 @@ const LstIcons = {
   ICON_BLOCK: <TbLock className="fs-18" />,
   ICON_UNBLOCK: <TbLockOpen className="fs-18" />,
   ICON_STATISTIC: <AiOutlineBarChart className="fs-18" />,
-  ICON_USER: <FaUsers className="fs-18" />,
+  ICON_USER_MANAGEMENT: <FaUsers className="fs-18" />,
   ICON_GENRES: <TbCategoryFilled className="fs-18" />,
   ICON_COMIC: <FaBookReader className="fs-18" />,
   ICON_CONFIRM: <AiFillCheckCircle className="fs-18 active-green" />,
@@ -29,8 +55,16 @@ const LstIcons = {
   ICON_LOGOUT: <BiLogIn className="fs-20" />,
   ICON_MENUFOLD: <MenuFoldOutlined />,
   ICON_MENUUNFOLD: <MenuUnfoldOutlined />,
+  ICON_PREVIEW: <AiFillEye className="fs-20" />,
   ICON_REPORT: <ExceptionOutlined />,
-  ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />
+  ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: '20px' }} />,
+  ICON_EYE: <AiFillEye className="fs-15 mr-4 text-white" />,
+  ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white" />,
+  ICON_USER: <FaUser />,
+  ICON_TAGS: <BsFillTagsFill />,
+  ICON_INFOR: <BsFillInfoCircleFill className="fs-20 mr-4" />,
+  ICON_MENU: <BsMenuButtonWide className="fs-18 mr-4" />,
+  ICON_HOME: <FaHome className="fs-28" />
 }
 
 export default LstIcons

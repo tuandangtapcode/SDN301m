@@ -9,7 +9,7 @@ const insertImage = async (req, res) => {
   }
 }
 
-const getImageByChapter = async (req, res) => {
+const getImagesByChapter = async (req, res) => {
   try {
     const response = await ImageService.fncGetAllImagesByChapter(req)
     return res.status(response.StatusCode).json(response)
@@ -18,9 +18,10 @@ const getImageByChapter = async (req, res) => {
   }
 }
 
+
 const ImageController = {
   insertImage,
-  getImageByChapter
+  getImagesByChapter
 }
 
 export default ImageController

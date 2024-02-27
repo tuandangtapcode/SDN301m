@@ -31,7 +31,7 @@ const DropdownProfile = () => {
   const handleSeenNotification = async () => {
     const res = await NotificaitonService.seenNotification(global?.user?._id)
     if (res?.isError) return
-    setNotifiNotSeen(0)
+    getNotifications()
   }
 
   const getNotifications = async () => {
@@ -40,10 +40,9 @@ const DropdownProfile = () => {
     setNotifications(res?.data?.List)
     setNotifiNotSeen(res?.data?.NotSeen)
   }
-
   useEffect(() => {
     if (global?.user?._id) getNotifications()
-  }, [global?.user?._id])
+  }, [])
 
   const menuItems = () => {
     let items
@@ -51,24 +50,24 @@ const DropdownProfile = () => {
       items = [
         {
           label: (
-            <Link to={'/profile'}>View Profile</Link>
+            <Link to={'/profile'}>Trang cá nhân</Link>
           ),
           key: '1',
         },
         {
           label: (
-            <Link to={'/mycomic'}>My comic</Link>
+            <Link to={'/mycomic'}>Truyện của tôi</Link>
           ),
           key: '2',
         },
         {
           label: (
-            <Link to={'/change-password'}>Change password</Link>
+            <Link to={'/change-password'}>Thay đổi mật khẩu</Link>
           ),
           key: '3',
         },
         {
-          label: 'Log out',
+          label: 'Đăng xuất',
           key: '4',
           onClick: () => handleLogout()
         },
@@ -77,18 +76,18 @@ const DropdownProfile = () => {
       items = [
         {
           label: (
-            <Link to={'/profile'}>View Profile</Link>
+            <Link to={'/profile'}>Trang cá nhân</Link>
           ),
           key: '1',
         },
         {
           label: (
-            <Link to={'/change-password'}>Change password</Link>
+            <Link to={'/change-password'}>Thay đổi mật khẩu</Link>
           ),
           key: '2',
         },
         {
-          label: 'Log out',
+          label: 'Đăng xuất',
           key: '3',
           onClick: () => handleLogout()
         },
@@ -97,12 +96,12 @@ const DropdownProfile = () => {
       items = [
         {
           label: (
-            <Link to={'/profile'}>View Profile</Link>
+            <Link to={'/profile'}>Trang cá nhân</Link>
           ),
           key: '1',
         },
         {
-          label: 'Log out',
+          label: 'Đăng xuất',
           key: '2',
           onClick: () => handleLogout()
         },
@@ -111,18 +110,18 @@ const DropdownProfile = () => {
       items = [
         {
           label: (
-            <Link to={'/profile'}>View Profile</Link>
+            <Link to={'/profile'}>Trang cá nhân</Link>
           ),
           key: '1',
         },
         {
           label: (
-            <Link to={'/mycomic'}>My comic</Link>
+            <Link to={'/mycomic'}>Truyện của tôi</Link>
           ),
           key: '2',
         },
         {
-          label: 'Log out',
+          label: 'Đăng xuất',
           key: '3',
           onClick: () => handleLogout()
         },
@@ -158,12 +157,41 @@ const DropdownProfile = () => {
       {
         !!global?.user?._id ?
           <div className="d-flex-sb">
+            {
+              global?.user?.RoleID === 5 &&
+              <ButtonCustom
+                className=" noBackground-textwhite fw-600 medium fs-18"
+              >
+                Premium
+              </ButtonCustom>
+            }
+            {
+              global?.user?.RoleID === 1 ?
+                <ButtonCustom className="noBackground-textwhite fw-600">
+                  Admintrator
+                </ButtonCustom>
+                :
+                <Dropdown menu={{ items: menuItems() }} trigger={["click"]}>
+                  <ButtonCustom
+                    className=" noBackground-textwhite fw-600"
+                    onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
+                    icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
+                  >
+                    Cá nhân
+                  </ButtonCustom>
+                </Dropdown>
+            }
             <Dropdown
               menu={{ items: itemsNotification }}
               trigger={['click']}
-              onClick={() => {
-                if (notifiNotSeen !== 0) {
-                  handleSeenNotification()
+              // onClick={() => {
+                //   if (notifiNotSeen !== 0) {
+                  //     handleSeenNotification()
+              //   }
+              // }}
+              onOpenChange={e => {
+                if (!e) {
+                  if (notifiNotSeen !== 0) handleSeenNotification()
                 }
               }}
             >
@@ -174,27 +202,11 @@ const DropdownProfile = () => {
               >
                 <ButtonCustom
                   className="noBackground-textwhite"
-                  icon={<AiFillBell className="fs-20" style={{ color: 'white' }} />}
+                  icon={LstIcons.ICON_BELL}
                   onClick={() => setArrowDropdownProfile(false)}
                 />
               </BadgeStyled>
             </Dropdown>
-
-            {
-              global?.user?.RoleID === 1 ?
-                <ButtonCustom className="noBackground-textwhite">
-                  Admintrator
-                </ButtonCustom>
-                :
-                <Dropdown menu={{ items: menuItems() }} trigger={["click"]}>
-                  <ButtonCustom
-                    className=" noBackground-textwhite"
-                    icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
-                  >
-                    My Profile
-                  </ButtonCustom>
-                </Dropdown>
-            }
           </div>
           :
           <div>

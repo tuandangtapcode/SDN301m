@@ -19,11 +19,9 @@ const Notificaitons = new Schema({
   IsSeen: {
     type: Boolean,
     default: false
-  },
-  CreatedAt: {
-    type: Date,
-    default: Date.now
-  },
+  }
+}, {
+  timestamps: true
 })
 
 const NotificaitonsModel = mongoose.model('Notificaitons', Notificaitons)

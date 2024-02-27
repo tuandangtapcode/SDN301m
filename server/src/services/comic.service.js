@@ -1,4 +1,5 @@
 import Comic from '../models/comic.js'
+import Image from '../models/image.js'
 import response from '../utils/response-result.js'
 import cloudinary from 'cloudinary'
 import User from '../models/user.js'
@@ -9,6 +10,7 @@ const fncGetAllComics = async (req) => {
     const { TextSearch, CurrentPage, PageSize } = req.body
     const comics = await Comic
       .find({ Title: { $regex: TextSearch, $options: 'i' } })
+      .sort({ "createdAt": -1 })
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
       .populate('Author', ['_id', 'FullName'])
@@ -27,17 +29,24 @@ const fncGetAllComics = async (req) => {
 const fncGetAllComicsByGenres = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize, GenreID } = req.body
-    const comics = await Comic
-      .find({
+    let query
+    if (!!GenreID) {
+      query = {
         Title: { $regex: TextSearch, $options: 'i' },
-        Genres: { $elemMatch: GenreID }
-      })
+        Genres: GenreID,
+      }
+    } else {
+      query = {
+        Title: { $regex: TextSearch, $options: 'i' },
+      }
+    }
+    const comics = await Comic
+      .find(query)
+      .sort({ "createdAt": -1 })
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
-      .populate('Author', ['_id', 'FullName'])
-      .populate('Genres', ['Title'])
     if (!comics.length) {
-      return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenreID}"`)
+      return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenreID}"`, 200)
     }
     return response(
       { List: comics, Total: comics.length },
@@ -54,6 +63,8 @@ const fncGetAllComicsByAuthor = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize, UserID, IsPrivated } = req.body
     let data, query
+    const user = await User.findOne({ _id: UserID })
+    if (!user) return response({}, true, "User không tồn tại", 200)
     if (!IsPrivated) {
       query = {
         Title: { $regex: TextSearch, $options: 'i' },
@@ -70,8 +81,15 @@ const fncGetAllComicsByAuthor = async (req) => {
       .find(query)
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
-    if (!IsPrivated) data = { List: comics, Total: comics.length, Author: user }
-    else data = { List: comics, Total: comics.length }
+    const comicsWithImages = await Promise.all(comics.map(async (comic) => {
+      const images = await Image.find({ Comic: comic._id }).exec()
+      return {
+        Comic: comic,
+        Images: images,
+      }
+    }))
+    if (!IsPrivated) data = { List: comicsWithImages, Total: comics.length, Author: user }
+    else data = { List: comicsWithImages, Total: comics.length }
     return response(data, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
@@ -95,20 +113,20 @@ const fncInsertComic = async (req) => {
 
 const fncUpdateComic = async (req) => {
   try {
-    const { ComicID, UserID, Title } = req.body
-    const checkExist = await Comic.findOne({ _id: ComicID, Author: UserID })
+    const { ComicID, Author, Title } = req.body
+    const checkExist = await Comic.findOne({ _id: ComicID, Author: Author })
     if (!checkExist) return response(checkExist, true, 'Truyện không tồn tại', 200)
     const checkExistTitle = await Comic.findOne({ Title })
-    if (!!checkExistTitle && checkExist._id !== checkExistTitle._id) {
-      cloudinaryV2.uploader.destroy(req.file.filename)
+    if (!!checkExistTitle && !checkExist._id.equals(checkExistTitle._id)) {
+      if (!!req.file) cloudinaryV2.uploader.destroy(req.file.filename)
       return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)
     }
-    const updateComic = await Comic.updateOne({ _id: ComicID }, {
+    const updateComic = await Comic.findByIdAndUpdate({ _id: ComicID, Author: Author }, {
       ...req.body,
       AvatarPath: !!req.file ? req.file.path : checkExistTitle?.AvatarPath,
       AvatarPathId: !!req.file ? req.file.filename : checkExistTitle?.AvatarPathId,
     })
-    return response(updateComic, false, "Cập nhật thành công thành công", 200)
+    return response(updateComic?._id, false, "Cập nhật thành công thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -168,7 +186,7 @@ const fncFollowComic = async (req) => {
     }
     user.Follows.push(ComicID)
     await user.save();
-    return response({ message: 'Comic followed'}, false, 'Cập nhật thành công', 200)
+    return response({ message: 'Comic followed' }, false, 'Cập nhật thành công', 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -193,7 +211,7 @@ const fncUnfollowComic = async (req) => {
     }
     user.Follows.pull(comicID);
     await user.save();
-    return response({ message: 'Comic unfollowed'}, false, 'Cập nhật thành công', 200)
+    return response({ message: 'Comic unfollowed' }, false, 'Cập nhật thành công', 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -218,6 +236,17 @@ const fncGetAllComicsFollowed = async (req) => {
       };
     });
     return response({ followedComics }, false, 'Cập nhật thành công', 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncGetAllChaptersByComic = async (req) => {
+  try {
+    const ComicID = req.params.ComicID
+    const chapters = await Comic.findOne({ _id: ComicID }).select('Chapters Title createdAt')
+    if (!chapters) return response({}, true, "Có lỗi", 200)
+    return response(chapters, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -257,6 +286,8 @@ const ComicService = {
   fncChangeStatusComic,
   fncFollowComic,
   fncUnfollowComic,
+  fncGetAllComicsFollowed,
+  fncGetAllChaptersByComic
   fncGetAllComicsFollowed,
   fncLikeComic,
 }

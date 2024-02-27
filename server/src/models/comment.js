@@ -16,7 +16,8 @@ const Comments = new Schema({
     ref: 'Comics',
     require: true
   },
-
+}, {
+  timestamps: true
 })
 
 const CommentsModel = mongoose.model('Comments', Comments)

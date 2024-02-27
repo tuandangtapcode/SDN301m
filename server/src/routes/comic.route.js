@@ -13,22 +13,18 @@ router.post('/insertComic',
   // authMiddleware([Roles.ROLE_ADMIN, Roles.ROLE_AUTHOR]),
   ComicController.insertComic
 )
-//Chưa test
-router.post('/getDetailComic/:ComicID',
+router.get('/getDetailComic/:ComicID',
   ComicController.getDetailComic
 )
-//Chưa test
 router.post('/deleteComic',
   // authMiddleware([Roles.ROLE_ADMIN, Roles.ROLE_AUTHOR]),
   ComicController.deleteComic
 )
-//Chưa test
 router.put('/updateComic',
-  // upload('Avatar').single('Avatar'),
+  upload('Avatar').single('Avatar'),
   // authMiddleware([Roles.ROLE_ADMIN, Roles.ROLE_AUTHOR]),
   ComicController.updateComic
 )
-//Chưa test
 router.post('/getAllComicsByGenre',
   ComicController.getAllComicsByGenre
 )
@@ -39,17 +35,17 @@ router.post('/changeStatusComic',
   // authMiddleware([Roles.ROLE_ADMIN]),
   ComicController.changeStatusComic
 )
-
 router.post('/followComic',
   ComicController.followComic
 )
-
 router.post('/unfollowComic',
   ComicController.unfollowComic
 )
-
 router.post('/getAllComicFollowed',
   ComicController.getAllComicsFollow
+)
+router.get('/getAllChaptersByComic/:ComicID',
+  ComicController.getAllChaptersByComic
 )
 
 router.get('/likeComic/:ComicID',

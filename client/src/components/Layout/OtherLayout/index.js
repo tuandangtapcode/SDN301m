@@ -2,23 +2,25 @@ import Footer from "src/components/Footer"
 import MainHeader from "src/components/Header"
 import styled from "styled-components"
 
+const OtherLayoutContainer = styled.div`
+background-color: #333;
+`
 
 const ContentStyled = styled.div`
 max-width: 70%;
 margin: auto;
-background-color: white;
 `
 
-const MainLayout = ({ children }) => {
+const OtherLayout = ({ children }) => {
   return (
-    <div>
+    <OtherLayoutContainer>
       <MainHeader />
       <ContentStyled>
         {children}
       </ContentStyled>
       <Footer />
-    </div >
+    </OtherLayoutContainer >
   )
 }
 
-export default MainLayout
+export default OtherLayout

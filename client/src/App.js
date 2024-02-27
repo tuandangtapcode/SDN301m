@@ -10,7 +10,7 @@ import { globalSelector } from "src/redux/selector"
 import UserService from "./services/UserService"
 import GenreService from "./services/GenreService"
 import socket from "./utils/socket"
-import DeactiveModal from "./components/DeactiveModal"
+import DeactiveModal from "./components/ModalCustom/DeactiveModal"
 
 
 // ANONYMOUS
@@ -21,7 +21,6 @@ const SignupPage = React.lazy(() => import('src/pages/ANONYMOUS/SignupPage'))
 const ComicContent = React.lazy(() => import('src/pages/ANONYMOUS/ComicContent'))
 const ComicDetail = React.lazy(() => import('src/pages/ANONYMOUS/ComicDetail'))
 const Genres = React.lazy(() => import('src/pages/ANONYMOUS/Genres'))
-const GenresDetail = React.lazy(() => import('src/pages/ANONYMOUS/GenresDetail'))
 const Authors = React.lazy(() => import('src/pages/ANONYMOUS/Authors'))
 const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail'))
 
@@ -173,7 +172,7 @@ const routes = [
         )
       },
       {
-        path: '/comics/:ComicID/chapter/:ChapterID',
+        path: '/comic/:ComicID/chapter/:ChapterID',
         element: (
           <LazyLoadingComponent>
             <ComicContent />
@@ -181,7 +180,7 @@ const routes = [
         )
       },
       {
-        path: '/comics/:ComicID',
+        path: '/comic/:ComicID',
         element: (
           <LazyLoadingComponent>
             <ComicDetail />
@@ -197,10 +196,10 @@ const routes = [
         )
       },
       {
-        path: '/genres/:GenresID',
+        path: '/genres/:GenreID',
         element: (
           <LazyLoadingComponent>
-            <GenresDetail />
+            <Genres />
           </LazyLoadingComponent>
         )
       },
@@ -279,8 +278,8 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    getListGenres()
-  }, [])
+    if (!!global?.user?._id) getListGenres()
+  }, [global?.user?._id])
 
 
   socket.on('get-deactive', (data) => {

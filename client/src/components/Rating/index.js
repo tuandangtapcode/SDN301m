@@ -6,7 +6,6 @@ import Month from "./components/Month"
 import Week from "./components/Week"
 import SpinCustom from "../SpinCustom"
 
-
 const Rating = () => {
   const [loading, setLoading] = useState(false)
   const [activeKey, setActiveKey] = useState(1)
@@ -31,16 +30,17 @@ const Rating = () => {
 
   return (
     <SpinCustom spinning={loading}>
-      <Row>
+      <Row
+      // style={{ border: "1px solid #ff5079", borderRadius: "8px" }}
+      >
         <Col span={24} className="d-flex">
           <PageStyles>
             <Tabs
               defaultActiveKey="1"
               items={items}
-              onChange={key => {
+              onChange={(key) => {
                 setActiveKey(key)
               }}
-              type="card"
             />
           </PageStyles>
         </Col>

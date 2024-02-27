@@ -7,6 +7,7 @@ export const ComicItemStyled = styled.div`
  width: 300px;
  padding: 20px 16px;
  border-radius: 8px;
+ margin-right: 12px;
  cursor: pointer;
  &:hover {
   background-color: white;
@@ -41,10 +42,10 @@ border-color: transparent;
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
-.icon-play {
+.icon-preview {
   display: none;
 }
-&:hover .icon-play {
+&:hover .icon-preview {
   display: block;
   animation: iconFadeIn ease 0.5s;
 }

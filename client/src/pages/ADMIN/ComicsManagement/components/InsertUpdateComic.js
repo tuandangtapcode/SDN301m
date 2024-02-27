@@ -1,5 +1,5 @@
 import { Button, Col, Form, Row, Select, Upload, message } from "antd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import ModalCustom from "src/components/ModalCustom"
@@ -9,6 +9,8 @@ import ImageService from "src/services/ImageService"
 import { toast } from "react-toastify"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
+import { getBase64 } from "src/lib/getFileUpload"
+import PreviewImage from "./PreviewImage"
 
 const { Option } = Select
 
@@ -24,53 +26,113 @@ const InsertUpdateComic = ({
   const [deleteDocs, setDeleteDocs] = useState([])
   const [loading, setLoading] = useState(false)
   const [preview, setPreview] = useState()
+  const [previewImage, setPreviewImage] = useState()
 
   const handleDelete = (ChapterID) => {
     const newData = lstChapters.filter(i => i?.ChapterID !== ChapterID)
     setLstChapters(newData)
   }
 
-
-  const handleBeforeUpload = async (file) => {
+  const handleBeforeUpload = async (file, type) => {
     const isAllowedType = file.type.includes("image")
     if (!isAllowedType) {
       message.error("Yêu cầu chọn file tài liệu (doc, docx, pdf, xls, xlsx)")
     } else {
-      setPreview(URL.createObjectURL(file))
+      if (type === 'Avatar') {
+        setPreview(URL.createObjectURL(file))
+      }
     }
     return isAllowedType ? false : Upload.LIST_IGNORE
   }
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setPreviewImage(file.url || file.preview)
+  }
+
+  const handleChange = ({ fileList: newFileList }, ChapterID) => {
+    const chapter = lstChapters.find(i => i?.ChapterID === ChapterID)
+    const newData = lstChapters.filter(i => i?.ChapterID !== ChapterID)
+    const newChapter = {
+      ...chapter,
+      ListImages: newFileList
+    }
+    setLstChapters([...newData, newChapter])
+  }
+
 
   const handleInsertUpdateComic = async () => {
     try {
       setLoading(true)
       const values = await form.validateFields()
-      const resComic = await ComicService.insertComic({
+      const body = {
         Title: values?.Title,
         ShortDecription: values?.ShortDecription,
         Genres: values?.Genres,
         Avatar: values?.image?.file,
         Author: global?.user?._id,
-        Chapters: lstChapters,
+        Chapters: !!lstChapters.length
+          ? lstChapters?.map(i => ({
+            ChapterID: i?.ChapterID,
+            Name: i?.Name,
+          }))
+          : [],
         Status: true
-      })
+      }
+      const { Status, ...remainBody } = body
+      const resComic = !!open?.Comic?._id
+        ? await ComicService.udpateComic({ ...remainBody, ComicID: open?.Comic?._id })
+        : await ComicService.insertComic(body)
       if (resComic?.isError) return toast.error(resComic.msg)
+      let insertImages = []
       lstChapters.forEach(chapter => {
+console.log(values[chapter?.Name]);
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
-          await ImageService.insertImage({
+if (!!i?.originFileObj) {
+          const promiseInsertImage = ImageService.insertImage({
             Chapter: chapter?.ChapterID,
             Image: i?.originFileObj,
             Comic: resComic?.data,
             SortOrder: index + 1
           })
+          insertImages.push(promiseInsertImage)
+}
         })
       })
+      await Promise.all(insertImages)
+if (!open?.Comic?._id) {
+      toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
+} else {
+        toast.success('Truyện đã được cập nhật thành công')
+      }
       onOk()
       onCancel()
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    let chapters = []
+    form.setFieldsValue(open?.Comic)
+    open?.Comic?.Chapters?.forEach(item => {
+      chapters.push({
+        ChapterID: item?.ChapterID,
+        Name: item?.Name,
+        ListImages: open?.Images?.filter(i => i?.Chapter === item?.ChapterID)
+          ?.map(i => (
+            {
+              ...i,
+              url: i?.Image
+            }
+          ))
+      })
+    })
+    setLstChapters(chapters)
+  }, [open])
+  console.log(open);
 
   const renderFooter = () => {
     return (
@@ -87,7 +149,8 @@ const InsertUpdateComic = ({
             ...lstChapters,
             {
               ChapterID: lstChapters.length + 1,
-              Name: `Chapter ${lstChapters.length + 1}`
+              Name: `Chapter ${lstChapters.length + 1}`,
+              ListImages: []
             }
           ])}
         >
@@ -126,7 +189,7 @@ const InsertUpdateComic = ({
               ]}
             >
               <Upload.Dragger
-                beforeUpload={file => handleBeforeUpload(file)}
+                beforeUpload={file => handleBeforeUpload(file, 'Avatar')}
                 style={{ width: '100%', height: '200px' }}
                 accept="image/*"
                 multiple={false}
@@ -168,7 +231,8 @@ const InsertUpdateComic = ({
               ]}
             >
               <Select
-                isRequired
+                allowClear
+                showSearch
                 placeholder="Genre"
                 mode="multiple"
               >
@@ -196,7 +260,11 @@ const InsertUpdateComic = ({
                       ]}
                     >
                       <Upload.Dragger
-                        beforeUpload={file => handleBeforeUpload(file)}
+                        listType="picture-circle"
+                        beforeUpload={file => handleBeforeUpload(file, 'image')}
+                        fileList={i?.ListImages}
+                        onPreview={handlePreview}
+                        onChange={e => handleChange(e, i?.ChapterID)}
                         accept="image/*"
                         className="pointer"
                         multiple="true"
@@ -219,12 +287,20 @@ const InsertUpdateComic = ({
                     >
                     </ButtonCustom>
                   </Col>
+
                 </Row>
               )
             }
           </Col>
         </Row>
       </Form>
+      {
+        !!previewImage &&
+        <PreviewImage
+          open={previewImage}
+          onCancel={() => setPreviewImage()}
+        />
+      }
     </ModalCustom>
   )
 }

@@ -91,14 +91,16 @@ const getAllComicsFollow = async (req, res) => {
   }
 }
 
-const likeComic = async (req, res) => {
+const getAllChaptersByComic = async (req, res) => {
   try {
-    const response = await ComicService.fncLikeComic(req)
+    const response = await ComicService.fncGetAllChaptersByComic(req)
     return res.status(response.StatusCode).json(response)
   } catch (error) {
     return res.status(500).json(error.toString());
   }
 }
+
+
 const ComicController = {
   getAllComics,
   insertComic,
@@ -111,7 +113,7 @@ const ComicController = {
   followComic,
   unfollowComic,
   getAllComicsFollow,
-  likeComic
+  getAllChaptersByComic
 }
 
 export default ComicController

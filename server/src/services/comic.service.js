@@ -287,8 +287,7 @@ const ComicService = {
   fncFollowComic,
   fncUnfollowComic,
   fncGetAllComicsFollowed,
-  fncGetAllChaptersByComic
-  fncGetAllComicsFollowed,
+  fncGetAllChaptersByComic,
   fncLikeComic,
 }
 

@@ -76,7 +76,7 @@ const fnDeactiveAccount = async (req) => {
 const fncGetDetailProfile = async (req) => {
   try {
     const UserID = req.params.UserID
-    const detail = await User.findOne({ _id: UserID })
+    const detail = await User.findOne({ _id: UserID }).populate('Follows')
     if (!detail) return response({}, true, "Không tồn tại user", 200)
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {
@@ -223,7 +223,7 @@ const fncFollowOrUnfollowComic = async (req) => {
     const { ComicID, UserID } = req.body
     const user = await User.findOne({ _id: UserID })
     if (!user) return response({}, true, "Người dùng không tồn tại", 200)
-    const followedComic = await User.findOne({ Follows: ComicID })
+    const followedComic = user.Follows.find(i => i.equals(ComicID))
     let followed
     if (!followedComic) {
       followed = await User.findByIdAndUpdate({ _id: UserID }, { $push: { Follows: ComicID } })

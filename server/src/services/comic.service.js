@@ -252,6 +252,27 @@ const fncGetAllChaptersByComic = async (req) => {
   }
 }
 
+const fncLikeComic = async (req) => {
+  try {
+    const comicID = req.params.ComicID
+    const comic = await Comics.findById(comicID);
+    if (!comic) {
+      return res.status(404).json({ message: 'Comic not found' });
+    }
+    const updateResult = await Comics.updateOne(
+      { _id: comicID }, 
+      { $inc: { likes: 1 } } 
+    );
+
+    if (updateResult.matchedCount === 0) {
+      return res.status(404).json({ message: 'Comic not found' }); 
+    }
+    return response({message: 'Comic liked successfully' }, false, 'Cập nhật thành công', 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const ComicService = {
   fncGetAllComics,
@@ -266,7 +287,8 @@ const ComicService = {
   fncFollowComic,
   fncUnfollowComic,
   fncGetAllComicsFollowed,
-  fncGetAllChaptersByComic
+  fncGetAllChaptersByComic,
+  fncLikeComic,
 }
 
 export default ComicService

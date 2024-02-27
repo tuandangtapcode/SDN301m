@@ -9,7 +9,8 @@ import ComicService from "src/services/ComicService"
 const AuthorDetail = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [detail, setDetail] = useState(false)
+  const [detail, setDetail] = useState()
+  const [list, setList] = useState([])
   const { AuthorID } = useParams()
   const [pagination, setPagination] = useState({
     TextSearch: "",
@@ -19,35 +20,41 @@ const AuthorDetail = () => {
 
   const getInforAuthor = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await ComicService.getAllComicsByAuthor({
         ...pagination,
         UserID: AuthorID,
         IsPrivated: false,
-      })
+      });
       if (res.isError) return navigate("/not-found")
       setDetail(res?.data)
+      setList(res?.data?.List)
     } finally {
       setLoading(false)
     }
-  }
+  };
 
   useEffect(() => {
-    getInforAuthor()
+    getInforAuthor();
   }, [pagination, AuthorID])
 
   return (
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]} className="mt-20 mb-20">
         <Col span={16}>
-          <Content detail={detail?.Author} setDetail={setDetail} />
+          <Content
+            detail={detail?.Author}
+            setDetail={setDetail}
+            list={list}
+            setList={setList}
+          />
         </Col>
         <Col span={8}>
           <Rating />
         </Col>
       </Row>
     </SpinCustom>
-  )
-}
+  );
+};
 
-export default AuthorDetail
+export default AuthorDetail;

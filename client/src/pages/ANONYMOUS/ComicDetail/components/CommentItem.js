@@ -1,12 +1,14 @@
+import { CommentItemStyled } from "../styled"
+
 const CommentItem = ({ comment }) => {
   return (
-    <div className="d-flex">
-      <img src={comment?.Author?.AvatarPath} alt="" />
-      <div>
-        <p>{comment?.Author?.FullName}</p>
-        <p>{comment?.Content}</p>
+    <CommentItemStyled>
+      <img style={{ width: '70px', height: '70px', borderRadius: '50%', marginRight: '12px' }} src={comment?.Author?.AvatarPath} alt="" />
+      <div style={{ flex: 1, backgroundColor: '#f7f7f7' }} >
+        <p className="title-type-4">{comment?.Author?.FullName}</p>
+        <p className="mt-12">{comment?.Content}</p>
       </div>
-    </div>
+    </CommentItemStyled >
   )
 }
 

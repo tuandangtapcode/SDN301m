@@ -20,6 +20,7 @@ import CommentItem from "./components/CommentItem"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import CommentService from "src/services/CommentService"
 import UserService from "src/services/UserService"
+import socket from "src/utils/socket"
 
 
 const ComicDetail = () => {
@@ -35,6 +36,7 @@ const ComicDetail = () => {
   const [showFullDescription, setShowFullDescription] = useState(false)
   const [openBtnComment, setOpenBtnComment] = useState(false)
   const [textComment, setTextComment] = useState("")
+  const [statusBtnFollow, setStatusBtnFollow] = useState(global?.user?.Follows?.some(i => i?._id === ComicID))
 
   const getComic = async () => {
     try {
@@ -67,6 +69,13 @@ const ComicDetail = () => {
     try {
       setLoading(true)
       const res = await CommentService.insertComment({ Author: global?.user?._id, Comic: ComicID, Content: textComment })
+      if (res?.isError) return
+      socket.emit("send-comment",
+        {
+          Author: { FullName: global?.user?.FullName, AvatarPath: global?.user?.AvatarPath },
+          Comic: ComicID,
+          Content: textComment
+        })
     } finally {
       setLoading(false)
     }
@@ -78,6 +87,8 @@ const ComicDetail = () => {
       const res = await UserService.followOrUnfollowComic({ ComicID, UserID: global?.user?._id })
       if (res?.isError) return
       toast.success(res?.msg)
+      setStatusBtnFollow(!statusBtnFollow)
+      getComic()
     } finally {
       setLoading(false)
     }
@@ -89,6 +100,12 @@ const ComicDetail = () => {
       getComments()
     }
   }, [ComicID])
+
+  socket.on("get-comments", data => {
+    if (data?.Comic === ComicID) {
+      setComments([...comments, data])
+    }
+  })
 
 
   const column = [
@@ -157,7 +174,11 @@ const ComicDetail = () => {
                       }
                     }}
                   >
-                    Theo dõi
+                    {
+                      !!statusBtnFollow
+                        ? "Bỏ theo dõi"
+                        : "Theo dỗi"
+                    }
                   </ButtonCustom>
                   <div className="d-flex">
                     <span className="fw-700 mr-8">{comic?.Likes}</span>
@@ -233,7 +254,7 @@ const ComicDetail = () => {
               <span>{LstIcons.ICON_MESSAGE}</span>
               <span>Bình luận</span>
             </div>
-            <div className="mt-20 mb-12">
+            <div className="mt-20 mb-12" style={{ backgroundColor: '#ebebeb' }}>
               <InputCustom
                 textArea
                 label="Thêm bình luận"
@@ -258,6 +279,7 @@ const ComicDetail = () => {
                 className="ml-12"
                 type="primary"
                 loading={loading}
+                onClick={() => handleSendComment()}
               >
                 Gửi
               </Button>

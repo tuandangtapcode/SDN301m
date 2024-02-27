@@ -35,3 +35,24 @@
     bottom: -2px;
     margin: 0 0 0 -40px;
 }
+
+.title-type-4 {
+    font-size: 16px;
+    color: #f18121;
+    font-family: "Inter Bold", sans-serif;
+    border-bottom: 1px solid #ebebeb;
+    position: relative;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.title-type-4::after {
+    content: "";
+    width: 100%;
+    height: 0.5px;
+    background-color: #f18121;
+    position: absolute;
+    left: 40px;
+    bottom: -6px;
+    margin: 0 0 0 -40px;
+}

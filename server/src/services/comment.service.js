@@ -8,7 +8,7 @@ const fncInsertComment = async (req) => {
     const user = await User.findOne({ _id: Author })
     if (!user) return response({}, true, "Có lỗi", 200)
     const newComment = await Comment.create(req.body)
-    return response({ ...newComment, Author: { FullName: user.FullName, AvatarPath: user.AvatarPath } }, false, 201)
+    return response({ ...newComment, Author: { FullName: user.FullName, AvatarPath: user.AvatarPath } }, false, "Gửi bình luận thành công", 201)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -17,7 +17,7 @@ const fncInsertComment = async (req) => {
 const fncGetAllCommentByComic = async (req) => {
   try {
     const ComicID = req.params.ComicID
-    const comments = await Comment.find({ Comic: ComicID })
+    const comments = await Comment.find({ Comic: ComicID }).populate('Author', ['_id', 'FullName', 'AvatarPath'])
     return response({ List: comments, Total: comments.length }, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)

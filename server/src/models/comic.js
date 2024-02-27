@@ -11,7 +11,7 @@ const Comics = new Schema({
     ref: 'Users',
     require: true
   },
-  ShortDecription: {
+  ShortDescription: {
     type: String,
     require: true
   },

@@ -21,7 +21,7 @@ const HomePage = () => {
   const getComics = async () => {
     try {
       setLoading(true)
-      const res = await ComicService.getAllComics(pagination)
+      const res = await ComicService.getAllComics({ ...pagination, isAdmin: false })
       if (res?.isError) return
       setComics(res?.data?.List)
       setTotal(res?.data?.Total)
@@ -37,7 +37,7 @@ const HomePage = () => {
   return (
     <SpinCustom spinning={loading}>
       <p className="fs-25 fw-600 text-matte mt-20 mb-20">Truyện mới cập nhật</p>
-      <Row>
+      <Row className="mb-30">
         <Col span={16}>
           <Row gutter={[16, 0]}>
             {

@@ -1,4 +1,4 @@
-import { Col, Row, Table } from "antd"
+import { Button, Col, Row, Table, message } from "antd"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -15,6 +15,11 @@ import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { toast } from "react-toastify"
 import ModalReport from "./components/ModalReport"
+import ConfirmModal from "src/components/ModalCustom/ConfirmModal"
+import CommentItem from "./components/CommentItem"
+import InputCustom from "src/components/FloatInput/InputCustom"
+import CommentService from "src/services/CommentService"
+import UserService from "src/services/UserService"
 
 
 const ComicDetail = () => {
@@ -24,9 +29,12 @@ const ComicDetail = () => {
   const global = useSelector(globalSelector)
   const [loading, setLoading] = useState()
   const [comic, setComic] = useState()
+  const [comments, setComments] = useState([])
   const [totalChapter, setTotalChapter] = useState(0)
   const [openModal, setOpenModal] = useState(false)
   const [showFullDescription, setShowFullDescription] = useState(false)
+  const [openBtnComment, setOpenBtnComment] = useState(false)
+  const [textComment, setTextComment] = useState("")
 
   const getComic = async () => {
     try {
@@ -40,23 +48,48 @@ const ComicDetail = () => {
     }
   }
 
+  const getComments = async () => {
+    try {
+      setLoading(true)
+      const res = await CommentService.getAllCommentByComic(ComicID)
+      if (res?.isError) return navigate('/not-found')
+      setComments(res?.data?.List)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleReport = () => {
-    if (!!global?.user?._id) {
-      setOpenModal({
-        UserID: global?.user?._id,
-        ComicID: comic?._id
-      })
-    } else {
-      toast.info("Vui lòng đăng nhập trước khi báo cáo!")
-      navigate("/login")
+
+  }
+
+  const handleSendComment = async () => {
+    try {
+      setLoading(true)
+      const res = await CommentService.insertComment({ Author: global?.user?._id, Comic: ComicID, Content: textComment })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleFollowOrUnFollowComic = async () => {
+    try {
+      setLoading(true)
+      const res = await UserService.followOrUnfollowComic({ ComicID, UserID: global?.user?._id })
+      if (res?.isError) return
+      toast.success(res?.msg)
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    getComic()
+    if (!!ComicID) {
+      getComic()
+      getComments()
+    }
   }, [ComicID])
 
-  console.log(global);
 
   const column = [
     {
@@ -105,8 +138,24 @@ const ComicDetail = () => {
                 <InforComic icon={LstIcons.ICON_PREVIEW} title="Lượt đọc" data={comic?.Reads} />
                 <div className="d-flex align-items-center">
                   <ButtonCustom
-                    className="greendBackground medium text-white fs-17 mr-20"
+                    className="greendBackground-textwhite medium text-white fs-17 mr-20"
                     icon={LstIcons.ICON_LIKE}
+                    loading={loading}
+                    onClick={() => {
+                      if (global?.user?._id) {
+                        handleFollowOrUnFollowComic()
+                      } else {
+                        ConfirmModal({
+                          title: `Hãy đăng nhập để có thể follow truyện`,
+                          okText: "Đăng nhập",
+                          cancelText: "Hủy",
+                          onOk: async close => {
+                            navigate('/login')
+                            close()
+                          },
+                        })
+                      }
+                    }}
                   >
                     Theo dõi
                   </ButtonCustom>
@@ -120,7 +169,22 @@ const ComicDetail = () => {
                     className="normal"
                     title="Báo cáo"
                     icon={LstIcons.ICON_WARNING}
-                    onClick={() => handleReport()}
+                    loading={loading}
+                    onClick={() => {
+                      if (global?.user?._id) {
+                        handleReport()
+                      } else {
+                        ConfirmModal({
+                          title: `Hãy đăng nhập để có thể report`,
+                          okText: "Đăng nhập",
+                          cancelText: "Hủy",
+                          onOk: async close => {
+                            navigate('/login')
+                            close()
+                          },
+                        })
+                      }
+                    }}
                   />
                 </div>
               </Col>
@@ -163,6 +227,48 @@ const ComicDetail = () => {
               dataSource={comic?.Chapters.sort((a, b) => b.ChapterID - a.ChapterID)}
               pagination={false}
             />
+          </Col>
+          <Col span={16}>
+            <div className="title-type-3 d-flex align-items-center">
+              <span>{LstIcons.ICON_MESSAGE}</span>
+              <span>Bình luận</span>
+            </div>
+            <div className="mt-20 mb-12">
+              <InputCustom
+                textArea
+                label="Thêm bình luận"
+                style={{ height: '100px' }}
+                onChange={e => setTextComment(e.target.value)}
+                onFocus={() => {
+                  if (!!global?.user?._id) {
+                    setOpenBtnComment(true)
+                  } else {
+                    message.error("Hãy đăng nhập để bình luận")
+                  }
+                }}
+              />
+            </div>
+            <div className={!!openBtnComment ? "d-flex-end" : "d-none"}>
+              <Button
+                onClick={() => setOpenBtnComment(false)}
+              >
+                Hủy
+              </Button>
+              <Button
+                className="ml-12"
+                type="primary"
+                loading={loading}
+              >
+                Gửi
+              </Button>
+            </div>
+            <div>
+              {
+                comments?.map(i =>
+                  <CommentItem comment={i} />
+                )
+              }
+            </div>
           </Col>
         </Row>
       </ComicDetailStyled>

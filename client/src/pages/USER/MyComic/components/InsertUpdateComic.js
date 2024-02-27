@@ -68,7 +68,7 @@ const InsertUpdateComic = ({
       const values = await form.validateFields()
       const body = {
         Title: values?.Title,
-        ShortDecription: values?.ShortDecription,
+        ShortDescription: values?.ShortDescription,
         Genres: values?.Genres,
         Avatar: values?.image?.file,
         Author: global?.user?._id,

@@ -11,6 +11,7 @@ import {
   apiChangePassword,
   apiGetListUser,
   apiDeactiveAccount,
+  apiFollowOrUnfollowComic,
 } from './urls'
 
 
@@ -50,6 +51,11 @@ const deactiveAccount = (id) => http.get(`${apiDeactiveAccount}/${id}`, {
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
+const followOrUnfollowComic = body => http.post(apiFollowOrUnfollowComic, body, {
+  headers: {
+    'token': `Bearer ${localStorage.getItem('token')}`
+  }
+})
 
 
 const UserService = {
@@ -63,7 +69,8 @@ const UserService = {
   updateProfile,
   changePassword,
   getListUser,
-  deactiveAccount
+  deactiveAccount,
+  followOrUnfollowComic
 }
 
 export default UserService

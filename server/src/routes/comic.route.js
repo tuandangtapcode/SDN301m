@@ -35,19 +35,9 @@ router.post('/changeStatusComic',
   // authMiddleware([Roles.ROLE_ADMIN]),
   ComicController.changeStatusComic
 )
-router.post('/followComic',
-  ComicController.followComic
-)
-router.post('/unfollowComic',
-  ComicController.unfollowComic
-)
-router.post('/getAllComicFollowed',
-  ComicController.getAllComicsFollow
-)
 router.get('/getAllChaptersByComic/:ComicID',
   ComicController.getAllChaptersByComic
 )
-
 router.get('/likeComic/:ComicID',
   ComicController.likeComic
 )

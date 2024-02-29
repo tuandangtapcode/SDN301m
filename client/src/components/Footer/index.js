@@ -8,44 +8,44 @@ const Footer = () => {
       <FooterStyled>
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <p className="text-matte fs-18 mb-18">Library</p>
+            <p className="text-matte fs-18 mb-18">Bộ sưu tập</p>
             <p className="mb-10">
-              <Link to={'/genres'}>Genres</Link>
+              <Link to={'/genres'}>Thể loại</Link>
             </p>
             <p className="mb-12">
-              <Link>Languages</Link>
+              <Link>Ngôn ngữ</Link>
             </p>
             <p className="mb-10">
-              <Link to={'/authors'}>Authors</Link>
-            </p>
-          </Col>
-          <Col span={6}>
-            <p className="text-matte fs-18 mb-18">Community</p>
-            <p className="mb-10">
-              <Link>Articles</Link>
-            </p>
-            <p className="mb-10">
-              <Link>Authors Interviews</Link>
-            </p>
-            <p className="mb-10">
-              <Link>Newsletter</Link>
+              <Link to={'/authors'}>Tác giả</Link>
             </p>
           </Col>
           <Col span={6}>
-            <p className="text-matte fs-18 mb-18">Company</p>
+            <p className="text-matte fs-18 mb-18">Cộng đồng</p>
             <p className="mb-10">
-              <Link>Authors Services</Link>
+              <Link>Bài viết</Link>
             </p>
             <p className="mb-10">
-              <Link>About / Contact</Link>
+              <Link>Phỏng vấn tác giả</Link>
             </p>
             <p className="mb-10">
-              <Link>Accessibility Statement</Link>
+              <Link>Bản tin</Link>
+            </p>
+          </Col>
+          <Col span={6}>
+            <p className="text-matte fs-18 mb-18">Công ty</p>
+            <p className="mb-10">
+              <Link>Dịch vụ tác giả</Link>
+            </p>
+            <p className="mb-10">
+              <Link>Hỏi đáp / Liên hệ</Link>
+            </p>
+            <p className="mb-10">
+              <Link>Khả năng tiếp cận</Link>
             </p>
           </Col>
 
           <Col span={6}>
-            <p className="text-matte fs-18 mb-18">Folow</p>
+            <p className="text-matte fs-18 mb-18">Theo dõi thông tin</p>
             <p className="mb-10">
               <Link>Facebook</Link>
             </p>

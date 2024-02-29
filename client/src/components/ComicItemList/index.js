@@ -10,11 +10,11 @@ const ComicItemList = ({ comic }) => {
           className="infor-comic"
           style={{
             display: 'flex',
-padding: '4px 8px',
+            padding: '4px 8px',
             justifyContent: 'space-between',
             alignItems: 'center',
             backgroundColor: '#000',
-            opacity: '.65',
+            opacity: '0.65',
             position: 'absolute',
             bottom: 2,
             left: 0,

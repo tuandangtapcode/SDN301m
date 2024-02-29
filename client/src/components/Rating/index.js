@@ -13,17 +13,17 @@ const Rating = () => {
   const items = [
     {
       key: "1",
-      label: `All`,
+      label: `Tất Cả`,
       children: <All />,
     },
     {
       key: "2",
-      label: `Top month`,
+      label: `Top Tháng`,
       children: <Month activeKey={activeKey} />,
     },
     {
       key: "3",
-      label: `Top week`,
+      label: `Top Tuần`,
       children: <Week activeKey={activeKey} />,
     },
   ]

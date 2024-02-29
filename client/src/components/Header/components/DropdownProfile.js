@@ -153,18 +153,15 @@ const DropdownProfile = () => {
   })
 
   return (
-    <>
+    <div className="d-flex-sb">
+      <ButtonCustom
+        className=" noBackground-textwhite fw-600 medium fs-18"
+      >
+        Premium
+      </ButtonCustom>
       {
         !!global?.user?._id ?
-          <div className="d-flex-sb">
-            {
-              global?.user?.RoleID === 5 &&
-              <ButtonCustom
-                className=" noBackground-textwhite fw-600 medium fs-18"
-              >
-                Premium
-              </ButtonCustom>
-            }
+          <div>
             {
               global?.user?.RoleID === 1 ?
                 <ButtonCustom className="noBackground-textwhite fw-600">
@@ -185,8 +182,8 @@ const DropdownProfile = () => {
               menu={{ items: itemsNotification }}
               trigger={['click']}
               // onClick={() => {
-                //   if (notifiNotSeen !== 0) {
-                  //     handleSeenNotification()
+              //   if (notifiNotSeen !== 0) {
+              //     handleSeenNotification()
               //   }
               // }}
               onOpenChange={e => {
@@ -224,7 +221,7 @@ const DropdownProfile = () => {
             </ButtonCustom>
           </div>
       }
-    </>
+    </div>
   )
 }
 

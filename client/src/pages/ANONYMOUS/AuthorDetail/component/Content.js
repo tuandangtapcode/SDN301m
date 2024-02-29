@@ -17,12 +17,11 @@ const Content = ({ detail, setDetail, list, setList }) => {
           <Col span={24}>
             <p className="title-type-1">{detail?.FullName}</p>
           </Col>
-          <Col span={24}>
-            Description Author: ...
-            {detail?.Description}
-          </Col>
-          <Col span={24}>Status: ...</Col>
-          <Col span={24}>Sex: ...</Col>
+          {detail?.Description &&
+            <Col span={24}>
+              Mô tả về tác giả:{detail?.Description}
+            </Col>
+          }
           <Col span={24}>
             <Space direction="horizontal">
               {LstIcons.ICON_FACEBOOK}

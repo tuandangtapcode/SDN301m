@@ -10,7 +10,7 @@ const UserProfile = () => {
 
   const global = useSelector(globalSelector)
   const [modalUpdateProfile, setModalUpdateProfile] = useState(false)
-
+  console.log(global?.user);
   return (
     <UserProfileStyled>
       <div className="d-flex">

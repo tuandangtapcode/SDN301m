@@ -10,7 +10,7 @@ const PopoverMain = () => {
 
   const [arrowDropdownMain, setArrowDropdownMain] = useState(false)
   const navigate = useNavigate()
-const global = useSelector(globalSelector)
+  const global = useSelector(globalSelector)
 
 
   const items = [
@@ -19,69 +19,69 @@ const global = useSelector(globalSelector)
       label: (
         <div style={{ width: '600px', padding: '12px' }} className="d-flex justify-content-space-between">
           <div>
-            <p className="fs-25 fw-700">Genres</p>
+            <p className="fs-25 fw-700">Thể loại</p>
             <div className="d-flex-sb">
               <div className="mr-30">
                 {
                   global?.genres?.slice(0, global?.genres.length * 1 / 3)?.map(i =>
-                <p
-                  className="fs-18 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/genres/${i?._id}`)
-                  }}
-                >
-                  {i?.Title}
-                </p>
-)
+                    <p
+                      className="fs-18 cursor-pointer"
+                      onClick={() => {
+                        navigate(`/genres/${i?._id}`)
+                      }}
+                    >
+                      {i?.Title}
+                    </p>
+                  )
                 }
               </div>
               <div>
                 {
                   global?.genres?.slice(global?.genres.length * 2 / 3)?.map(i =>
-                <p
-                  className="fs-18 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/genres/${i?._id}`)
-                  }}
-                >
-                  {i?.Title}
-                </p>
-)
+                    <p
+                      className="fs-18 cursor-pointer"
+                      onClick={() => {
+                        navigate(`/genres/${i?._id}`)
+                      }}
+                    >
+                      {i?.Title}
+                    </p>
+                  )
                 }
               </div>
             </div>
           </div>
 
           <div>
-            <p className="fs-25 fw-700">Resoures</p>
+            <p className="fs-25 fw-700">Tài nguyên</p>
             <div>
               <p
                 className="fs-18 cursor-pointer"
                 onClick={() => {
-                                    navigate('/authors')
+                  navigate('/authors')
                 }}
               >
-                Authors
+                Tác giả
               </p>
               <p className="fs-18 cursor-pointer">
-                Languages
+                Ngôn ngũ
               </p>
               <p
                 className="fs-18 cursor-pointer"
                 onClick={() => {
-                                    navigate('/genres')
+                  navigate('/genres')
                 }}
               >
-                Genres
+                Thể loại
               </p>
               <p className="fs-18 cursor-pointer">
-                Articles
+                Bài viết
               </p>
               <p className="fs-18 cursor-pointer">
-                Author Interviews
+                Phỏng vấn tác giả
               </p>
               <p className="fs-18 cursor-pointer">
-                Discuss
+                Bàn luận
               </p>
             </div>
           </div>

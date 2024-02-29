@@ -38,6 +38,7 @@ const AuthorDetail = () => {
     getInforAuthor();
   }, [pagination, AuthorID])
 
+
   return (
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]} className="mt-20 mb-20">

@@ -10,17 +10,19 @@ import "swiper/css/pagination"
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper/modules"
+import { useNavigate } from "react-router-dom"
 
 const List = ({ list, setList }) => {
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <h2>List comic by Author:</h2>
+          <h2>Danh sách truyện của tác giả:</h2>
         </Col>
-        <Col span={24}>
+        <Col span={24} className="mt-20">
           <Swiper
             slidesPerView={3}
             spaceBetween={30}
@@ -35,23 +37,16 @@ const List = ({ list, setList }) => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
           >
-            {list.length > 0 ? (
-              list.map((i) => (
-                <SwiperSlide
-                  className="d-flex-center"
-                  style={{
-                    height: "200px",
-                    width: "200px",
-                    backgroundImage: `${i?.AvatarPath}`,
-                    color: "#fff",
-                  }}
-                >
-                  Slide 1
-                </SwiperSlide>
-              ))
-            ) : (
-              <>1111</>
-            )}
+            {list.map((i) => (
+              <SwiperSlide
+                className="d-flex-center"
+              >
+                <div onClick={() => navigate(`/comic/${i?.Comic?._id}`)}>
+                  <img src={`${i?.Comic?.AvatarPath}`} style={{ width: '200px', height: '200px' }} />
+                  <h4 className="d-flex-center">{i?.Comic?.Title}</h4>
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </Col>
       </Row>

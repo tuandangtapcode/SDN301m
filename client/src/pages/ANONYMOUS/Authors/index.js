@@ -5,6 +5,7 @@ import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import InputCustom from "src/components/FloatInput/InputCustom"
 import SpinCustom from "src/components/SpinCustom"
 import UserService from "src/services/UserService"
+import { StyledMeta } from "./styled"
 
 const { Meta } = Card
 const Authors = () => {
@@ -38,13 +39,13 @@ const Authors = () => {
     <SpinCustom spinning={loading}>
       <Row gutter={[16, 16]} className="mt-20 mb-20">
         <Col span={24}>
-          <p className="title-type-1">Authors</p>
+          <p className="title-type-1">Danh sách tác giả</p>
         </Col>
         <Col span={24} >
           <InputCustom
             search
             allowClear
-            label="Author Name"
+            label="Tìm kiến tác giả theo tên"
             onSearch={value => {
               setPagination(pre => ({
                 ...pre,
@@ -61,16 +62,12 @@ const Authors = () => {
               style={{
                 width: 240,
               }}
+              onClick={() => navigate(`/author/${i?._id}`)}
               cover={<img alt="example" src={i.AvatarPath} />}
             >
-              <Meta title={i.FullName} description={i.Description} />
-              <Button
-                style={{
-                  marginTop: '15px',
-                  marginLeft: "22%",
-                }}
-                onClick={() => navigate(`/author/${i?._id}`)}
-              >More Detail</Button>
+              <StyledMeta>
+                <Meta title={i.FullName} description={i.Description} />
+              </StyledMeta>
             </Card>
           </Col>
         )}

@@ -117,7 +117,25 @@ const ComicDetail = () => {
       render: (_, record, index) => (
         <div
           className="cursor-pointer chapter-link"
-          onClick={() => navigate(`/comic/${comic?._id}/chapter/${record?.ChapterID}`)}
+          onClick={() => {
+            if (record?.ChapterID > 2) {
+              if (!global?.user?._id || global?.user?.RoleID === 5) {
+                ConfirmModal({
+                  title: `Mua premium để có thể đọc nhiều truyện hơn`,
+                  okText: "Mua premium",
+                  cancelText: "Hủy",
+                  onOk: async close => {
+                    navigate('/premium')
+                    close()
+                  },
+                })
+              } else {
+                navigate(`/comic/${comic?._id}/chapter/${record?.ChapterID}`)
+              }
+            } else {
+              navigate(`/comic/${comic?._id}/chapter/${record?.ChapterID}`)
+            }
+          }}
         >
           {record?.Name}
         </div>

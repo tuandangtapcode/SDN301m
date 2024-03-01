@@ -1,29 +1,55 @@
 import Package from "../models/package.js"
-import respone from '../models/respone.js'
+import response from '../utils/response-result.js'
 
 const fncInsertPackage = async (req) => {
   try {
     const { Title } = req.body
     const checkExistTitle = await Package.findOne({ Title })
-    if (!!checkExistTitle) return respone({}, true, "Tên gói premium đã tồn tại", 200)
+    if (!!checkExistTitle) return response({}, true, "Tên gói premium đã tồn tại", 200)
     const newPackage = await Package.create(req.body)
-    return respone(newPackage, false, "Thêm gói premium thành công", 201)
+    return response(newPackage, false, "Thêm gói premium thành công", 201)
   } catch (error) {
-    return respone({}, true, error.toString(), 500)
+    return response({}, true, error.toString(), 500)
   }
 }
 
 const fncUpdatePackage = async (req) => {
   try {
-    
+    const { id, Title } = req.body
+    const checkExistPackage = await Package.findOne({ _id: id })
+    if (!checkExistPackage) return response({}, true, "Package không tồn tại", 200)
+    const checkExistTitle = await Package.findOne({ Title })
+    if (!!checkExistTitle && !checkExistPackage._id.equals(checkExistTitle._id))
+      return response({}, true, `Package ${Title} đã tồn tại`, 200)
+    const updatePackage = await Package.findByIdAndUpdate({ _id: id }, req.body, { new: true })
+    return response(updatePackage, false, "Cập nhật thành công", 200)
   } catch (error) {
-    return respone({}, true, error.toString(), 500)
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncGetAllPackages = async (req) => {
+  try {
+    const { CurrentPage, PageSize } = req.body
+    const packages = await Package.find().skip((CurrentPage - 1) * PageSize).limit(PageSize)
+    return response(
+      {
+        List: packages, Total: packages.length
+      },
+      false,
+      "Lấy data thành công",
+      200
+    )
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
   }
 }
 
 
 const PackageService = {
-  fncInsertPackage
+  fncInsertPackage,
+  fncUpdatePackage,
+  fncGetAllPackages
 }
 
 export default PackageService

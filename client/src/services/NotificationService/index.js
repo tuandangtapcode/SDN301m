@@ -9,6 +9,7 @@ const createNotification = body => http.post(apiCreateNotification, body)
 const seenNotification = UserID => http.get(`${apiSeenNotification}/${UserID}`)
 const getListNotificationByReceiver = UserID => http.get(`${apiGetListNotificationByReceiver}/${UserID}`)
 
+
 const NotificaitonService = {
   createNotification,
   seenNotification,

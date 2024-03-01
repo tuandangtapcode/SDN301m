@@ -77,15 +77,15 @@ const getAllChaptersByComic = async (req, res) => {
     const response = await ComicService.fncGetAllChaptersByComic(req)
     return res.status(response.StatusCode).json(response)
   } catch (error) {
-    return res.status(500).json(error.toString());
+    return res.status(500).json(error.toString())
   }
 }
 const likeComic = async (req, res) => {
   try {
-    const response = await ComicService.fncLikeComic(req);
+    const response = await ComicService.fncLikeComic(req)
     return res.status(response.statusCode).json(response)
   } catch (error) {
-    return res.status(500).json(error.toString());
+    return res.status(500).json(error.toString())
   }
 }
 

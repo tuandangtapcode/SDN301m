@@ -8,6 +8,11 @@ export const menuItem = () => {
       key: '/dashboard',
     },
     {
+      icon: LstIcons.ICON_PREMIUM,
+      label: "Package premium",
+      key: '/dashboard/packages',
+    },
+    {
       icon: LstIcons.ICON_USER,
       label: "Users",
       key: '/dashboard/users',

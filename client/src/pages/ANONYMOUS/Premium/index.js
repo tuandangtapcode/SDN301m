@@ -1,6 +1,8 @@
 const Premium = () => {
     return (
-        <div></div>
+        <div>
+
+        </div>
     )
 }
 

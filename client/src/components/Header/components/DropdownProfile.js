@@ -154,11 +154,6 @@ const DropdownProfile = () => {
 
   return (
     <div className="d-flex-sb">
-      <ButtonCustom
-        className=" noBackground-textwhite fw-600 medium fs-18"
-      >
-        Premium
-      </ButtonCustom>
       {
         !!global?.user?._id ?
           <div>
@@ -168,15 +163,23 @@ const DropdownProfile = () => {
                   Admintrator
                 </ButtonCustom>
                 :
-                <Dropdown menu={{ items: menuItems() }} trigger={["click"]}>
+                <>
                   <ButtonCustom
-                    className=" noBackground-textwhite fw-600"
-                    onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
-                    icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
+                    className=" noBackground-textwhite fw-600 medium fs-18"
+                    onClick={() => navigate('/premium')}
                   >
-                    Cá nhân
+                    Premium
                   </ButtonCustom>
-                </Dropdown>
+                  <Dropdown menu={{ items: menuItems() }} trigger={["click"]}>
+                    <ButtonCustom
+                      className=" noBackground-textwhite fw-600"
+                      onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
+                      icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
+                    >
+                      Cá nhân
+                    </ButtonCustom>
+                  </Dropdown>
+                </>
             }
             <Dropdown
               menu={{ items: itemsNotification }}
@@ -207,6 +210,12 @@ const DropdownProfile = () => {
           </div>
           :
           <div>
+            <ButtonCustom
+              className=" noBackground-textwhite fw-600 medium fs-18"
+              onClick={() => navigate('/premium')}
+            >
+              Premium
+            </ButtonCustom>
             <ButtonCustom
               className="noBackground-textwhite fs-17 fw-600"
               onClick={() => navigate('/login')}

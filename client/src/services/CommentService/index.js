@@ -7,6 +7,7 @@ import {
 const insertComment = body => http.post(apiInsertComment, body)
 const getAllCommentByComic = ComicID => http.get(`${apiGetAllCommentByComic}/${ComicID}`)
 
+
 const CommentService = {
   insertComment,
   getAllCommentByComic

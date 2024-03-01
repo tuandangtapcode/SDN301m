@@ -23,6 +23,7 @@ const ComicDetail = React.lazy(() => import('src/pages/ANONYMOUS/ComicDetail'))
 const Genres = React.lazy(() => import('src/pages/ANONYMOUS/Genres'))
 const Authors = React.lazy(() => import('src/pages/ANONYMOUS/Authors'))
 const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail'))
+const Premium = React.lazy(() => import('src/pages/ANONYMOUS/Premium'))
 
 
 // USER
@@ -38,6 +39,7 @@ const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManageme
 const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
 const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
+const PackagesManagement = React.lazy(() => import('src/pages/ADMIN/PackagesManagement'))
 
 function LazyLoadingComponent({ children }) {
   return (
@@ -101,6 +103,14 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <Dashboard />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/packages',
+        element: (
+          <LazyLoadingComponent>
+            <PackagesManagement />
           </LazyLoadingComponent>
         )
       },
@@ -218,6 +228,14 @@ const routes = [
           </LazyLoadingComponent>
         )
       },
+      {
+        path: '/premium',
+        element: (
+          <LazyLoadingComponent>
+            <Premium />
+          </LazyLoadingComponent>
+        )
+      }
     ]
   },
   {
@@ -274,11 +292,8 @@ const App = () => {
         navigate('/forbidden')
       }
     }
+    getListGenres()
   }, [])
-
-  useEffect(() => {
-    if (!!global?.user?._id) getListGenres()
-  }, [global?.user?._id])
 
 
   socket.on('get-deactive', (data) => {

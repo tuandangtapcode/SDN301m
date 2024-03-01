@@ -10,13 +10,17 @@ const Packages = new Schema({
     type: String,
     require: true
   },
+  Price: {
+    type: String,
+    require: true
+  },
   Duration: {
     type: Number,
     require: true
   },
   Quantity: {
     type: Number,
-    require: true
+    default: 0
   }
 }, {
   timestamps: true

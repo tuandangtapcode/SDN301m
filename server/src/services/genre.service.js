@@ -42,7 +42,9 @@ const fncUpdateGenre = async (req) => {
     const checkExistGenre = await Genre.find({ _id: id })
     if (!checkExistGenre) return response({}, true, `Thể loại truyện không tồn tại`, 200)
     const checkExistTitle = await Genre.findOne({ Title })
-    if (!!checkExistTitle) return response({}, true, `Thể loại truyện: ${Title} đã tồn tại`, 200)
+    if (!!checkExistTitle && !checkExistGenre._id.equals(checkExistTitle._id)) {
+      return response({}, true, `Thể loại truyện: ${Title} đã tồn tại`, 200)
+    }
     await Genre.updateOne({ _id: id }, req.body)
     return response({}, false, "Cập nhật thành công", 200)
   } catch (error) {

@@ -27,11 +27,21 @@ const getAllPackages = async (req, res) => {
   }
 }
 
+const getDetailPackage = async (req, res) => {
+  try {
+    const response = await PackageService.fncGetDetailPackage(req)
+    return res.status(response.StatusCode).json(response)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const PackageController = {
   insertPackage,
   updatePackage,
-  getAllPackages
+  getAllPackages,
+  getDetailPackage
 }
 
 export default PackageController

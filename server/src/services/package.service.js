@@ -31,7 +31,12 @@ const fncUpdatePackage = async (req) => {
 const fncGetAllPackages = async (req) => {
   try {
     const { CurrentPage, PageSize } = req.body
-    const packages = await Package.find().skip((CurrentPage - 1) * PageSize).limit(PageSize)
+    let packages
+    if (!!CurrentPage && !!PageSize) {
+      packages = await Package.find().skip((CurrentPage - 1) * PageSize).limit(PageSize)
+    } else {
+      packages = await Package.find()
+    }
     return response(
       {
         List: packages, Total: packages.length
@@ -45,11 +50,23 @@ const fncGetAllPackages = async (req) => {
   }
 }
 
+const fncGetDetailPackage = async (req) => {
+  try {
+    const PackageID = req.params.PackageID
+    const packageDetail = await Package.findOne({ _id: PackageID })
+    if (!packageDetail) return response({}, true, "Package không tồn tại", 200)
+    return response(packageDetail, false, "Lấy data thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const PackageService = {
   fncInsertPackage,
   fncUpdatePackage,
-  fncGetAllPackages
+  fncGetAllPackages,
+  fncGetDetailPackage
 }
 
 export default PackageService

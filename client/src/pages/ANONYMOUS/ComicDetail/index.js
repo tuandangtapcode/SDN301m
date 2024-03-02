@@ -173,7 +173,7 @@ const ComicDetail = () => {
                 <InforComic icon={LstIcons.ICON_PREVIEW} title="Lượt đọc" data={comic?.Reads} />
                 <div className="d-flex align-items-center">
                   <ButtonCustom
-                    className="greendBackground-textwhite medium text-white fs-17 mr-20"
+                    className="greendBackground medium text-white fs-17 mr-20"
                     icon={LstIcons.ICON_LIKE}
                     loading={loading}
                     onClick={() => {

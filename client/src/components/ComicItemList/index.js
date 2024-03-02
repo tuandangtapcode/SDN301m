@@ -1,4 +1,4 @@
-import { formatNumberToK } from "src/lib/stringUtils"
+import { formatNumber } from "src/lib/stringUtils"
 import LstIcons from "../ListIcons"
 
 const ComicItemList = ({ comic }) => {
@@ -23,11 +23,11 @@ const ComicItemList = ({ comic }) => {
         >
           <p className="text-white d-flex-sb">
             {LstIcons.ICON_EYE}
-            {formatNumberToK(comic?.Reads)}
+            {formatNumber(comic?.Reads)}
           </p>
           <p className="text-white d-flex-sb">
             {LstIcons.ICON_LIKE}
-            {formatNumberToK(comic?.Likes)}
+            {formatNumber(comic?.Likes)}
           </p>
         </div>
       </div>

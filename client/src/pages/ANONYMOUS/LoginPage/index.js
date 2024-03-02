@@ -114,7 +114,7 @@ const LoginPage = () => {
           </Col>
           <Col span={24}>
             <ButtomCustomStyled
-              className="submit fw-600 fs-18"
+              className="submit fs-18"
               loading={loading}
               onClick={() => loginByForm()}
             >

@@ -10,7 +10,8 @@ import {
   AiFillTwitterCircle,
   AiOutlineInstagram,
   AiFillWarning,
-  AiFillDatabase
+  AiFillDatabase,
+  CheckOutlined
 } from "react-icons/ai"
 import {
   BsFillTrash3Fill,
@@ -69,7 +70,8 @@ const LstIcons = {
   ICON_INSTARGRAM: <AiOutlineInstagram style={{ fontSize: "25px", color: "#E4176A" }} />,
   ICON_WARNING: <AiFillWarning style={{ fontSize: "20px", color: "#F0AD4E" }} />,
   ICON_MESSAGE: <BiMessageRoundedDetail className="fs-25 mt-6" />,
-  ICON_PREMIUM: <AiFillDatabase />
+  ICON_PREMIUM: <AiFillDatabase />,
+  ICON_CHECK: <AiFillCheckCircle />
 }
 
 export default LstIcons

@@ -24,6 +24,7 @@ const Genres = React.lazy(() => import('src/pages/ANONYMOUS/Genres'))
 const Authors = React.lazy(() => import('src/pages/ANONYMOUS/Authors'))
 const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail'))
 const Premium = React.lazy(() => import('src/pages/ANONYMOUS/Premium'))
+const PremiumDetail = React.lazy(() => import("src/pages/ANONYMOUS/PremiumDetail"))
 
 
 // USER
@@ -233,6 +234,14 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <Premium />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/premium/:PackageID',
+        element: (
+          <LazyLoadingComponent>
+            <PremiumDetail />
           </LazyLoadingComponent>
         )
       }

@@ -51,7 +51,7 @@ const List = ({ list, setList }) => {
         </Col>
       </Row>
     </SpinCustom>
-  );
-};
+  )
+}
 
-export default List;
+export default List

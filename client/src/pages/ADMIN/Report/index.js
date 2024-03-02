@@ -4,7 +4,7 @@ const Report = () => {
         <>
             Report
         </>
-    );
+    )
 }
 
-export default Report;
+export default Report

@@ -88,7 +88,6 @@ const InsertUpdateComic = ({
       if (resComic?.isError) return toast.error(resComic.msg)
       let insertImages = []
       lstChapters.forEach(chapter => {
-        console.log(values[chapter?.Name]);
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
           if (!!i?.originFileObj) {
             const promiseInsertImage = ImageService.insertImage({

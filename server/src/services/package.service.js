@@ -53,9 +53,10 @@ const fncGetAllPackages = async (req) => {
 const fncGetDetailPackage = async (req) => {
   try {
     const PackageID = req.params.PackageID
+    const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress
     const packageDetail = await Package.findOne({ _id: PackageID })
     if (!packageDetail) return response({}, true, "Package không tồn tại", 200)
-    return response(packageDetail, false, "Lấy data thành công", 200)
+    return response({ PackageDetail: packageDetail, ipAddress }, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }

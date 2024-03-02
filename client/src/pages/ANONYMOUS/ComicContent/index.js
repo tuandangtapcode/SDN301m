@@ -58,10 +58,8 @@ const ComicContent = () => {
     // } else if (currentScroll === 0 && !scrollingDown) {
     //   setScrollingDown(true)
     // }
-    console.log('abafbaf');
     if (divRef.current) {
       const rect = divRef.current.getBoundingClientRect()
-      console.log(rect);
       setIsFixed(rect.top <= 0)
     }
   }

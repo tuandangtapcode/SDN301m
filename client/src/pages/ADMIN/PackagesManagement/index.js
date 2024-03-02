@@ -37,7 +37,6 @@ const PackageManagement = () => {
     getPackages()
   }, [pagination])
 
-  console.log(packages);
 
   const lstBtn = (record) => (
     [

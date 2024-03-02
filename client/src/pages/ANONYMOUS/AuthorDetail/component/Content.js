@@ -35,7 +35,7 @@ const Content = ({ detail, setDetail, list, setList }) => {
         <List list={list} setList={setList} />
       </Col>
     </Row>
-  );
-};
+  )
+}
 
-export default Content;
+export default Content

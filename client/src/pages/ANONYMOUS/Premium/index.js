@@ -6,6 +6,9 @@ import SpinCustom from "src/components/SpinCustom"
 import PackageService from "src/services/PackageService"
 import PremiumItem from "./components/PremiumItem"
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
+import ConfirmModal from "src/components/ModalCustom/ConfirmModal"
 
 const listColor = [
   "rgb(207, 245, 106)",
@@ -18,6 +21,7 @@ const Premium = () => {
   const [loading, setLoading] = useState(false)
   const [packages, setPackages] = useState()
   const navigate = useNavigate()
+  const global = useSelector(globalSelector)
 
   const getPackages = async () => {
     try {
@@ -46,7 +50,21 @@ const Premium = () => {
         <div>
           <ButtonCustom
             className="small greendBackground mr-12 text-matte"
-            onClick={() => navigate(`/premium/${packages[1]?._id}`)}
+            onClick={() => {
+              if (!global?.user?._id) {
+                ConfirmModal({
+                  title: `Hãy đăng nhập để có thể mua premium`,
+                  okText: "Đăng nhập",
+                  cancelText: "Hủy",
+                  onOk: async close => {
+                    navigate('/login')
+                    close()
+                  },
+                })
+              } else {
+                navigate(`/premium/${packages[1]?._id}`)
+              }
+            }}
           >
             Mua {!!packages?.length && packages[1]?.Title}
           </ButtonCustom>

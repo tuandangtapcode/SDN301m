@@ -1,12 +1,13 @@
-import Footer from "src/components/Footer";
-import MainHeader from "src/components/Header";
-import styled from "styled-components";
+import Footer from "src/components/Footer"
+import MainHeader from "src/components/Header"
+import styled from "styled-components"
+
 
 const ContentStyled = styled.div`
   max-width: 80%;
   margin: auto;
   background-color: white;
-`;
+`
 
 const MainLayout = ({ children }) => {
   return (
@@ -15,7 +16,7 @@ const MainLayout = ({ children }) => {
       <ContentStyled>{children}</ContentStyled>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default MainLayout;
+export default MainLayout

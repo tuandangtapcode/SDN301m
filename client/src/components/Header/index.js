@@ -1,18 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import DropdownProfile from "./components/DropdownProfile";
-import PopoverMain from "./components/PopoverMain";
+import { useNavigate } from "react-router-dom"
+import DropdownProfile from "./components/DropdownProfile"
+import PopoverMain from "./components/PopoverMain"
 import {
   HeaderContainerStyled,
   HeaderStyled,
   InputHeaderStyled,
-} from "./styled";
-import LstIcons from "src/components/ListIcons";
-import { useSelector } from "react-redux";
-import { globalSelector } from "src/redux/selector";
+} from "./styled"
+import LstIcons from "src/components/ListIcons"
+import { useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
 
 const MainHeader = () => {
-  const navigate = useNavigate();
-  const global = useSelector(globalSelector);
+  const navigate = useNavigate()
+  const global = useSelector(globalSelector)
 
   return (
     <HeaderContainerStyled>
@@ -43,7 +43,7 @@ const MainHeader = () => {
         </div>
       </HeaderStyled>
     </HeaderContainerStyled>
-  );
-};
+  )
+}
 
-export default MainHeader;
+export default MainHeader

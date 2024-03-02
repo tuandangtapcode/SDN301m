@@ -2,10 +2,14 @@ import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { DotStyled, PremiumItemStyled } from "../styled"
 import { formatNumberToK } from "src/lib/stringUtils"
 import { useNavigate } from "react-router-dom"
+import ConfirmModal from "src/components/ModalCustom/ConfirmModal"
+import { useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
 
 const PremiumItem = ({ premium, color }) => {
 
   const navigate = useNavigate()
+  const global = useSelector(globalSelector)
 
   return (
     <PremiumItemStyled>
@@ -25,7 +29,21 @@ const PremiumItem = ({ premium, color }) => {
       </div>
       <ButtonCustom
         className="submit"
-        onClick={() => navigate(`/premium/${premium?._id}`)}
+        onClick={() => {
+          if (!global?.user?._id) {
+            ConfirmModal({
+              title: `Hãy đăng nhập để có thể mua premium`,
+              okText: "Đăng nhập",
+              cancelText: "Hủy",
+              onOk: async close => {
+                navigate('/login')
+                close()
+              },
+            })
+          } else {
+            navigate(`/premium/${premium?._id}`)
+          }
+        }}
       >
         Mua premium {premium?.Title}
       </ButtonCustom>

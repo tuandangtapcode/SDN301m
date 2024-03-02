@@ -1,5 +1,5 @@
-import { Badge, Input } from "antd";
-import styled from "styled-components";
+import { Badge, Input } from "antd"
+import styled from "styled-components"
 
 export const HeaderContainerStyled = styled.div`
   background-image: linear-gradient(to right, #ff7854 0%, #ff5079 100%);
@@ -7,17 +7,17 @@ export const HeaderContainerStyled = styled.div`
   a {
     color: black;
   }
-`;
+`
 
 export const HeaderStyled = styled.div`
   max-width: 80%;
   margin: auto;
-`;
+`
 export const ImageStyled = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-`;
+`
 
 export const InputHeaderStyled = styled(Input)`
   background-color: white;
@@ -41,7 +41,7 @@ export const InputHeaderStyled = styled(Input)`
   .ant-input:focus {
     caret-color: black;
   }
-`;
+`
 
 export const BadgeStyled = styled(Badge)`
   .ant-badge,
@@ -52,4 +52,4 @@ export const BadgeStyled = styled(Badge)`
     transform: translate(0%, -50%);
     transform-origin: 100% 0%;
   }
-`;
+`

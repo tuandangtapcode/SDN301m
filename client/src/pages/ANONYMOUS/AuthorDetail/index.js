@@ -20,22 +20,22 @@ const AuthorDetail = () => {
 
   const getInforAuthor = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const res = await ComicService.getAllComicsByAuthor({
         ...pagination,
         UserID: AuthorID,
         IsPrivated: false,
-      });
+      })
       if (res.isError) return navigate("/not-found")
       setDetail(res?.data)
       setList(res?.data?.List)
     } finally {
       setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    getInforAuthor();
+    getInforAuthor()
   }, [pagination, AuthorID])
 
 
@@ -55,7 +55,7 @@ const AuthorDetail = () => {
         </Col>
       </Row>
     </SpinCustom>
-  );
-};
+  )
+}
 
-export default AuthorDetail;
+export default AuthorDetail

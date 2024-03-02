@@ -92,7 +92,7 @@ const ChangePassword = () => {
           </Col>
           <Col span={24}>
             <ButtomCustomStyled
-              className="submit fw-600 fs-18 mb-35"
+              className="submit fs-18 mb-35"
               loading={loading}
               onClick={() => handleChangePassword()}
             >

@@ -37,6 +37,8 @@ const PackageManagement = () => {
     getPackages()
   }, [pagination])
 
+  console.log(packages);
+
   const lstBtn = (record) => (
     [
       {
@@ -86,7 +88,7 @@ const PackageManagement = () => {
       key: "Price",
       width: 150,
       render: (_, record, index) => (
-        <div>{formatNumberToK(record?.Price)} VNĐ</div>
+        <div>{formatNumberToK(record?.Price)}</div>
       ),
     },
     {

@@ -11,5 +11,8 @@ router.post("/updatePackage",
 router.post("/getAllPackages",
   PackageController.getAllPackages
 )
+router.get("/getDetailPackage/:PackageID",
+  PackageController.getDetailPackage
+)
 
 export default router

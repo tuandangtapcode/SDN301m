@@ -20,11 +20,14 @@ export const getRegexDOB = (dateString) => {
 }
 
 export const formatNumberToK = (number) => {
-  if (number >= 1000) {
-    return (number / 1000).toFixed(3).replace(/\.0+$/, '');
-  } else {
-    return number.toString();
-  }
+  const formattedAmount = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(+number)
+
+  return formattedAmount
 }
 
 export const formatNumber = (number) => {

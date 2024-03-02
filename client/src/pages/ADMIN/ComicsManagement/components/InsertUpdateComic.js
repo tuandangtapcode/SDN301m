@@ -88,23 +88,23 @@ const InsertUpdateComic = ({
       if (resComic?.isError) return toast.error(resComic.msg)
       let insertImages = []
       lstChapters.forEach(chapter => {
-console.log(values[chapter?.Name]);
+        console.log(values[chapter?.Name]);
         values[chapter?.Name]?.fileList.forEach(async (i, index) => {
-if (!!i?.originFileObj) {
-          const promiseInsertImage = ImageService.insertImage({
-            Chapter: chapter?.ChapterID,
-            Image: i?.originFileObj,
-            Comic: resComic?.data,
-            SortOrder: index + 1
-          })
-          insertImages.push(promiseInsertImage)
-}
+          if (!!i?.originFileObj) {
+            const promiseInsertImage = ImageService.insertImage({
+              Chapter: chapter?.ChapterID,
+              Image: i?.originFileObj,
+              Comic: resComic?.data,
+              SortOrder: index + 1
+            })
+            insertImages.push(promiseInsertImage)
+          }
         })
       })
       await Promise.all(insertImages)
-if (!open?.Comic?._id) {
-      toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
-} else {
+      if (!open?.Comic?._id) {
+        toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
+      } else {
         toast.success('Truyện đã được cập nhật thành công')
       }
       onOk()
@@ -132,7 +132,6 @@ if (!open?.Comic?._id) {
     })
     setLstChapters(chapters)
   }, [open])
-  console.log(open);
 
   const renderFooter = () => {
     return (

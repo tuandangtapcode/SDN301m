@@ -89,6 +89,15 @@ const likeComic = async (req, res) => {
   }
 }
 
+const getAllHotComics = async (req, res) => {
+  try {
+    const response = await ComicService.fncGetAllHotComics(req)
+    return res.status(response.StatusCode).json(response)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const ComicController = {
   getAllComics,
@@ -100,7 +109,8 @@ const ComicController = {
   getAllComicsByAuthor,
   changeStatusComic,
   getAllChaptersByComic,
-  likeComic
+  likeComic,
+  getAllHotComics
 }
 
 export default ComicController

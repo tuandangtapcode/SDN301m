@@ -2,20 +2,28 @@ import Footer from "src/components/Footer"
 import MainHeader from "src/components/Header"
 import styled from "styled-components"
 
+const MainHeaderContainerStyled = styled.div`
+height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+`
 
 const ContentStyled = styled.div`
-  max-width: 80%;
+  width: 80%;
   margin: auto;
   background-color: white;
 `
 
 const MainLayout = ({ children }) => {
   return (
-    <div>
+    <MainHeaderContainerStyled>
       <MainHeader />
-      <ContentStyled>{children}</ContentStyled>
+      <ContentStyled>
+        {children}
+      </ContentStyled>
       <Footer />
-    </div>
+    </MainHeaderContainerStyled>
   )
 }
 

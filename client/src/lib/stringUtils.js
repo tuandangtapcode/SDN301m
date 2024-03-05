@@ -34,3 +34,11 @@ export const formatNumber = (number) => {
   var formattedNumber = number.toLocaleString('en-US').replace(/,/g, '.')
   return formattedNumber
 }
+
+export const randomNumber = () => {
+  const min = 100000
+  const max = 999999
+  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min
+  return randomNumber
+}
+

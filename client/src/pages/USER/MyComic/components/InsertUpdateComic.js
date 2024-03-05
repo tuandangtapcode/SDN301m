@@ -11,6 +11,8 @@ import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { getBase64 } from "src/lib/getFileUpload"
 import PreviewImage from "./PreviewImage"
+import NotificaitonService from "src/services/NotificationService"
+import socket from "src/utils/socket"
 
 const { Option } = Select
 
@@ -101,6 +103,14 @@ const InsertUpdateComic = ({
         })
       })
       await Promise.all(insertImages)
+      if (!open?.Comic?._id) {
+        const resNoti = await NotificaitonService.createNotification({
+          Content: `${global?.user?.FullName} yêu cầu kiểm duyệt truyện ${values?.Title}`,
+          Sender: global?.user?._id,
+        })
+        if (resNoti?.isError) return
+        socket.emit('send-notification', { Content: body.Content, Receiver: resNoti?.data?.Receiver, IsSeen: false })
+      }
       if (!open?.Comic?._id) {
         toast.success('Hệ thống đã nhận được yêu cầu đăng truyện của bạn và đang chờ Quản trị viên xét duyệt')
       } else {

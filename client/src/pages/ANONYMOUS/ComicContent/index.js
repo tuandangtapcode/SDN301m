@@ -32,7 +32,7 @@ const ComicContent = () => {
   const getImages = async () => {
     try {
       setLoading(true)
-      const res = await ImageService.getAllImagesByChapter({ ComicID, Chapter: ChapterID })
+      const res = await ImageService.getAllImagesByChapter({ ComicID, Chapter: ChapterID, Date: Date.now() })
       if (res?.isError) return navigate('/not-found')
       setImages(res?.data)
     } finally {

@@ -36,13 +36,14 @@ const fncUpdateImage = async (req) => {
 
 const fncGetAllImagesByChapter = async (req) => {
   try {
-    const { ComicID, Chapter } = req.body
+    const { ComicID, Chapter, Date } = req.body
     const updateComic = await Comic
       .updateOne({ _id: ComicID, "Chapters.ChapterID": Chapter }, {
         $inc: {
           "Chapters.$.Reads": 1,
           Reads: 1
-        }
+        },
+        $push: { ReadedAt: Date }
       })
     if (!updateComic.matchedCount) return response(updateComic, true, "Có lỗi", 200)
     const image = await Image

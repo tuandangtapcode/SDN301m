@@ -18,7 +18,7 @@ const ComicItemList = ({ comic }) => {
             position: 'absolute',
             bottom: 2,
             left: 0,
-            right: 0
+            right: 0,
           }}
         >
           <p className="text-white d-flex-sb">

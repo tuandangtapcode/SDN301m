@@ -44,11 +44,14 @@ const Users = new Schema({
     type: Number,
     require: true
   },
-  Premium: {
-    BoughtAt: { type: Date, required: true },
-    Duration: { type: Number, require: true },
-    Title: { type: String, require: true }
-  }
+  // Premium: {
+  //   type: {
+  //     BoughtAt: { type: Date, required: true },
+  //     Duration: { type: Number, require: true },
+  //     Title: { type: String, require: true }
+  //   },
+  //   default: {}
+  // }
 }, {
   timestamps: true
 })

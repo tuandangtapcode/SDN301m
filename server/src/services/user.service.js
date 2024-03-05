@@ -76,7 +76,10 @@ const fnDeactiveAccount = async (req) => {
 const fncGetDetailProfile = async (req) => {
   try {
     const UserID = req.params.UserID
-    const detail = await User.findOne({ _id: UserID }).populate('Follows', ['AvatarPath', 'Title'])
+    const detail = await User
+      .findOne({ _id: UserID })
+      .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle')
+      .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
     if (!detail) return response({}, true, "Không tồn tại user", 200)
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {

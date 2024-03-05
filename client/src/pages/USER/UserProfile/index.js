@@ -5,12 +5,16 @@ import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { useState } from "react"
 import UpdateProfile from "./components/UpdateProfile"
 import LstIcons from "src/components/ListIcons"
+import ComicItemList from "src/components/ComicItemList"
+import { Col, Row } from "antd"
+import { useNavigate } from "react-router-dom"
 
 const UserProfile = () => {
 
   const global = useSelector(globalSelector)
   const [modalUpdateProfile, setModalUpdateProfile] = useState(false)
-  console.log(global?.user);
+  const navigate = useNavigate()
+
   return (
     <UserProfileStyled>
       <div className="d-flex">
@@ -26,7 +30,21 @@ const UserProfile = () => {
           />
         </div>
       </div>
-
+      {
+        !!global?.user?.Follows &&
+        <div className="mt-30">
+          <h2 className="mb-16">Danh sách truyện theo dõi:</h2>
+          <Row>
+            {
+              global?.user?.Follows?.map(i =>
+                <Col span={6} onClick={() => navigate(`/comic/${i?._id}`)}>
+                  <ComicItemList comic={i} />
+                </Col>
+              )
+            }
+          </Row>
+        </div>
+      }
       {
         !!modalUpdateProfile &&
         <UpdateProfile

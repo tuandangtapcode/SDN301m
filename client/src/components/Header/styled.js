@@ -53,3 +53,7 @@ export const BadgeStyled = styled(Badge)`
     transform-origin: 100% 0%;
   }
 `
+
+export const NotificationItemStyled = styled.div`
+/* background-color: ; */
+`

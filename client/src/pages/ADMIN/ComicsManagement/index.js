@@ -57,7 +57,7 @@ const ComicsManagement = () => {
       }
       const resNoti = await NotificaitonService.createNotification(body)
       if (resNoti?.isError) return
-      socket.emit('send-notification', { Content: body.Content, Receiver: body.Receiver, IsSeen: Status, createdAt: Date.now() })
+      socket.emit('send-notification', { Content: body.Content, Receiver: body.Receiver, IsSeen: Status })
       getListComics()
     } finally {
       setLoading(false)

@@ -59,7 +59,7 @@ const LstIcons = {
   ICON_REPORT: <ExceptionOutlined />,
   ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: "20px" }} />,
   ICON_EYE: <AiFillEye className="fs-15 mr-4 text-white" />,
-  ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white" />,
+  ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white mt-4" />,
   ICON_USER: <FaUser />,
   ICON_TAGS: <BsFillTagsFill />,
   ICON_INFOR: <BsFillInfoCircleFill className="fs-20 mr-4" />,
@@ -68,7 +68,7 @@ const LstIcons = {
   ICON_FACEBOOK: <AiFillFacebook style={{ fontSize: "25px", color: "#1773EA" }} />,
   ICON_TWITTER: <AiFillTwitterCircle style={{ fontSize: "25px", color: "#4DA6E9" }} />,
   ICON_INSTARGRAM: <AiOutlineInstagram style={{ fontSize: "25px", color: "#E4176A" }} />,
-  ICON_WARNING: <AiFillWarning style={{ fontSize: "20px", color: "#F0AD4E" }} />,
+  ICON_WARNING: <AiFillWarning style={{ fontSize: "15px", color: "#F0AD4E" }} />,
   ICON_MESSAGE: <BiMessageRoundedDetail className="fs-25 mt-6" />,
   ICON_PREMIUM: <AiFillDatabase />,
   ICON_CHECK: <AiFillCheckCircle />

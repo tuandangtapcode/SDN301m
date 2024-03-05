@@ -11,6 +11,7 @@ import UserService from "./services/UserService"
 import GenreService from "./services/GenreService"
 import socket from "./utils/socket"
 import DeactiveModal from "./components/ModalCustom/DeactiveModal"
+import ComicService from "./services/ComicService"
 
 
 // ANONYMOUS
@@ -303,7 +304,6 @@ const App = () => {
     }
     getListGenres()
   }, [])
-
 
   socket.on('get-deactive', (data) => {
     if (global?.user?._id === data) {

@@ -4,13 +4,15 @@ import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import SpinCustom from "src/components/SpinCustom"
 import PackageService from "src/services/PackageService"
 import { PremiumDetailContainerStyled, PremiumDetailInforStyled } from "./styled"
-import { formatNumberToK } from "src/lib/stringUtils"
+import { formatNumberToK, randomNumber } from "src/lib/stringUtils"
 import moment from "moment"
 import QueryString from "qs"
+import CryptoJS from "crypto-js"
+
 
 const listColor = [
   {
-    Duration: 1,
+    Duration: 14,
     Color: "rgb(207, 245, 106)"
   },
   {
@@ -22,6 +24,7 @@ const listColor = [
     Color: "rgb(196, 177, 212)"
   },
 ]
+
 
 const PremiumDetail = () => {
 
@@ -44,24 +47,44 @@ const PremiumDetail = () => {
   }
 
   const handleCreatePayment = () => {
-    const vnp_params = {
+    let vnp_Params
+    vnp_Params = {
       vnp_Version: '2.1.0',
       vnp_Command: 'pay',
       vnp_TmnCode: process.env.REACT_APP_VNP_TMNCODE,
       vnp_Locale: 'vn',
       vnp_CurrCode: 'VND',
-      vnp_TxnRef: 0,
+      vnp_TxnRef: randomNumber(),
       vnp_OrderInfo: `Mua premium ${packageDetail?.Title}`,
       vnp_OrderType: 'other',
-      vnp_Amount: +packageDetail?.Price,
-      vnp_ReturnUrl: process.env.REACT_APP_URL_WEBSITE,
+      vnp_Amount: +packageDetail?.Price * 100,
+      vnp_ReturnUrl: `${process.env.REACT_APP_URL_WEBSITE}/${PackageID}`,
       vnp_IpAddr: ipAddress,
       vnp_CreateDate: moment().format('YYYYMMDDHHmmss'),
-      vnp_SecureHash: process.env.REACT_APP_VNP_HASHSECRET
     }
-    const params = QueryString.stringify(vnp_params)
-    const vnpURL = `${process.env.REACT_APP_VNP_URL}?${params}`
+    vnp_Params = sortObject(vnp_Params)
+    let signData = QueryString.stringify(vnp_Params, { encode: false })
+    let hmac = CryptoJS.HmacSHA512(signData, process.env.REACT_APP_VNP_HASHSECRET)
+    let signed = CryptoJS.enc.Hex.stringify(hmac)
+    vnp_Params['vnp_SecureHash'] = signed
+    const vnpURL = `${process.env.REACT_APP_VNP_URL}?${QueryString.stringify(vnp_Params, { encode: false })}`
     window.location.href = vnpURL
+  }
+
+  const sortObject = (obj) => {
+    let sorted = {}
+    let str = []
+    let key
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        str.push(encodeURIComponent(key))
+      }
+    }
+    str.sort()
+    for (key = 0; key < str.length; key++) {
+      sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+")
+    }
+    return sorted
   }
 
   useEffect(() => {

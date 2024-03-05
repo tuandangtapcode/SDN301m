@@ -21,6 +21,7 @@ import InputCustom from "src/components/FloatInput/InputCustom"
 import CommentService from "src/services/CommentService"
 import UserService from "src/services/UserService"
 import socket from "src/utils/socket"
+import NotificaitonService from "src/services/NotificationService"
 
 
 const ComicDetail = () => {
@@ -32,11 +33,11 @@ const ComicDetail = () => {
   const [comic, setComic] = useState()
   const [comments, setComments] = useState([])
   const [totalChapter, setTotalChapter] = useState(0)
-  const [openModal, setOpenModal] = useState(false)
   const [showFullDescription, setShowFullDescription] = useState(false)
   const [openBtnComment, setOpenBtnComment] = useState(false)
   const [textComment, setTextComment] = useState("")
   const [statusBtnFollow, setStatusBtnFollow] = useState(global?.user?.Follows?.some(i => i?._id === ComicID))
+  const [openModalReport, setOpenModalReport] = useState(false)
 
   const getComic = async () => {
     try {
@@ -59,10 +60,6 @@ const ComicDetail = () => {
     } finally {
       setLoading(false)
     }
-  }
-
-  const handleReport = () => {
-
   }
 
   const handleSendComment = async () => {
@@ -204,27 +201,13 @@ const ComicDetail = () => {
                   </div>
                 </div>
                 <div className="mt-20">
-                  <ButtonCircle
-                    className="normal"
-                    title="Báo cáo"
+                  <Button
                     icon={LstIcons.ICON_WARNING}
-                    loading={loading}
-                    onClick={() => {
-                      if (global?.user?._id) {
-                        handleReport()
-                      } else {
-                        ConfirmModal({
-                          title: `Hãy đăng nhập để có thể report`,
-                          okText: "Đăng nhập",
-                          cancelText: "Hủy",
-                          onOk: async close => {
-                            navigate('/login')
-                            close()
-                          },
-                        })
-                      }
-                    }}
-                  />
+                    className="greendBorder medium"
+                    onClick={() => setOpenModalReport(comic)}
+                  >
+                    Báo cáo
+                  </Button>
                 </div>
               </Col>
             </Row>
@@ -287,7 +270,7 @@ const ComicDetail = () => {
                 }}
               />
             </div>
-            <div className={!!openBtnComment ? "d-flex-end" : "d-none"}>
+            <div className={!!openBtnComment ? "d-flex-end mb-16" : "d-none"}>
               <Button
                 onClick={() => setOpenBtnComment(false)}
               >
@@ -302,7 +285,7 @@ const ComicDetail = () => {
                 Gửi
               </Button>
             </div>
-            <div>
+            <div className="mt-20">
               {
                 comments?.map(i =>
                   <CommentItem comment={i} />
@@ -312,10 +295,10 @@ const ComicDetail = () => {
           </Col>
         </Row>
       </ComicDetailStyled>
-      {openModal && (
+      {openModalReport && (
         <ModalReport
-          open={openModal}
-          onCancel={() => setOpenModal(false)}
+          open={openModalReport}
+          onCancel={() => setOpenModalReport(false)}
         />
       )}
     </SpinCustom>

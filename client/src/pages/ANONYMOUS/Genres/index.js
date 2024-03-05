@@ -48,7 +48,7 @@ const Genres = () => {
   return (
     <SpinCustom spinning={loading}>
       <Row className="mt-50 mb-30" gutter={[16, 0]}>
-        <Col span={16}>
+        <Col span={18}>
           {
             !!GenreID &&
             <Col span={24}>
@@ -59,7 +59,7 @@ const Genres = () => {
               <DivBorder className="text-center">{genresDetail?.ShortDescription}</DivBorder>
             </Col>
           }
-          <Row gutter={[16, 0]}>
+          <Row gutter={[16, 16]}>
             {
               comics?.map(i =>
                 <Col span={6}>
@@ -69,7 +69,7 @@ const Genres = () => {
             }
           </Row>
         </Col>
-        <Col span={8}>
+        <Col span={6}>
           <GenresStyled>
             <RowStyled className="title-header">Thể loại</RowStyled>
             <div

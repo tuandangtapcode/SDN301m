@@ -2,11 +2,12 @@ import http from '../index'
 import {
   apiChangeStatusComic,
   apiDeleteComic,
-apiGetAllChaptersByComic,
+  apiGetAllChaptersByComic,
   apiGetAllComics,
   apiGetAllComicsByAuthor,
   apiGetAllComicsByGenre,
-apiGetDetailComic,
+  apiGetAllHotComics,
+  apiGetDetailComic,
   apiInsertComic,
   apiUpdateComic,
 } from './urls'
@@ -38,6 +39,7 @@ const changeStatusComic = body => http.post(apiChangeStatusComic, body, {
   }
 })
 const getAllChaptersByComic = ComicID => http.get(`${apiGetAllChaptersByComic}/${ComicID}`)
+const getAllHotComics = FillNumber => http.get(`${apiGetAllHotComics}/${FillNumber}`)
 
 
 const ComicService = {
@@ -49,7 +51,8 @@ const ComicService = {
   getAllComicsByGenre,
   getAllComicsByAuthor,
   changeStatusComic,
-  getAllChaptersByComic
+  getAllChaptersByComic,
+  getAllHotComics
 }
 
 export default ComicService

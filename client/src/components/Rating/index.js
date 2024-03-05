@@ -1,38 +1,56 @@
 import { Col, Row, Tabs } from "antd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { PageStyles } from "./style"
-import All from "./components/All"
-import Month from "./components/Month"
-import Week from "./components/Week"
-import SpinCustom from "../SpinCustom"
+import { useDispatch, useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
+import globalSlice from "src/redux/globalSlice"
+import HotComics from "./components/HotComics"
+import ComicService from "src/services/ComicService"
 
 const Rating = () => {
+
+  const global = useSelector(globalSelector)
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
-  const [activeKey, setActiveKey] = useState(1)
+  const [topComics, setTopComics] = useState([])
+  const [activeKey, setActiveKey] = useState(0)
+
+  const getListHotComics = async () => {
+    try {
+      setLoading(true)
+      const res = await ComicService.getAllHotComics(activeKey)
+      if (res?.isError) return
+      setTopComics(res?.data)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getListHotComics()
+  }, [activeKey])
 
   const items = [
     {
-      key: "1",
+      key: 0,
       label: `Tất Cả`,
-      children: <All />,
+      children: <HotComics topComics={topComics} loading={loading} />,
     },
     {
-      key: "2",
+      key: 30,
       label: `Top Tháng`,
-      children: <Month activeKey={activeKey} />,
+      children: <HotComics topComics={topComics} loading={loading} />,
     },
     {
-      key: "3",
+      key: 7,
       label: `Top Tuần`,
-      children: <Week activeKey={activeKey} />,
+      children: <HotComics topComics={topComics} loading={loading} />,
     },
   ]
 
   return (
-    <SpinCustom spinning={loading}>
-      <Row
-      // style={{ border: "1px solid #ff5079", borderRadius: "8px" }}
-      >
+    <>
+      <Row >
         <Col span={24} className="d-flex">
           <PageStyles>
             <Tabs
@@ -45,7 +63,7 @@ const Rating = () => {
           </PageStyles>
         </Col>
       </Row>
-    </SpinCustom>
+    </>
   )
 }
 

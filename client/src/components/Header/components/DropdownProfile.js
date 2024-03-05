@@ -46,7 +46,7 @@ const DropdownProfile = () => {
 
   const menuItems = () => {
     let items
-    if (!!global?.user?.Email && !!global?.user?.Password && global?.user?.RoleID === 3) {
+    if (!global?.user?.IsByGoogle && global?.user?.RoleID === 3) {
       items = [
         {
           label: (
@@ -72,7 +72,7 @@ const DropdownProfile = () => {
           onClick: () => handleLogout()
         },
       ]
-    } else if (!!global?.user?.Email && !!global?.user?.Password && global?.user?.RoleID !== 3) {
+    } else if (!global?.user?.IsByGoogle && global?.user?.RoleID !== 3) {
       items = [
         {
           label: (
@@ -92,7 +92,7 @@ const DropdownProfile = () => {
           onClick: () => handleLogout()
         },
       ]
-    } else if (!!global?.user?.Email && !global?.user?.Password && global?.user?.RoleID !== 3) {
+    } else if (!!global?.user?.IsByGoogle && global?.user?.RoleID !== 3) {
       items = [
         {
           label: (
@@ -106,7 +106,7 @@ const DropdownProfile = () => {
           onClick: () => handleLogout()
         },
       ]
-    } else if (!!global?.user?.Email && !global?.user?.Password && global?.user?.RoleID === 3) {
+    } else if (!!global?.user?.IsByGoogle && global?.user?.RoleID === 3) {
       items = [
         {
           label: (
@@ -156,7 +156,7 @@ const DropdownProfile = () => {
     <div className="d-flex-sb">
       {
         !!global?.user?._id ?
-          <div>
+          <div className="d-flex-sb">
             {
               global?.user?.RoleID === 1 ?
                 <ButtonCustom className="noBackground-textwhite fw-600">
@@ -198,7 +198,7 @@ const DropdownProfile = () => {
               <BadgeStyled
                 size="small"
                 count={notifiNotSeen}
-                style={{ fontSize: '10px', padding: '0px 1px 4px 0px' }}
+                style={{ fontSize: '10px' }}
               >
                 <ButtonCustom
                   className="noBackground-textwhite"

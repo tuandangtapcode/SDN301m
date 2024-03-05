@@ -187,19 +187,70 @@ const fncGetAllChaptersByComic = async (req) => {
 const fncLikeComic = async (req) => {
   try {
     const comicID = req.params.ComicID
-    const comic = await Comics.findById(comicID)
+    const comic = await Comic.findById(comicID)
     if (!comic) {
       return res.status(404).json({ message: 'Comic not found' })
     }
-    const updateResult = await Comics.updateOne(
+    const updateResult = await Comic.updateOne(
       { _id: comicID },
-      { $inc: { likes: 1 } }
+      { $inc: { Likes: 1 } }
     )
-
     if (updateResult.matchedCount === 0) {
       return res.status(404).json({ message: 'Comic not found' })
     }
     return response({ message: 'Comic liked successfully' }, false, 'Cập nhật thành công', 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncGetAllHotComics = async (req) => {
+  try {
+    const { FillNumber } = req.params
+    let topReadComics
+    const endDate = new Date()
+    const startDate = new Date(endDate)
+    startDate.setDate(endDate.getDate() - FillNumber)
+    if (+FillNumber !== 0) {
+      topReadComics = await Comic.aggregate([
+        {
+          $match: {
+            ReadedAt: {
+              $elemMatch: {
+                $gte: startDate,
+                $lt: endDate,
+              },
+            },
+          },
+        },
+        {
+          $unwind: "$ReadedAt",
+        },
+        {
+          $match: {
+            "ReadedAt": {
+              $gte: startDate,
+              $lt: endDate,
+            },
+          },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            Title: { $first: "$Title" },
+            Reads: { $sum: 1 },
+            AvatarPath: { $first: "$AvatarPath" },
+            Chapters: { $first: "$Chapters" }
+          },
+        },
+        {
+          $sort: { Reads: -1 },
+        },
+      ])
+    } else {
+      topReadComics = await Comic.find().sort({ Reads: -1 }).limit(3)
+    }
+    return response(topReadComics, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -218,6 +269,7 @@ const ComicService = {
   fncChangeStatusComic,
   fncGetAllChaptersByComic,
   fncLikeComic,
+  fncGetAllHotComics
 }
 
 export default ComicService

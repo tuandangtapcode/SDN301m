@@ -12,7 +12,7 @@ const globalSlice = createSlice({
     },
     setGenres: (state, action) => {
       state.genres = action.payload
-    },
+    }
   }
 })
 

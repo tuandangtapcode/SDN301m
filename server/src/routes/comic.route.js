@@ -41,5 +41,8 @@ router.get('/getAllChaptersByComic/:ComicID',
 router.get('/likeComic/:ComicID',
   ComicController.likeComic
 )
+router.get("/getAllHotComics/:FillNumber",
+  ComicController.getAllHotComics
+)
 
 export default router

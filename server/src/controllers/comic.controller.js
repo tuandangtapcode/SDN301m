@@ -83,7 +83,7 @@ const getAllChaptersByComic = async (req, res) => {
 const likeComic = async (req, res) => {
   try {
     const response = await ComicService.fncLikeComic(req)
-    return res.status(response.statusCode).json(response)
+    return res.status(response.StatusCode).json(response)
   } catch (error) {
     return res.status(500).json(error.toString())
   }

@@ -44,14 +44,14 @@ const Users = new Schema({
     type: Number,
     require: true
   },
-  // Premium: {
-  //   type: {
-  //     BoughtAt: { type: Date, required: true },
-  //     Duration: { type: Number, require: true },
-  //     Title: { type: String, require: true }
-  //   },
-  //   default: {}
-  // }
+  Premium: {
+    type: {
+      BoughtAt: { type: Date, required: true },
+      EndedAt: { type: Date, required: true },
+      PackageID: { type: mongoose.Schema.Types.ObjectId, ref: 'Packages', require: true },
+    },
+    default: null
+  }
 }, {
   timestamps: true
 })

@@ -1,6 +1,6 @@
 import Notificaiton from "../models/notiffication.js"
 import User from '../models/user.js'
-import response from "../utils/response-result.js"
+import { response } from "../utils/lib.js"
 
 const fncCreateNotification = async (req) => {
   try {

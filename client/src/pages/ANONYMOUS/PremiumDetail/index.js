@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import SpinCustom from "src/components/SpinCustom"
 import PackageService from "src/services/PackageService"
@@ -33,6 +33,7 @@ const PremiumDetail = () => {
   const [packageDetail, setPackageDetail] = useState()
   const [ipAddress, setIpAddress] = useState()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const getPackage = async () => {
     try {
@@ -90,6 +91,8 @@ const PremiumDetail = () => {
   useEffect(() => {
     getPackage()
   }, [PackageID])
+
+  
 
   return (
     <SpinCustom spinning={loading}>

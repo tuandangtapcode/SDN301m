@@ -111,6 +111,15 @@ const followOrUnfollowComic = async (req, res) => {
   }
 }
 
+const buyPremium = async (req, res) => {
+  try {
+    const respone = await UserService.fncBuyPremium(req)
+    return res.status(respone.StatusCode).json(respone)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const UserController = {
   getListAuthour,
@@ -124,7 +133,8 @@ const UserController = {
   deactiveAccount,
   updateProfileCustomer,
   changePassword,
-  followOrUnfollowComic
+  followOrUnfollowComic,
+  buyPremium
 }
 
 export default UserController

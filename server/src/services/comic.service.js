@@ -1,6 +1,6 @@
 import Comic from '../models/comic.js'
 import Image from '../models/image.js'
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 import cloudinary from 'cloudinary'
 import User from '../models/user.js'
 const cloudinaryV2 = cloudinary.v2

@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router()
 import UserController from "../controllers/user.controller.js"
 import { authMiddleware } from '../middlewares/auth.middleware.js'
-import Roles from '../utils/roles.js'
+import { Roles } from '../utils/lib.js'
 import upload from '../middlewares/clouddinary.middleware.js'
 import UserValidation from "../validations/user.validation.js"
 

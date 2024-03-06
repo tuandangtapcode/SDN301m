@@ -1,5 +1,5 @@
 import Package from "../models/package.js"
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 
 const fncInsertPackage = async (req) => {
   try {

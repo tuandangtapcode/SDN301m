@@ -1,6 +1,7 @@
-import response from "../utils/response-result.js"
+import { response } from "../utils/lib.js"
 import User from "../models/user.js"
 import Comic from "../models/comic.js"
+import Package from '../models/package.js'
 import { accessToken, refreshToken } from "../utils/jwt.js"
 import bcrypt from "bcrypt"
 const saltRounds = 10
@@ -249,6 +250,20 @@ const fncFollowOrUnfollowComic = async (req) => {
   }
 }
 
+const fncBuyPremium = async (req) => {
+  try {
+    const { BoughtAt, EndedAt, PackageID, UserID } = req.body
+    const updateAcc = await User.findByIdAndUpdate({ _id: UserID }, { Premium: { BoughtAt, EndedAt, PackageID } })
+    if (!updateAcc) return response({}, true, "User không tồn tại", 200)
+    const updatePackage = await Package.findByIdAndUpdate({ _id: PackageID }, {
+      $inc: { Quantity: 1 }
+    })
+    if (!updatePackage) return response({}, true, "Gói không tồn tại", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const UserService = {
   fncGetListAuthor,
@@ -262,7 +277,8 @@ const UserService = {
   fnDeactiveAccount,
   fncUpdateProfileCustomer,
   fncChangePassword,
-  fncFollowOrUnfollowComic
+  fncFollowOrUnfollowComic,
+  fncBuyPremium
 }
 
 export default UserService

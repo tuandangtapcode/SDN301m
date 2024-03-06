@@ -1,5 +1,5 @@
 import Genre from '../models/genre.js'
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 
 const fncGetAllGenres = async (req) => {
   try {

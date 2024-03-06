@@ -2,7 +2,7 @@ import express from 'express'
 const router = express.Router()
 import GenreController from '../controllers/genre.controller.js'
 import { authMiddleware } from '../middlewares/auth.middleware.js'
-import Roles from '../utils/roles.js'
+import { Roles } from '../utils/lib.js'
 import GenreValidation from '../validations/genre.validation.js'
 
 router.post('/getAllGenres',

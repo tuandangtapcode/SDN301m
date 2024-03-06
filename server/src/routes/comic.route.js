@@ -3,7 +3,7 @@ const router = express.Router()
 import ComicController from '../controllers/comic.controller.js'
 import upload from '../middlewares/clouddinary.middleware.js'
 import { authMiddleware } from '../middlewares/auth.middleware.js'
-import Roles from '../utils/roles.js'
+import { Roles } from '../utils/lib.js'
 
 router.post('/getAllComics',
   ComicController.getAllComics

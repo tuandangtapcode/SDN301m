@@ -11,7 +11,6 @@ import {
   AiOutlineInstagram,
   AiFillWarning,
   AiFillDatabase,
-  CheckOutlined
 } from "react-icons/ai"
 import {
   BsFillTrash3Fill,
@@ -56,7 +55,6 @@ const LstIcons = {
   ICON_MENUFOLD: <MenuFoldOutlined />,
   ICON_MENUUNFOLD: <MenuUnfoldOutlined />,
   ICON_PREVIEW: <AiFillEye className="fs-20" />,
-  ICON_REPORT: <ExceptionOutlined />,
   ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: "20px" }} />,
   ICON_EYE: <AiFillEye className="fs-15 mr-4 text-white" />,
   ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white mt-4" />,

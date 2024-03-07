@@ -13,7 +13,6 @@ const AuthorDetail = () => {
   const [list, setList] = useState([])
   const { AuthorID } = useParams()
   const [pagination, setPagination] = useState({
-    TextSearch: "",
     CurrentPage: 1,
     PageSize: 10,
   })

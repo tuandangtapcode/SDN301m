@@ -12,6 +12,8 @@ import {
   apiGetListUser,
   apiDeactiveAccount,
   apiFollowOrUnfollowComic,
+  apiBuyPremium,
+  apiHandleExpiredPremium,
 } from './urls'
 
 
@@ -56,7 +58,16 @@ const followOrUnfollowComic = body => http.post(apiFollowOrUnfollowComic, body, 
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
-
+const buyPremium = body => http.post(apiBuyPremium, body, {
+  headers: {
+    'token': `Bearer ${localStorage.getItem('token')}`
+  }
+})
+const handleExpiredPremium = UserID => http.post(`${apiHandleExpiredPremium}/${UserID}`, {
+  headers: {
+    'token': `Bearer ${localStorage.getItem('token')}`
+  }
+})
 
 const UserService = {
   getInforByGoogleLogin,
@@ -70,7 +81,9 @@ const UserService = {
   changePassword,
   getListUser,
   deactiveAccount,
-  followOrUnfollowComic
+  followOrUnfollowComic,
+  buyPremium,
+  handleExpiredPremium
 }
 
 export default UserService

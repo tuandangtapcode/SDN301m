@@ -11,7 +11,6 @@ import UserService from "./services/UserService"
 import GenreService from "./services/GenreService"
 import socket from "./utils/socket"
 import DeactiveModal from "./components/ModalCustom/DeactiveModal"
-import ComicService from "./services/ComicService"
 
 
 // ANONYMOUS
@@ -139,15 +138,7 @@ const routes = [
             <UsersManagement />
           </LazyLoadingComponent>
         )
-      },
-      {
-        path: '/dashboard/report',
-        element: (
-          <LazyLoadingComponent>
-            <Report />
-          </LazyLoadingComponent>
-        )
-      },
+      }
     ]
   },
   // ANONYMOUS

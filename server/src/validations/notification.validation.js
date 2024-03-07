@@ -1,8 +1,10 @@
 import Joi from 'joi'
 
-const insertComment = async (req, res, next) => {
+const insertNotificaiton = async (req, res, next) => {
   const trueCondition = Joi.object({
-    Author: Joi.any().required()
+    Content: Joi.string().min(3).max(256).required(),
+    Sender: Joi.any().required(),
+    Receiver: Joi.any(),
   })
   try {
     await trueCondition.validateAsync(req.body, { abortEarly: false })
@@ -12,9 +14,9 @@ const insertComment = async (req, res, next) => {
   }
 }
 
-const getAllCommentByComic = async (req, res, next) => {
+const getParamsUserID = async (req, res, next) => {
   const trueCondition = Joi.object({
-    ComicID: Joi.any().required()
+    UserID: Joi.any().required(),
   })
   try {
     await trueCondition.validateAsync(req.params, { abortEarly: false })
@@ -25,9 +27,9 @@ const getAllCommentByComic = async (req, res, next) => {
 }
 
 
-const CommentValidation = {
-  insertComment,
-  getAllCommentByComic
+const NotificaitonValidation = {
+  insertNotificaiton,
+  getParamsUserID
 }
 
-export default CommentValidation
+export default NotificaitonValidation

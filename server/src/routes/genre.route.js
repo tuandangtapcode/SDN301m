@@ -9,21 +9,18 @@ router.post('/getAllGenres',
   GenreController.getAllGenres
 )
 router.post('/insertGenre',
-  // authMiddleware([Roles.ROLE_ADMIN]),
-  // GenreValidation.insertGenre,
+  authMiddleware([Roles.ROLE_ADMIN]),
+  GenreValidation.insertGenre,
   GenreController.insertGenre
 )
 router.post('/updateGenre',
   authMiddleware([Roles.ROLE_ADMIN]),
-  // GenreValidation.updateGenre,
+  GenreValidation.updateGenre,
   GenreController.updateGenre
 )
 router.delete('/deleteGenre/:id',
-  // authMiddleware([Roles.ROLE_ADMIN]),
+  authMiddleware([Roles.ROLE_ADMIN]),
   GenreController.deleteGenre
-)
-router.get('/getDetailGenre/:id',
-  GenreController.getDetailGenre
 )
 
 export default router

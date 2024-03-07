@@ -8,6 +8,11 @@ import { formatNumberToK, randomNumber } from "src/lib/stringUtils"
 import moment from "moment"
 import QueryString from "qs"
 import CryptoJS from "crypto-js"
+import UserService from "src/services/UserService"
+import { useSelector } from "react-redux"
+import { globalSelector } from "src/redux/selector"
+import { toast } from "react-toastify"
+import SuccessByPremium from "./components/SuccessBuyPremium"
 
 
 const listColor = [
@@ -34,6 +39,9 @@ const PremiumDetail = () => {
   const [ipAddress, setIpAddress] = useState()
   const navigate = useNavigate()
   const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const global = useSelector(globalSelector)
+  const [openSuccessBuyPremium, setOpenSuccessBuyPremium] = useState(false)
 
   const getPackage = async () => {
     try {
@@ -88,11 +96,31 @@ const PremiumDetail = () => {
     return sorted
   }
 
+  const handleBuyPremium = async () => {
+    try {
+      setLoading(true)
+      const body = {
+        EndedAt: moment().add(packageDetail?.Duration, 'days'),
+        PackageID: PackageID,
+        UserID: global?.user?._id
+      }
+      const res = await UserService.buyPremium(body)
+      if (res?.isError) return toast.error(res?.msg)
+      setOpenSuccessBuyPremium(packageDetail)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     getPackage()
   }, [PackageID])
 
-  
+  useEffect(() => {
+    if (!!queryParams.get("vnp_ResponseCode") && queryParams.get("vnp_ResponseCode") === "00" && !!packageDetail) {
+      handleBuyPremium()
+    }
+  }, [location.search, packageDetail])
 
   return (
     <SpinCustom spinning={loading}>
@@ -123,11 +151,27 @@ const PremiumDetail = () => {
         <div className="d-flex-center mt-15">
           <ButtonCustom
             className="greendBackground medium"
-            onClick={() => handleCreatePayment()}
+            onClick={() => {
+              if (global?.user?.Premium?.PackageID !== packageDetail?._id) {
+                handleCreatePayment()
+              }
+            }}
           >
-            Thanh toán
+            {
+              global?.user?.Premium?.PackageID === packageDetail?._id
+                ? "Đã mua"
+                : "Thanh toán"
+            }
           </ButtonCustom>
         </div>
+
+        {
+          !!openSuccessBuyPremium &&
+          <SuccessByPremium
+            open={openSuccessBuyPremium}
+            onCancel={() => setOpenSuccessBuyPremium(false)}
+          />
+        }
       </PremiumDetailContainerStyled>
     </SpinCustom>
   )

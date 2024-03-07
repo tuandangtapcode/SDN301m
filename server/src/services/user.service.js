@@ -18,7 +18,6 @@ const checkEmailExist = async (Email) => {
   return check
 }
 
-//Authors
 const fncGetListAuthor = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
@@ -79,21 +78,8 @@ const fncGetDetailProfile = async (req) => {
     const UserID = req.params.UserID
     const detail = await User
       .findOne({ _id: UserID })
-      .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle')
+      .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
       .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
-    if (!detail) return response({}, true, "Không tồn tại user", 200)
-    return response(detail, false, "Lấy ra thành công", 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
-const fncGetDetailAuthour = async (req) => {
-  try {
-    const UserID = req.query.UserID
-    const detail = await User.findOne({ _id: UserID }).select(
-      "Description FullName AvatarPath"
-    )
     if (!detail) return response({}, true, "Không tồn tại user", 200)
     return response(detail, false, "Lấy ra thành công", 200)
   } catch (error) {
@@ -204,6 +190,7 @@ const fncChangePassword = async (req) => {
     const { OldPassword, NewPassword, UserID } = req.body
     const user = await User.findOne({ _id: UserID })
     if (!user) return response({}, true, "Không tồn tại user", 200)
+    if (!user.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
     const check = bcrypt.compareSync(OldPassword, user.Password)
     if (!check) return response({}, true, "Mật khẩu không chính xác", 200)
     const hashPassword = bcrypt.hashSync(NewPassword, saltRounds)
@@ -252,13 +239,55 @@ const fncFollowOrUnfollowComic = async (req) => {
 
 const fncBuyPremium = async (req) => {
   try {
-    const { BoughtAt, EndedAt, PackageID, UserID } = req.body
-    const updateAcc = await User.findByIdAndUpdate({ _id: UserID }, { Premium: { BoughtAt, EndedAt, PackageID } })
+    const { EndedAt, PackageID, UserID } = req.body
+    const updateAcc = await User.findByIdAndUpdate({ _id: UserID },
+      {
+        Premium: { BoughtAt: Date.now(), EndedAt, PackageID },
+        RoleID: 4
+      },
+      { new: true }
+    )
     if (!updateAcc) return response({}, true, "User không tồn tại", 200)
     const updatePackage = await Package.findByIdAndUpdate({ _id: PackageID }, {
       $inc: { Quantity: 1 }
     })
     if (!updatePackage) return response({}, true, "Gói không tồn tại", 200)
+    return response({
+      FullName: updateAcc.FullName,
+      RoleID: updateAcc.RoleID,
+      AvatarPath: updateAcc.AvatarPath,
+      Description: updateAcc.Description,
+      Follows: updateAcc.Follows,
+      IsByGoogle: updateAcc.IsByGoogle,
+      Premium: updateAcc.Premium
+    },
+      false,
+      "Update thành công",
+      200
+    )
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncHandleExpiredPremium = async (req) => {
+  try {
+    const UserID = req.params.UserID
+    const updateAcc = await User.findByIdAndUpdate({ _id: UserID }, { RoleID: 5 }, { new: true })
+    if (!updateAcc) return response({}, true, "Người dùng không tồn tại", 200)
+    return response({
+      FullName: updateAcc.FullName,
+      RoleID: updateAcc.RoleID,
+      AvatarPath: updateAcc.AvatarPath,
+      Description: updateAcc.Description,
+      Follows: updateAcc.Follows,
+      IsByGoogle: updateAcc.IsByGoogle,
+      Premium: updateAcc.Premium
+    },
+      false,
+      "Update thành công",
+      200
+    )
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -268,7 +297,6 @@ const fncBuyPremium = async (req) => {
 const UserService = {
   fncGetListAuthor,
   fncGetDetailProfile,
-  fncGetDetailAuthour,
   fncLogin,
   fncLoginByGoogle,
   fncRegister,
@@ -278,7 +306,8 @@ const UserService = {
   fncUpdateProfileCustomer,
   fncChangePassword,
   fncFollowOrUnfollowComic,
-  fncBuyPremium
+  fncBuyPremium,
+  fncHandleExpiredPremium
 }
 
 export default UserService

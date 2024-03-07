@@ -2,43 +2,43 @@ import express from "express"
 const router = express.Router()
 import UserController from "../controllers/user.controller.js"
 import { authMiddleware } from '../middlewares/auth.middleware.js'
-import Roles from '../utils/roles.js'
+import { Roles } from '../utils/lib.js'
 import upload from '../middlewares/clouddinary.middleware.js'
 import UserValidation from "../validations/user.validation.js"
 
 router.post("/getListAuthor",
+  UserValidation.getListAuthorUser,
   UserController.getListAuthour
 )
 router.post('/login',
+  UserValidation.login,
   UserController.login
 )
 router.post('/loginByGoogle',
+  UserValidation.loginByGoogle,
   UserController.loginByGoogle
 )
 router.post('/register',
+  UserValidation.register,
   UserController.register
 )
 router.post('/registerByGoogle',
+  UserValidation.registerByGoogle,
   UserController.registerByGoogle
 )
 router.get("/getDetailProfile/:UserID",
+  authMiddleware([Roles.ROLE_ADMIN, Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM]),
+  UserValidation.getParamsUserID,
   UserController.getDetailProfile
 )
-router.get("/getDetailAuthour",
-  UserController.getDetailAuthour
-)
-router.post("/login",
-  UserController.login
-)
-router.post("/register",
-  UserController.register
-)
 router.post("/getListUser",
-  // authMiddleware([Roles.ROLE_ADMIN]),
+  authMiddleware([Roles.ROLE_ADMIN]),
+  UserValidation.getListAuthorUser,
   UserController.getListUser
 )
 router.get("/deactiveAccount/:UserID",
-  // authMiddleware([Roles.ROLE_ADMIN]),
+  authMiddleware([Roles.ROLE_ADMIN]),
+  UserValidation.getParamsUserID,
   UserController.deactiveAccount
 )
 router.post("/updateProfile",
@@ -48,11 +48,23 @@ router.post("/updateProfile",
   UserController.updateProfileCustomer
 )
 router.post("/changePassword",
-  // authMiddleware([Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM]),
+  authMiddleware([Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM, Roles.ROLE_ADMIN]),
+  UserValidation.changePassword,
   UserController.changePassword
 )
 router.post("/followOrUnfollowComic",
+  authMiddleware([Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM]),
+  UserValidation.followOrUnfollowComic,
   UserController.followOrUnfollowComic
+)
+router.post("/buyPremium",
+  authMiddleware([Roles.ROLE_CUSTOMER_NORMAL]),
+  UserValidation.buyPremium,
+  UserController.buyPremium
+)
+router.get("/handleExpiredPremium/:UserID",
+  UserValidation.getParamsUserID,
+  UserController.handleExpiredPremium
 )
 
 export default router

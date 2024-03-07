@@ -26,9 +26,9 @@ const SignupPage = () => {
       const values = await form.validateFields()
       let res = {}
       if (!!inforFromGoogle) {
-        res = await UserService.registerByGoogle({ ...inforFromGoogle, RoleID: values?.RoleID })
+        res = await UserService.registerByGoogle({ ...inforFromGoogle, RoleID: values?.RoleID, IsByGoogle: true })
       } else {
-        res = await UserService.register({ ...inforFromForm, RoleID: values?.RoleID })
+        res = await UserService.register({ ...inforFromForm, RoleID: values?.RoleID, IsByGoogle: false })
       }
       if (res?.isError) return toast.error(res?.msg)
       toast.success(res?.msg)

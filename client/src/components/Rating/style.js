@@ -18,7 +18,7 @@ export const PageStyles = styled.div`
     font-weight: 600;
   }
   .ant-tabs,.ant-tabs-tab {
-    padding: 8px 29px;
+    padding: 8px 34px;
       }
   .ant-tabs, .ant-tabs-tab+.ant-tabs-tab {
     margin: 0;

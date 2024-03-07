@@ -1,5 +1,5 @@
 import Genre from '../models/genre.js'
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 
 const fncGetAllGenres = async (req) => {
   try {
@@ -52,17 +52,6 @@ const fncUpdateGenre = async (req) => {
   }
 }
 
-const fncGetDetailGenre = async (req) => {
-  try {
-    const id = req.params.id
-    const genre = await Genre.find({ _id: id })
-    if (!genre) return response({}, true, "Genre không tồn tại", 200)
-    return response(genre, false, "Lấy data thành công", 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
 const fncDeleteGenre = async (req) => {
   try {
     const id = req.params.id
@@ -76,7 +65,6 @@ const fncDeleteGenre = async (req) => {
 
 const GenreService = {
   fncGetAllGenres,
-  fncGetDetailGenre,
   fncInsertGenre,
   fncUpdateGenre,
   fncDeleteGenre

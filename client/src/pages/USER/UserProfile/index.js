@@ -31,10 +31,10 @@ const UserProfile = () => {
         </div>
       </div>
       {
-        !!global?.user?.Follows &&
+        !!global?.user?.Follows.length &&
         <div className="mt-30">
           <h2 className="mb-16">Danh sách truyện theo dõi:</h2>
-          <Row>
+          <Row gutter={[16, 0]}>
             {
               global?.user?.Follows?.map(i =>
                 <Col span={6} onClick={() => navigate(`/comic/${i?._id}`)}>

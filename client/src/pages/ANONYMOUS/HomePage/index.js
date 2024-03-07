@@ -34,10 +34,11 @@ const HomePage = () => {
     getComics()
   }, [pagination])
 
+
   return (
     <SpinCustom spinning={loading}>
       <p className="fs-25 fw-600 text-matte mt-20 mb-20">Truyện mới cập nhật</p>
-      <Row gutter={[16, 0]} className="mb-30 ">
+      <Row gutter={[16, 0]} className="mb-30">
         <Col span={16}>
           <Row gutter={[16, 0]}>
             {
@@ -54,7 +55,7 @@ const HomePage = () => {
           <Rating />
         </Col>
       </Row>
-    </SpinCustom>
+    </SpinCustom >
   )
 }
 

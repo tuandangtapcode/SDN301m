@@ -1,6 +1,6 @@
 import Comment from '../models/comment.js'
 import User from '../models/user.js'
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 
 const fncInsertComment = async (req) => {
   try {

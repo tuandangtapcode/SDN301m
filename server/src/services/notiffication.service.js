@@ -1,6 +1,6 @@
 import Notificaiton from "../models/notiffication.js"
 import User from '../models/user.js'
-import response from "../utils/response-result.js"
+import { response } from "../utils/lib.js"
 
 const fncCreateNotification = async (req) => {
   try {
@@ -36,6 +36,7 @@ const fncGetListNotificationByReceiver = async (req) => {
       .find({ Receiver: UserID })
       .populate('Sender', ['_id', 'FullName', 'RoleID'])
       .populate('Receiver', ['_id', 'FullName'])
+      .sort({ createdAt: 1 })
     const notificationsNotSeen = notifications.filter(i => !i.IsSeen)
     return response(
       { List: notifications.reverse(), NotSeen: notificationsNotSeen.length },

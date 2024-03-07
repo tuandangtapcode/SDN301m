@@ -1,6 +1,6 @@
 import Image from '../models/image.js'
 import Comic from '../models/comic.js'
-import response from "../utils/response-result.js"
+import { response } from "../utils/lib.js"
 
 const fncInsertImage = async (req) => {
   try {

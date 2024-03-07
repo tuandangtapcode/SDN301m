@@ -40,7 +40,7 @@ const Premium = () => {
 
   return (
     <SpinCustom spinning={loading}>
-      <div className="mb-20">
+      <div className="mb-20 mt-40">
         <div className="fs-20 fw-600 mb-10 text-matte">
           Đọc truyện không giới hạn. Dùng thử gói Golden Premium trong 1 tháng với giá 29.5000đ
         </div>

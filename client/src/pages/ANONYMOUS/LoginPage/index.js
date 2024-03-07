@@ -15,7 +15,6 @@ import { getRegexEmail } from "src/lib/stringUtils"
 import { globalSelector } from "src/redux/selector"
 import socket from "src/utils/socket"
 
-
 const LoginPage = () => {
 
   const [form] = Form.useForm()

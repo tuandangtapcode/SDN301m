@@ -19,7 +19,6 @@ const MyComic = () => {
   const [insertUpdateComic, setInsertUpdateComic] = useState()
   const [loading, setLoading] = useState(false)
   const [pagination, setPagination] = useState({
-    TextSearch: "",
     CurrentPage: 1,
     PageSize: 10,
   })

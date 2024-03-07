@@ -27,10 +27,23 @@ const updateGenre = async (req, res, next) => {
   }
 }
 
+const getDetailGenre = async (req, res, next) => {
+  const trueCondition = Joi.object({
+    id: Joi.any().required(),
+  })
+  try {
+    await trueCondition.validateAsync(req.params, { abortEarly: false })
+    next()
+  } catch (error) {
+    return res.status(400).json(error.toString())
+  }
+}
+
 
 const GenreValidation = {
   insertGenre,
-  updateGenre
+  updateGenre,
+  getDetailGenre
 }
 
 export default GenreValidation

@@ -262,7 +262,8 @@ const fncBuyPremium = async (req) => {
       Description: updateAcc.Description,
       Follows: updateAcc.Follows,
       IsByGoogle: updateAcc.IsByGoogle,
-      Premium: updateAcc.Premium
+      Premium: updateAcc.Premium,
+      _id: updateAcc._id,
     },
       false,
       "Update thành công",

@@ -7,8 +7,6 @@ import ComicService from "src/services/ComicService"
 import InsertUpdateComic from "./components/InsertUpdateComic"
 import { useNavigate } from "react-router-dom"
 import ComicItem from "./components/ComicItem"
-import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
-import LstIcons from "src/components/ListIcons"
 
 const MyComic = () => {
 

@@ -11,11 +11,9 @@ router.post("/getListAuthor",
   UserController.getListAuthour
 )
 router.post('/login',
-  UserValidation.login,
   UserController.login
 )
 router.post('/loginByGoogle',
-  UserValidation.loginByGoogle,
   UserController.loginByGoogle
 )
 router.post('/register',
@@ -26,9 +24,8 @@ router.post('/registerByGoogle',
   UserValidation.registerByGoogle,
   UserController.registerByGoogle
 )
-router.get("/getDetailProfile/:UserID",
+router.get("/getDetailProfile",
   authMiddleware([Roles.ROLE_ADMIN, Roles.ROLE_AUTHOR, Roles.ROLE_CUSTOMER_NORMAL, Roles.ROLE_CUSTOMER_PREMIUM]),
-  UserValidation.getParamsUserID,
   UserController.getDetailProfile
 )
 router.post("/getListUser",

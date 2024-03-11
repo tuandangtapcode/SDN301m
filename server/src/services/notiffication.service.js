@@ -4,14 +4,15 @@ import { response } from "../utils/lib.js"
 
 const fncCreateNotification = async (req) => {
   try {
+    const Sender = req.user.ID
     const { Receiver } = req.body
     let AdminID, notification
     if (!Receiver) {
       const admin = await User.findOne({ RoleID: 1 })
       AdminID = admin._id
-      notification = await Notificaiton.create({ ...req.body, Receiver: AdminID })
+      notification = await Notificaiton.create({ ...req.body, Receiver: AdminID, Sender })
     } else {
-      notification = await Notificaiton.create(req.body)
+      notification = await Notificaiton.create({ ...req.body, Sender })
     }
     return response(notification, false, "Thêm mới thành công", 201)
   } catch (error) {
@@ -21,7 +22,7 @@ const fncCreateNotification = async (req) => {
 
 const fncSeenNotification = async (req) => {
   try {
-    const UserID = req.params.UserID
+    const UserID = req.user.ID
     const notification = await Notificaiton.updateMany({ Receiver: UserID }, { IsSeen: true })
     return response(notification, false, "Seen", 200)
   } catch (error) {
@@ -31,7 +32,7 @@ const fncSeenNotification = async (req) => {
 
 const fncGetListNotificationByReceiver = async (req) => {
   try {
-    const UserID = req.params.UserID
+    const UserID = req.user.ID
     const notifications = await Notificaiton
       .find({ Receiver: UserID })
       .populate('Sender', ['_id', 'FullName', 'RoleID'])

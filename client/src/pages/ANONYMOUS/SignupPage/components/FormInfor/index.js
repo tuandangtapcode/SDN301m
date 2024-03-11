@@ -4,7 +4,8 @@ import { toast } from "react-toastify"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 import InputCustom from "src/components/FloatInput/InputCustom"
-import { getRegexEmail } from "src/lib/stringUtils"
+import { getRegexEmail, getRegexPassowrd } from "src/lib/stringUtils"
+import { DotStyled } from "src/pages/ANONYMOUS/Premium/styled"
 import UserService from "src/services/UserService"
 
 const FormInfor = ({
@@ -40,7 +41,7 @@ const FormInfor = ({
         <Form.Item
           name="FullName"
           rules={[
-            { required: true, message: "Please enter your fullname" },
+            { required: true, message: "Hãy nhập vào tên của bạn" },
           ]}
         >
           <InputCustom
@@ -53,8 +54,8 @@ const FormInfor = ({
         <Form.Item
           name="Email"
           rules={[
-            { required: true, message: "Please enter your email" },
-            { pattern: getRegexEmail(), message: "Email sai định dạng" }
+            { required: true, message: "Hãy nhập vào email của bạn" },
+            { pattern: getRegexEmail(), message: "Chữ ký tự đầu tiên fai là viết hoa" }
           ]}
         >
           <InputCustom
@@ -67,7 +68,8 @@ const FormInfor = ({
         <Form.Item
           name="Password"
           rules={[
-            { required: true, message: "Please enter your pasword" },
+            { required: true, message: "Hãy nhập vào mật khẩu của bạn" },
+            { pattern: getRegexPassowrd(), message: "Mật khẩu sai định dạng" }
           ]}
         >
           <InputCustom
@@ -75,6 +77,20 @@ const FormInfor = ({
             isRequired
             label="Mật khẩu"
           />
+          <div className="mt-8">
+            <p className="text-gray">
+              <DotStyled />
+              Ký tự đầu tiên phải là một chữ cái in hoa (A-Z)
+            </p>
+            <p className="text-gray">
+              <DotStyled />
+              Các ký tự tiếp theo có thể là chữ cái (in hoa hoặc in thường) hoặc chữ số (0-9)
+            </p>
+            <p className="text-gray">
+              <DotStyled />
+              Ít nhất 5 ký tự tiếp theo
+            </p>
+          </div>
         </Form.Item>
       </Col>
       <Col span={24}>

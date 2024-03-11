@@ -72,7 +72,6 @@ const InsertUpdateComic = ({
         ShortDecription: values?.ShortDecription,
         Genres: values?.Genres,
         Avatar: values?.image?.file,
-        Author: global?.user?._id,
         Chapters: !!lstChapters.length
           ? lstChapters?.map(i => ({
             ChapterID: i?.ChapterID,

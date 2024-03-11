@@ -4,7 +4,7 @@ import { response } from '../utils/lib.js'
 
 const fncInsertComment = async (req) => {
   try {
-    const { Author } = req.body
+    const Author = req.user.ID
     const user = await User.findOne({ _id: Author })
     if (!user) return response({}, true, "Có lỗi", 200)
     const newComment = await Comment.create(req.body)

@@ -46,34 +46,8 @@ const register = async (req, res, next) => {
   }
 }
 
-const loginByGoogle = async (req, res, next) => {
-  const trueCondition = Joi.object({
-    email: Joi.string().min(3).max(100).pattern(getRegexEmail()).required(),
-  })
-  try {
-    await trueCondition.validateAsync(req.body, { abortEarly: false })
-    next()
-  } catch (error) {
-    return res.status(400).json(error.toString())
-  }
-}
-
-const login = async (req, res, next) => {
-  const trueCondition = Joi.object({
-    Email: Joi.string().min(3).max(100).pattern(getRegexEmail()).required(),
-    Password: Joi.string().min(3).max(30).pattern(getRegexPassword()).required(),
-  })
-  try {
-    await trueCondition.validateAsync(req.body, { abortEarly: false })
-    next()
-  } catch (error) {
-    return res.status(400).json(error.toString())
-  }
-}
-
 const updateProfile = async (req, res, next) => {
   const trueCondition = Joi.object({
-    UserID: Joi.any().required(),
     FullName: Joi.string().min(3).max(30).required(),
     Description: Joi.string().min(3).max(100),
   })
@@ -89,7 +63,6 @@ const updateProfile = async (req, res, next) => {
 
 const changePassword = async (req, res, next) => {
   const trueCondition = Joi.object({
-    UserID: Joi.any().required(),
     OldPassword: Joi.string().min(3).max(30).pattern(getRegexPassword()).required(),
     NewPassword: Joi.string().min(3).max(30).pattern(getRegexPassword()).required(),
   })
@@ -115,7 +88,6 @@ const getParamsUserID = async (req, res, next) => {
 
 const followOrUnfollowComic = async (req, res, next) => {
   const trueCondition = Joi.object({
-    UserID: Joi.any().required(),
     ComicID: Joi.any().required()
   })
   try {
@@ -128,7 +100,6 @@ const followOrUnfollowComic = async (req, res, next) => {
 
 const buyPremium = async (req, res, next) => {
   const trueCondition = Joi.object({
-    UserID: Joi.any().required(),
     EndedAt: Joi.date().required(),
     PackageID: Joi.any().required()
   })
@@ -145,8 +116,6 @@ const UserValidation = {
   getListAuthorUser,
   registerByGoogle,
   register,
-  loginByGoogle,
-  login,
   updateProfile,
   changePassword,
   getParamsUserID,

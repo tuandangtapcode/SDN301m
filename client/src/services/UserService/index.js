@@ -23,7 +23,7 @@ const getInforByGoogleLogin = (access_token) => http.get(apiGetInforByGoogleLogi
   }
 })
 const getListAuthour = body => http.post(apiGetListAuthor, body)
-const getDetailProfile = (ID, token) => http.get(`${apiGetDetailProfile}/${ID}`, {
+const getDetailProfile = (token) => http.get(apiGetDetailProfile, {
   headers: {
     'token': `Bearer ${token}`
   }

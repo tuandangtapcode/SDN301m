@@ -49,9 +49,8 @@ const getAllComicsByAuthor = async (req, res, next) => {
 const insertComic = async (req, res, next) => {
   const trueCondition = Joi.object({
     Genres: Joi.array().items(Joi.any().required()).required(),
-    Title: Joi.string().min(3).max(30),
-    ShortDescription: Joi.string().min(3).max(100),
-    Author: Joi.any().required(),
+    Title: Joi.string().min(3).required(),
+    ShortDescription: Joi.string().min(3).required(),
     Chapters: Joi.array().items({
       ChapterID: Joi.number().integer().required(),
       Name: Joi.string().min(3).max(30),
@@ -73,7 +72,6 @@ const updateComic = async (req, res, next) => {
     Genres: Joi.array().items(Joi.any().required()).required(),
     Title: Joi.string().min(3).max(30),
     ShortDescription: Joi.string().min(3).max(100),
-    Author: Joi.any().required(),
     Chapters: Joi.array().items({
       ChapterID: Joi.number().integer().required(),
       Name: Joi.string().min(3).max(30),

@@ -75,7 +75,7 @@ const fnDeactiveAccount = async (req) => {
 
 const fncGetDetailProfile = async (req) => {
   try {
-    const UserID = req.params.UserID
+    const UserID = req.user.ID
     const detail = await User
       .findOne({ _id: UserID })
       .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
@@ -97,7 +97,7 @@ const fncLogin = async (req) => {
     if (!getUser.IsActive)
       return response({}, true, "Tài khoản đã bị khóa", 200)
     const access_token = accessToken({
-      id: getUser._id,
+      ID: getUser._id,
       RoleID: getUser.RoleID,
     })
     return response(access_token, false, "Login thành công", 200)
@@ -163,7 +163,7 @@ const fncRegisterByGoogle = async (req) => {
 
 const fncUpdateProfileCustomer = async (req) => {
   try {
-    const id = req.body.UserID
+    const id = req.user.ID
     const user = await User.findOne({ _id: id })
     if (!user) return response({}, true, "Không tồn tại user", 200)
     const updateProfile = await User.findByIdAndUpdate(
@@ -187,7 +187,8 @@ const fncUpdateProfileCustomer = async (req) => {
 
 const fncChangePassword = async (req) => {
   try {
-    const { OldPassword, NewPassword, UserID } = req.body
+    const UserID = req.user.ID
+    const { OldPassword, NewPassword } = req.body
     const user = await User.findOne({ _id: UserID })
     if (!user) return response({}, true, "Không tồn tại user", 200)
     if (!user.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
@@ -211,7 +212,8 @@ const fncChangePassword = async (req) => {
 
 const fncFollowOrUnfollowComic = async (req) => {
   try {
-    const { ComicID, UserID } = req.body
+    const UserID = req.user.ID
+    const { ComicID } = req.body
     const user = await User.findOne({ _id: UserID })
     if (!user) return response({}, true, "Người dùng không tồn tại", 200)
     const followedComic = user.Follows.find(i => i.equals(ComicID))
@@ -239,7 +241,8 @@ const fncFollowOrUnfollowComic = async (req) => {
 
 const fncBuyPremium = async (req) => {
   try {
-    const { EndedAt, PackageID, UserID } = req.body
+    const UserID = req.user.ID
+    const { EndedAt, PackageID } = req.body
     const updateAcc = await User.findByIdAndUpdate({ _id: UserID },
       {
         Premium: { BoughtAt: Date.now(), EndedAt, PackageID },
@@ -259,7 +262,8 @@ const fncBuyPremium = async (req) => {
       Description: updateAcc.Description,
       Follows: updateAcc.Follows,
       IsByGoogle: updateAcc.IsByGoogle,
-      Premium: updateAcc.Premium
+      Premium: updateAcc.Premium,
+      _id: updateAcc._id,
     },
       false,
       "Update thành công",

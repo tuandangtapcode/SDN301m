@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import LstIcons from "src/components/ListIcons"
+import ConfirmModal from "src/components/ModalCustom/ConfirmModal"
 import SpinCustom from "src/components/SpinCustom"
 import ComicService from "src/services/ComicService"
 import ImageService from "src/services/ImageService"
@@ -117,7 +118,25 @@ const ComicContent = () => {
             }}
             size="large "
             defaultValue={+ChapterID}
-            onChange={e => navigate(`/comic/${ComicID}/chapter/${e}`)}
+            onChange={e => {
+              if (e > 2) {
+                if (!global?.user?._id || global?.user?.RoleID === 5) {
+                  ConfirmModal({
+                    title: `Mua premium để có thể đọc nhiều chapter hơn`,
+                    okText: "Mua premium",
+                    cancelText: "Hủy",
+                    onOk: async close => {
+                      navigate('/premium')
+                      close()
+                    },
+                  })
+                } else {
+                  navigate(`/comic/${ComicID}/chapter/${e}`)
+                }
+              } else {
+                navigate(`/comic/${ComicID}/chapter/${e}`)
+              }
+            }}
           >
             {
               chapters?.Chapters?.sort((a, b) => b.ChapterID - a.ChapterID)?.map(i =>

@@ -9,10 +9,11 @@ import moment from "moment"
 import QueryString from "qs"
 import CryptoJS from "crypto-js"
 import UserService from "src/services/UserService"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { toast } from "react-toastify"
 import SuccessByPremium from "./components/SuccessBuyPremium"
+import globalSlice from "src/redux/globalSlice"
 
 
 const listColor = [
@@ -42,6 +43,7 @@ const PremiumDetail = () => {
   const queryParams = new URLSearchParams(location.search)
   const global = useSelector(globalSelector)
   const [openSuccessBuyPremium, setOpenSuccessBuyPremium] = useState(false)
+  const dispatch = useDispatch()
 
   const getPackage = async () => {
     try {
@@ -101,11 +103,11 @@ const PremiumDetail = () => {
       setLoading(true)
       const body = {
         EndedAt: moment().add(packageDetail?.Duration, 'days'),
-        PackageID: PackageID,
-        UserID: global?.user?._id
+        PackageID: PackageID
       }
       const res = await UserService.buyPremium(body)
       if (res?.isError) return toast.error(res?.msg)
+      dispatch(globalSlice.actions.setUser(res?.data))
       setOpenSuccessBuyPremium(packageDetail)
     } finally {
       setLoading(false)

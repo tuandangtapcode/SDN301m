@@ -26,6 +26,7 @@ export const authMiddleware = (Roles) => {
       }
       const { payload } = decode
       if (Roles.includes(payload.RoleID)) {
+        req.user = payload
         next()
       } else {
         return res.status(403).json(

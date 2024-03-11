@@ -2,7 +2,8 @@ import Joi from 'joi'
 
 const insertComment = async (req, res, next) => {
   const trueCondition = Joi.object({
-    Author: Joi.any().required()
+    Comic: Joi.any().required(),
+    Content: Joi.string().min(3).max(256)
   })
   try {
     await trueCondition.validateAsync(req.body, { abortEarly: false })

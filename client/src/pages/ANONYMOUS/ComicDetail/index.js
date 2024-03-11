@@ -63,7 +63,7 @@ const ComicDetail = () => {
   const handleSendComment = async () => {
     try {
       setLoading(true)
-      const res = await CommentService.insertComment({ Author: global?.user?._id, Comic: ComicID, Content: textComment })
+      const res = await CommentService.insertComment({ Comic: ComicID, Content: textComment })
       if (res?.isError) return
       socket.emit("send-comment",
         {
@@ -79,7 +79,7 @@ const ComicDetail = () => {
   const handleFollowOrUnFollowComic = async () => {
     try {
       setLoading(true)
-      const res = await UserService.followOrUnfollowComic({ ComicID, UserID: global?.user?._id })
+      const res = await UserService.followOrUnfollowComic({ ComicID })
       if (res?.isError) return
       toast.success(res?.msg)
       setStatusBtnFollow(!statusBtnFollow)

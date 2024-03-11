@@ -102,13 +102,14 @@ const fncGetAllComicsByAuthor = async (req) => {
 
 const fncInsertComic = async (req) => {
   try {
+    const Author = req.user.ID
     const { Title } = req.body
     const comic = await Comic.findOne({ Title })
     if (comic) {
       cloudinaryV2.uploader.destroy(req.file.filename)
       return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)
     }
-    const create = await Comic.create({ ...req.body, AvatarPath: req.file.path, AvatarPathId: req.file.filename })
+    const create = await Comic.create({ ...req.body, AvatarPath: req.file.path, AvatarPathId: req.file.filename, Author })
     return response(create._id, false, "Thêm mới thành công", 201)
   } catch (error) {
     return response({}, true, error.toString(), 500)
@@ -117,7 +118,8 @@ const fncInsertComic = async (req) => {
 
 const fncUpdateComic = async (req) => {
   try {
-    const { ComicID, Author, Title } = req.body
+    const Author = req.user.ID
+    const { ComicID, Title } = req.body
     const checkExist = await Comic.findOne({ _id: ComicID, Author: Author })
     if (!checkExist) return response(checkExist, true, 'Truyện không tồn tại', 200)
     const checkExistTitle = await Comic.findOne({ Title })
@@ -138,7 +140,8 @@ const fncUpdateComic = async (req) => {
 
 const fncDeleteComic = async (req) => {
   try {
-    const { ComicID, UserID } = req.body
+    const UserID = req.user.ID
+    const { ComicID } = req.body
     const deleteComic = await Comic.deleteOne({ _id: ComicID, Author: UserID })
     if (!deleteComic.deletedCount) return response({}, true, "Có lỗi khi xóa", 200)
     return response(deleteComic, false, "Xóa thành công", 200)

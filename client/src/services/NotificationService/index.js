@@ -5,9 +5,21 @@ import {
   apiSeenNotification
 } from './urls'
 
-const createNotification = body => http.post(apiCreateNotification, body)
-const seenNotification = UserID => http.get(`${apiSeenNotification}/${UserID}`)
-const getListNotificationByReceiver = UserID => http.get(`${apiGetListNotificationByReceiver}/${UserID}`)
+const createNotification = body => http.post(apiCreateNotification, body, {
+  headers: {
+    'token': `Bearer ${localStorage.getItem('token')}`
+  }
+})
+const seenNotification = () => http.get(apiSeenNotification, {
+  headers: {
+    'token': `Bearer ${localStorage.getItem('token')}`
+  }
+})
+const getListNotificationByReceiver = () => http.get(apiGetListNotificationByReceiver, {
+  headers: {
+    'token': `Bearer ${localStorage.getItem('token')}`
+  }
+})
 
 
 const NotificaitonService = {

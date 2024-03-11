@@ -29,8 +29,8 @@ const LoginPage = () => {
       const res = await UserService.loginByGoogle(userInfor)
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
-      if (!!user.payload.id) {
-        getProfile(user.payload.id, res?.data)
+      if (!!user.payload.ID) {
+        getProfile(res?.data)
       } else {
         navigate('/forbidden')
       }
@@ -44,8 +44,8 @@ const LoginPage = () => {
       const res = await UserService.login(values)
       if (res?.isError) return toast.error(res?.msg)
       const user = jwtDecode(res?.data)
-      if (!!user.payload.id) {
-        getProfile(user.payload.id, res?.data)
+      if (!!user.payload.ID) {
+        getProfile(res?.data)
       } else {
         navigate('/forbidden')
       }
@@ -54,10 +54,10 @@ const LoginPage = () => {
     }
   }
 
-  const getProfile = async (UserID, token) => {
+  const getProfile = async (token) => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile(UserID, token)
+      const res = await UserService.getDetailProfile(token)
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
       localStorage.setItem('token', token)
@@ -113,6 +113,7 @@ const LoginPage = () => {
           </Col>
           <Col span={24}>
             <ButtomCustomStyled
+              htmlType="submit"
               className="submit fs-18"
               loading={loading}
               onClick={() => loginByForm()}

@@ -39,7 +39,7 @@ const Dashboard = React.lazy(() => import('src/pages/ADMIN/Dashboard'))
 const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManagement'))
 const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
-const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
+// const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
 const PackagesManagement = React.lazy(() => import('src/pages/ADMIN/PackagesManagement'))
 
 function LazyLoadingComponent({ children }) {

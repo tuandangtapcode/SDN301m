@@ -221,7 +221,8 @@ const fncGetAllHotComics = async (req) => {
             Title: { $first: "$Title" },
             Reads: { $sum: 1 },
             AvatarPath: { $first: "$AvatarPath" },
-            Chapters: { $first: "$Chapters" }
+            Chapters: { $first: "$Chapters" },
+            Likes: { $first: "$Likes" }
           },
         },
         {

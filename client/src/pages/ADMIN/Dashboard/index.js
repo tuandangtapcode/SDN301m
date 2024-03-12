@@ -1,29 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import Chart from 'chart.js/auto'
-import { Col, Row } from "antd";
+import { Button, Col, Row, Select, Space } from "antd";
 import PackageService from "src/services/PackageService";
-
-const stackedChartData = {
-  labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5'],
-  datasets: [
-    {
-      label: 'Dữ liệu 1',
-      backgroundColor: 'rgba(75,192,192,0.2)',
-      borderColor: 'rgba(75,192,192,1)',
-      borderWidth: 1,
-      type: 'bar',
-      data: [10, 20, 15, 25, 30],
-    },
-    {
-      label: 'Dữ liệu 2',
-      backgroundColor: 'rgba(255,99,132,0.2)',
-      borderColor: 'rgba(255,99,132,1)',
-      borderWidth: 1,
-      type: 'line',
-      data: [5, 15, 10, 20, 25],
-    },
-  ],
-}
+import ComicService from "src/services/ComicService";
 
 const ColorPie = [
   'rgb(51,163,236)',
@@ -41,6 +20,8 @@ const Dashboard = () => {
   const stackedChartRef = useRef();
   const pieChartRef = useRef()
   const [packages, setPackages] = useState([])
+  const [topComics, setTopComics] = useState([])
+  const [activeKey, setActiveKey] = useState(0)
 
   const getPackages = async () => {
     try {
@@ -59,6 +40,43 @@ const Dashboard = () => {
   useEffect(() => {
     getPackages()
   }, [])
+
+  const getListHotComics = async () => {
+    try {
+      setLoading(true)
+      const res = await ComicService.getAllHotComics(activeKey)
+      if (res?.isError) return
+      setTopComics(res?.data)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getListHotComics()
+  }, [activeKey])
+
+  const stackedChartData = {
+    labels: topComics.map(c => c?.Title),
+    datasets: [
+      {
+        label: 'Lượt đọc',
+        backgroundColor: 'rgba(75,192,192,0.2)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderWidth: 1,
+        type: 'bar',
+        data: topComics.map(c => c?.Reads),
+      },
+      {
+        label: 'Lượt yêu thích',
+        backgroundColor: 'rgba(255,99,132,0.2)',
+        borderColor: 'rgba(255,99,132,1)',
+        borderWidth: 1,
+        type: 'line',
+        data: topComics.map(c => c?.Likes),
+      },
+    ],
+  }
 
   const pieChartData = {
     labels: packages.map(p => p.Title),
@@ -97,17 +115,29 @@ const Dashboard = () => {
       stackedChart.destroy();
       pieChart.destroy();
     };
-  }, [stackedChartData, pieChartData])
+  }, [stackedChartData])
 
 
   return (
     <Row gutter={[16, 16]}>
       <Col span={12}>
-        <canvas ref={stackedChartRef} width="150" height="150"></canvas>
+        <p className="title-type-1">Thống kê lượt đọc và yêu thích</p>
+        <div className="d-flex-end">
+          <Select
+            defaultValue={0}
+            onChange={(e) => setActiveKey(e)}
+            style={{ width: '150px' }}
+          >
+            <Select.Option value={0}>Tất cả</Select.Option>
+            <Select.Option value={30}>Theo tháng</Select.Option>
+            <Select.Option value={7}>Theo tuần</Select.Option>
+          </Select>
+        </div>
+        <canvas ref={stackedChartRef} style={{ width: '200px', height: '250px' }}></canvas>
       </Col>
       <Col span={12}>
         <p className="title-type-1">Thống kê mua các gói Premium</p>
-        <canvas ref={pieChartRef} width="150" height="150"></canvas>
+        <canvas ref={pieChartRef} style={{ width: '200px', height: '200px' }}></canvas>
       </Col>
     </Row>
   )

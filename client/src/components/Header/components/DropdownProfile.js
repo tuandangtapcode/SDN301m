@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
-import { Dropdown } from "antd"
+import { Dropdown, Empty } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
@@ -133,13 +133,16 @@ const DropdownProfile = () => {
     {
       key: '1',
       label: (
-        <div style={{ width: '300px', padding: '12px' }}>
-          {
-            notifications?.map(i =>
-              <NotificationItem data={i} />
-            )
-          }
-        </div>
+        notifications?.length > 0 ?
+          <div style={{ width: '300px', padding: '12px' }}>
+            {
+              notifications?.map(i =>
+                <NotificationItem data={i} />
+              )
+            }
+          </div>
+          :
+          <Empty description="Chưa có thông báo" />
       )
     }
   ]

@@ -34,7 +34,7 @@ const LayoutAdmin = ({ children }) => {
   return (
     <LayoutAdminStyled>
       <MainHeader />
-      <Row style={{ flex: 1 }}>
+      <Row >
         <Col span={collapsed ? 2 : 4}>
           <div
             className="menu-container"

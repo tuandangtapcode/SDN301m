@@ -202,7 +202,21 @@ const ComicDetail = () => {
                   <Button
                     icon={LstIcons.ICON_WARNING}
                     className="greendBorder medium"
-                    onClick={() => setOpenModalReport(comic)}
+                    onClick={() => {
+                      if (!!global?.user?._id) {
+                        setOpenModalReport(comic)
+                      } else {
+                        ConfirmModal({
+                          title: `Hãy đăng nhập để có thể báo cáo truyện`,
+                          okText: "Đăng nhập",
+                          cancelText: "Hủy",
+                          onOk: async close => {
+                            navigate('/login')
+                            close()
+                          },
+                        })
+                      }
+                    }}
                   >
                     Báo cáo
                   </Button>

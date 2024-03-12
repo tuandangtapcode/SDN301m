@@ -33,14 +33,14 @@ const InsertUpdateGenre = ({ open, onCancel, onOk }) => {
           className="normal"
           onClick={() => onCancel()}
         >
-          Cancel
+          Hủy
         </ButtonCustom>
         <ButtonCustom
           className="small greendBackground ml-12"
           loading={loading}
           onClick={() => handleInsertUpdateGenre()}
         >
-          Save
+          Lưu
         </ButtonCustom>
       </div>
     )
@@ -55,7 +55,11 @@ const InsertUpdateGenre = ({ open, onCancel, onOk }) => {
       open={open}
       onCancel={onCancel}
       footer={renderFooter()}
-      title={!!open?._id ? <div className="text-center">Update genre</div> : <div className="text-center">Insert genre</div>}
+      title={
+        !!open?._id
+          ? <div className="text-center">Cập nhật thể loại truyện</div>
+          : <div className="text-center">Thêm thể loại truyện</div>
+      }
       width="70vw"
     >
       <Form form={form}>
@@ -64,24 +68,28 @@ const InsertUpdateGenre = ({ open, onCancel, onOk }) => {
             <Form.Item
               name="Title"
               rules={[
-                { required: true, message: "Hãy nhập vào tên truyện" },
+                { required: true, message: "Hãy nhập vào tên thể loại truyện" },
               ]}
             >
               <InputCustom
                 isRequired
-                label="Title"
+                label="Tên thể loại"
               />
             </Form.Item>
           </Col>
 
           <Col span={24}>
             <Form.Item
-              name="ShortDecription"
+              rules={[
+                { required: true, message: "Hãy nhập vào mô tả cho thể loại truyện" },
+              ]}
+              name="ShortDescription"
             >
               <InputCustom
                 textArea
+                isRequired
                 style={{ height: '120px' }}
-                label="ShortDecription"
+                label="Mô tả"
               />
             </Form.Item>
           </Col>

@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react"
-import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import SpinCustom from "src/components/SpinCustom"
 import TableCustom from "src/components/TableCustom"
 import ComicService from "src/services/ComicService"
-import GenreService from "src/services/GenreService"
-import InsertUpdateComic from "./components/InsertUpdateComic"
 import { toast } from "react-toastify"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
@@ -15,6 +12,8 @@ import { Space } from "antd"
 import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
 import NotificaitonService from "src/services/NotificationService"
 import socket from "src/utils/socket"
+import { listStatusComic } from "src/lib/constant"
+import InputCustom from "src/components/FloatInput/InputCustom"
 
 const ComicsManagement = () => {
 
@@ -22,7 +21,6 @@ const ComicsManagement = () => {
   const [comics, setComics] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [insertUpdateComic, setInsertUpdateComic] = useState()
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
@@ -51,7 +49,11 @@ const ComicsManagement = () => {
       const res = await ComicService.changeStatusComic({ ComicID: record?._id, Status })
       if (res?.isError) return toast.error(res?.msg)
       const body = {
-        Content: Status ? `${global?.user?.FullName} đã phê duyệt truyện của bạn` : `Truyện của bạn đã bị khóa vì những vi phạm cộng đồng. Nếu việc này tiếp diễn tài khoản của bạn sẽ bị cấm vĩnh viễn`,
+        Content: Status === 1
+          ? `Admintrator đã phê duyệt truyện của bạn`
+          : Status === 2
+            ? `Truyện của bạn bị nghi đã vi phạm những quy chuẩn cộng đồng nên đã bị hủy kiểm duyệt. Nếu việc này tiếp diễn tài khoản của bạn sẽ bị cấm vĩnh viễn`
+            : `Truyện của bạn đã bị cấm vì những vi phạm cộng đồng. Nếu việc này tiếp diễn tài khoản của bạn sẽ bị cấm vĩnh viễn`,
         Sender: global?.user?._id,
         Receiver: record?.Author?._id
       }
@@ -67,56 +69,51 @@ const ComicsManagement = () => {
   const lstBtn = (record) => (
     [
       {
-        name: 'Confirm',
-        disabled: record?.Status ? true : false,
+        name: 'Duyệt',
+        disabled: record?.Status === 0 ? false : true,
         icon: LstIcons.ICON_CONFIRM,
         onClick: () => {
           ConfirmModal({
             record,
-            title: `Do you want to post this comic?`,
+            title: `Bạn có chắc duyệt truyện này?`,
             okText: "Yes",
             cancelText: "No",
             onOk: async close => {
-              handleChangeStatusComic(record, true)
+              handleChangeStatusComic(record, 1)
               close()
             },
           })
         }
       },
       {
-        name: 'Report',
-        disabled: record?.Status ? false : true,
+        name: 'Không duyệt',
+        disabled: record?.Status === 0 ? false : true,
         icon: LstIcons.ICON_CLOSE_RED,
         onClick: () => {
           ConfirmModal({
             record,
-            title: `Do you want to un post this comic?`,
+            title: `Bạn có chắc không duyệt truyện này?`,
             okText: "Yes",
             cancelText: "No",
             onOk: async close => {
-              handleChangeStatusComic(record, false)
+              handleChangeStatusComic(record, 2)
               close()
             },
           })
         }
       },
       {
-        name: 'Edit',
-        disabled: record?.Author?._id === global?.user?._id ? false : true,
-        icon: LstIcons.ICON_EDIt,
-        // onClick: () => setInsertUpdateGenre(record)
-      },
-      {
-        name: 'Delete',
+        name: 'Cấm',
+        disabled: record?.Status === 1 ? false : true,
         icon: LstIcons.ICON_DELETE,
         onClick: () => {
           ConfirmModal({
             record,
-            title: `Do you want to delete this comic?`,
+            title: `Bạn có chắc cấm hiển thị truyện này?`,
             okText: "Yes",
             cancelText: "No",
             onOk: async close => {
-              // handleDeleteGenre(record?._id)
+              handleChangeStatusComic(record, 3)
               close()
             },
           })
@@ -135,13 +132,13 @@ const ComicsManagement = () => {
       ),
     },
     {
-      title: "Name",
+      title: "Tên truyện",
       align: "center",
       dataIndex: "Title",
       key: "Title",
     },
     {
-      title: "Genres",
+      title: "Thể loại",
       align: "center",
       width: 170,
       render: (_, record, index) => (
@@ -151,22 +148,22 @@ const ComicsManagement = () => {
       ),
     },
     {
-      title: "Author",
+      title: "Tác giả",
       align: "center",
       render: (_, record, index) => (
         <div>{record?.Author?.FullName}</div>
       ),
     },
     {
-      title: "Updated date",
+      title: "Ngày cập nhật",
       align: "center",
       width: 100,
       render: (_, record, index) => (
-        <div>{moment(record?.createdAt).format("DD/MM/YYYY")}</div>
+        <div>{moment(record?.updatedAt).format("DD/MM/YYYY")}</div>
       ),
     },
     {
-      title: "Likes",
+      title: "Lượt theo dõi",
       align: "center",
       width: 80,
       render: (_, record, index) => (
@@ -174,7 +171,7 @@ const ComicsManagement = () => {
       ),
     },
     {
-      title: "Reads",
+      title: "Lượt đọc",
       align: "center",
       width: 80,
       render: (_, record, index) => (
@@ -182,20 +179,18 @@ const ComicsManagement = () => {
       ),
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       align: "center",
       render: (_, record, index) => (
-        <>
+        <div className={["text-blue", "active-green", "text-black", "text-red"][record?.Status]}>
           {
-            record?.Status
-              ? <div className="active-green">Posted</div>
-              : <div className="text-red">Not posted yet</div>
+            listStatusComic.find(i => i?.Status === record?.Status)?.Content
           }
-        </>
+        </div>
       ),
     },
     {
-      title: "Action",
+      title: "Chức năng",
       align: "center",
       width: 170,
       render: (_, record) => (
@@ -216,20 +211,15 @@ const ComicsManagement = () => {
 
   return (
     <SpinCustom spinning={loading}>
-      <div className="d-flex-sb mb-10">
-        <p className="title-type-1">Comics Management</p>
-        <ButtonCustom
-          className="greendBackground medium"
-          onClick={() => {
-            if (!!global?.genres.length) {
-              setInsertUpdateComic(true)
-            } else {
-              return toast.error('Chưa có thể loại truyền nào')
-            }
-          }}
-        >
-          Create new comic
-        </ButtonCustom>
+      <div className="mb-10">
+        <p className="title-type-1">Quản lý truyện</p>
+      </div>
+      <div className="mb-15">
+        <InputCustom
+          search
+          label="Nhập vào tên truyện"
+          onSearch={e => setPagination({ ...pagination, TextSearch: e })}
+        />
       </div>
       <TableCustom
         isPrimary
@@ -251,14 +241,6 @@ const ComicsManagement = () => {
             }),
         }}
       />
-      {
-        !!insertUpdateComic &&
-        <InsertUpdateComic
-          open={insertUpdateComic}
-          onCancel={() => setInsertUpdateComic(false)}
-          onOk={() => getListComics()}
-        />
-      }
     </SpinCustom>
   )
 }

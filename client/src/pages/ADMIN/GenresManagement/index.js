@@ -93,8 +93,8 @@ const GenresManagement = () => {
     {
       title: "Decription",
       // align: "center",
-      dataIndex: "ShortDecription",
-      key: "ShortDecription",
+      dataIndex: "ShortDescription",
+      key: "ShortDescription",
     },
     {
       title: "Action",
@@ -117,18 +117,18 @@ const GenresManagement = () => {
   return (
     <SpinCustom spinning={loading}>
       <div className="d-flex-sb mb-10">
-        <p className="title-type-1">Genres Management</p>
+        <p className="title-type-1">Quản lý thể loại truyện</p>
         <ButtonCustom
           className="greendBackground medium"
           onClick={() => setInsertUpdateGenre(true)}
         >
-          Create new genre
+          Thêm thể loại truyện
         </ButtonCustom>
       </div>
       <div className="mb-15">
         <InputCustom
           search
-          label="Enter name genre"
+          label="Nhập vào tên thẻ loại"
           onSearch={e => setPagination({ ...pagination, TextSearch: e })}
         />
       </div>

@@ -25,14 +25,18 @@ const LoginPage = () => {
 
   const loginByGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const userInfor = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
-      const res = await UserService.loginByGoogle(userInfor)
-      if (res?.isError) return toast.error(res?.msg)
-      const user = jwtDecode(res?.data)
-      if (!!user.payload.ID) {
-        getProfile(res?.data)
-      } else {
-        navigate('/forbidden')
+      try {
+        const userInfor = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
+        const res = await UserService.loginByGoogle(userInfor)
+        if (res?.isError) return toast.error(res?.msg)
+        const user = jwtDecode(res?.data)
+        if (!!user.payload.ID) {
+          getProfile(res?.data)
+        } else {
+          navigate('/forbidden')
+        }
+      } finally {
+        setLoading(false)
       }
     },
   })

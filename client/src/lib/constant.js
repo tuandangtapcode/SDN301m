@@ -12,3 +12,22 @@ export const listRegulations = [
     Content: "Truyện có sử dụng ngôn ngữ bị xem là độc hại, phân biệt chủng tộc, tôn giáo, giới tính."
   }
 ]
+
+export const listStatusComic = [
+  {
+    Status: 0,
+    Content: "Chờ duyệt"
+  },
+  {
+    Status: 1,
+    Content: "Đã duyệt"
+  },
+  {
+    Status: 2,
+    Content: "Không duyệt"
+  },
+  {
+    Status: 3,
+    Content: "Đã cấm"
+  },
+]

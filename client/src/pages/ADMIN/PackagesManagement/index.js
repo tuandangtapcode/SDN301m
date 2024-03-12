@@ -74,14 +74,14 @@ const PackageManagement = () => {
       ),
     },
     {
-      title: "Name",
+      title: "Tên gói premium",
       align: "center",
       dataIndex: "Title",
       key: "Title",
       width: 170
     },
     {
-      title: "Price",
+      title: "Giá",
       align: "center",
       dataIndex: "Price",
       key: "Price",
@@ -91,7 +91,7 @@ const PackageManagement = () => {
       ),
     },
     {
-      title: "Duration",
+      title: "Thời hạn",
       align: "center",
       dataIndex: "Duration",
       key: "Duration",
@@ -101,14 +101,14 @@ const PackageManagement = () => {
       ),
     },
     {
-      title: "Quantity",
+      title: "Số lượng người mua",
       align: "center",
       dataIndex: "Quantity",
       key: "Quantity",
       width: 120
     },
     {
-      title: "Action",
+      title: "Chức năng",
       align: "center",
       width: 100,
       render: (_, record) => (
@@ -129,12 +129,12 @@ const PackageManagement = () => {
   return (
     <SpinCustom spinning={loading}>
       <div className="d-flex-sb mb-10">
-        <p className="title-type-1">Packages Management</p>
+        <p className="title-type-1">Quản lý gói Premium</p>
         <ButtonCustom
           className="greendBackground medium"
           onClick={() => setOpenInsertUpdatePackage(true)}
         >
-          Create new package
+          Thêm gói premium
         </ButtonCustom>
       </div>
       <TableCustom

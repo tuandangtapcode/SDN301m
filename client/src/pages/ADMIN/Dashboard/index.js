@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import Chart from 'chart.js/auto'
-import { Button, Col, Row, Select, Space } from "antd";
-import PackageService from "src/services/PackageService";
-import ComicService from "src/services/ComicService";
+import { Button, Col, Row, Select, Space } from "antd"
+import PackageService from "src/services/PackageService"
+import ComicService from "src/services/ComicService"
 
 const ColorPie = [
   'rgb(51,163,236)',
@@ -17,7 +17,7 @@ const ColorPie = [
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(false)
-  const stackedChartRef = useRef();
+  const stackedChartRef = useRef()
   const pieChartRef = useRef()
   const [packages, setPackages] = useState([])
   const [topComics, setTopComics] = useState([])
@@ -109,12 +109,12 @@ const Dashboard = () => {
     const pieChart = new Chart(pieCtx, {
       type: 'pie',
       data: pieChartData,
-    });
+    })
 
     return () => {
-      stackedChart.destroy();
-      pieChart.destroy();
-    };
+      stackedChart.destroy()
+      pieChart.destroy()
+    }
   }, [stackedChartData])
 
 

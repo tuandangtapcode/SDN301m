@@ -6,7 +6,7 @@ const Genres = new Schema({
     type: String,
     require: true
   },
-  ShortDecription: {
+  ShortDescription: {
     type: String,
     require: true
   }

@@ -50,7 +50,7 @@ const MyComic = () => {
             className="greendBackground medium"
             onClick={() => setInsertUpdateComic(true)}
           >
-            Create new comic
+            Đăng tải truyện
           </ButtonCustom>
         }
       </div>

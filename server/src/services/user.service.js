@@ -92,6 +92,7 @@ const fncLogin = async (req) => {
     const { Password, Email } = req.body
     const getUser = await User.findOne({ Email })
     if (!getUser) return response({}, true, "Email không tồn tại", 200)
+    if (!!getUser && !getUser.Password) return response({}, true, "Mật khẩu không chính xác", 200)
     const check = bcrypt.compareSync(Password, getUser.Password)
     if (!check) return response({}, true, "Mật khẩu không chính xác", 200)
     if (!getUser.IsActive)
@@ -114,7 +115,7 @@ const fncLoginByGoogle = async (req) => {
     if (!getUser.IsActive)
       return response({}, true, "Tài khoản đã bị khóa", 200)
     const access_token = accessToken({
-      id: getUser._id,
+      ID: getUser._id,
       RoleID: getUser.RoleID,
     })
     return response(access_token, false, "Login thành công", 200)

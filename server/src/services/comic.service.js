@@ -12,7 +12,7 @@ const fncGetAllComics = async (req) => {
     if (isAdmin) {
       query = { Title: { $regex: TextSearch, $options: 'i' } }
     } else {
-      query = { Title: { $regex: TextSearch, $options: 'i' }, Status: true }
+      query = { Title: { $regex: TextSearch, $options: 'i' }, Status: 1 }
     }
     const comics = await Comic
       .find(query)
@@ -74,7 +74,7 @@ const fncGetAllComicsByAuthor = async (req) => {
     if (!IsPrivated) {
       query = {
         Author: UserID,
-        Status: true
+        Status: 1
       }
     } else {
       query = {

@@ -59,15 +59,17 @@ const Genres = () => {
               <DivBorder className="text-center">{genresDetail?.ShortDescription}</DivBorder>
             </Col>
           }
-          <Row gutter={[16, 16]}>
-            {
-              comics?.map(i =>
+          {comics?.length > 0 ?
+            <Row gutter={[16, 16]}>
+              {comics?.map(i =>
                 <Col span={6}>
                   <ComicItemList comic={i} />
                 </Col>
-              )
-            }
-          </Row>
+              )}
+            </Row>
+            :
+            <p className="title-type-1">Chưa có truyện nào thuộc thể loại này</p>
+          }
         </Col>
         <Col span={6}>
           <GenresStyled>

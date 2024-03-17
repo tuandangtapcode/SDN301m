@@ -1,5 +1,5 @@
 import Genre from '../models/genre.js'
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 
 const fncGetAllGenres = async (req) => {
   try {
@@ -39,7 +39,7 @@ const fncInsertGenre = async (req) => {
 const fncUpdateGenre = async (req) => {
   try {
     const { id, Title } = req.body
-    const checkExistGenre = await Genre.find({ _id: id })
+    const checkExistGenre = await Genre.findOne({ _id: id })
     if (!checkExistGenre) return response({}, true, `Thể loại truyện không tồn tại`, 200)
     const checkExistTitle = await Genre.findOne({ Title })
     if (!!checkExistTitle && !checkExistGenre._id.equals(checkExistTitle._id)) {
@@ -47,17 +47,6 @@ const fncUpdateGenre = async (req) => {
     }
     await Genre.updateOne({ _id: id }, req.body)
     return response({}, false, "Cập nhật thành công", 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
-const fncGetDetailGenre = async (req) => {
-  try {
-    const id = req.params.id
-    const genre = await Genre.find({ _id: id })
-    if (!genre) return response({}, true, "Genre không tồn tại", 200)
-    return response(genre, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -76,7 +65,6 @@ const fncDeleteGenre = async (req) => {
 
 const GenreService = {
   fncGetAllGenres,
-  fncGetDetailGenre,
   fncInsertGenre,
   fncUpdateGenre,
   fncDeleteGenre

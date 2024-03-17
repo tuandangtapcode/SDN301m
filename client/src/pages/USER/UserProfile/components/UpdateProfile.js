@@ -34,7 +34,7 @@ const UpdateProfile = ({ open, onCancel }) => {
       setLoading(true)
       const values = await form.validateFields()
       const { image, ...remainValues } = values
-      const res = await UserService.updateProfile({ ...remainValues, Avatar: values?.image?.file, UserID: global?.user?._id })
+      const res = await UserService.updateProfile({ ...remainValues, Avatar: values?.image?.file })
       if (res?.isError) return toast.error(res?.msg)
       dispatch(globalSlice.actions.setUser(res?.data))
       onCancel()

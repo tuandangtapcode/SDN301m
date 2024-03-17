@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const PremiumItemStyled = styled.div`
-background-color: rgb(71, 70, 70);
+background-color: #696565;
 height: 400px;
 padding: 20px 16px;
 border-radius: 12px;

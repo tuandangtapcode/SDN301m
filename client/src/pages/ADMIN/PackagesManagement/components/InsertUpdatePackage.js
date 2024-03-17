@@ -39,14 +39,14 @@ const InsertUpdatePackage = ({ open, onCancel, onOk }) => {
           className="normal"
           onClick={() => onCancel()}
         >
-          Cancel
+          Hủy
         </ButtonCustom>
         <ButtonCustom
           className="small greendBackground ml-12"
           loading={loading}
           onClick={() => handleInsertUpdatepPackage()}
         >
-          Save
+          Lưu
         </ButtonCustom>
       </div>
     )
@@ -64,10 +64,10 @@ const InsertUpdatePackage = ({ open, onCancel, onOk }) => {
         <Form.Item
           name="Title"
           rules={[
-            { required: true, message: "Hãy nhập tiêu đề cho gói" }
+            { required: true, message: "Hãy nhập tên cho gói" }
           ]}
         >
-          <InputCustom label="Title" />
+          <InputCustom label="Tên gói" />
         </Form.Item>
         <Form.Item
           name="Description"
@@ -75,7 +75,7 @@ const InsertUpdatePackage = ({ open, onCancel, onOk }) => {
             { required: true, message: "Hãy mô tả cho gói" }
           ]}
         >
-          <InputCustom style={{ height: '120px' }} textArea label="Description" />
+          <InputCustom style={{ height: '120px' }} textArea label="Mô tả" />
         </Form.Item>
         <Form.Item
           name="Price"
@@ -84,7 +84,7 @@ const InsertUpdatePackage = ({ open, onCancel, onOk }) => {
             { pattern: getRegexNumber(), message: "Nhập sai format số" }
           ]}
         >
-          <InputCustom label="Price" />
+          <InputCustom label="Giá" />
         </Form.Item>
         <Form.Item
           name="Duration"
@@ -93,7 +93,7 @@ const InsertUpdatePackage = ({ open, onCancel, onOk }) => {
             { pattern: getRegexNumber(), message: "Nhập sai format số" }
           ]}
         >
-          <InputCustom label="Duration(ngày)  " />
+          <InputCustom label="Thời hạn(ngày)" />
         </Form.Item>
       </Form>
     </ModalCustom >

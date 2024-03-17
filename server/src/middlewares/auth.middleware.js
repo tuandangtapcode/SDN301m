@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 
 const checkExistToken = (req) => {
   let check = false
@@ -26,6 +26,7 @@ export const authMiddleware = (Roles) => {
       }
       const { payload } = decode
       if (Roles.includes(payload.RoleID)) {
+        req.user = payload
         next()
       } else {
         return res.status(403).json(

@@ -3,7 +3,7 @@ import GenreService from '../services/genre.service.js'
 const insertGenre = async (req, res) => {
   try {
     const response = await GenreService.fncInsertGenre(req)
-    return res.status(response.StatusCode).json(response)
+    return res.status(response.statusCode).json(response)
   } catch (error) {
     return res.status(500).json(error.toString())
   }
@@ -12,16 +12,7 @@ const insertGenre = async (req, res) => {
 const getAllGenres = async (req, res) => {
   try {
     const response = await GenreService.fncGetAllGenres(req)
-    return res.status(response.StatusCode).json(response)
-  } catch (error) {
-    return res.status(500).json(error.toString())
-  }
-}
-
-const getDetailGenre = async (req, res) => {
-  try {
-    const response = await GenreService.fncGetDetailGenre(req)
-    return res.status(response.StatusCode).json(response)
+    return res.status(response.statusCode).json(response)
   } catch (error) {
     return res.status(500).json(error.toString())
   }
@@ -30,7 +21,7 @@ const getDetailGenre = async (req, res) => {
 const updateGenre = async (req, res) => {
   try {
     const response = await GenreService.fncUpdateGenre(req)
-    return res.status(response.StatusCode).json(response)
+    return res.status(response.statusCode).json(response)
   } catch (error) {
     return res.status(500).json(error.toString())
   }
@@ -39,7 +30,7 @@ const updateGenre = async (req, res) => {
 const deleteGenre = async (req, res) => {
   try {
     const response = await GenreService.fncDeleteGenre(req)
-    return res.status(response.StatusCode).json(response)
+    return res.status(response.statusCode).json(response)
   } catch (error) {
     return res.status(500).json(error.toString())
   }
@@ -49,7 +40,6 @@ const deleteGenre = async (req, res) => {
 const GenreController = {
   insertGenre,
   getAllGenres,
-  getDetailGenre,
   updateGenre,
   deleteGenre
 }

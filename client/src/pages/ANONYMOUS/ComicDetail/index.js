@@ -10,7 +10,6 @@ import LstIcons from "src/components/ListIcons"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { ComicDetailStyled } from "./styled"
 import { formatNumber } from "src/lib/stringUtils"
-import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
 import { useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { toast } from "react-toastify"
@@ -21,7 +20,6 @@ import InputCustom from "src/components/FloatInput/InputCustom"
 import CommentService from "src/services/CommentService"
 import UserService from "src/services/UserService"
 import socket from "src/utils/socket"
-import NotificaitonService from "src/services/NotificationService"
 
 
 const ComicDetail = () => {
@@ -65,7 +63,7 @@ const ComicDetail = () => {
   const handleSendComment = async () => {
     try {
       setLoading(true)
-      const res = await CommentService.insertComment({ Author: global?.user?._id, Comic: ComicID, Content: textComment })
+      const res = await CommentService.insertComment({ Comic: ComicID, Content: textComment })
       if (res?.isError) return
       socket.emit("send-comment",
         {
@@ -81,7 +79,7 @@ const ComicDetail = () => {
   const handleFollowOrUnFollowComic = async () => {
     try {
       setLoading(true)
-      const res = await UserService.followOrUnfollowComic({ ComicID, UserID: global?.user?._id })
+      const res = await UserService.followOrUnfollowComic({ ComicID })
       if (res?.isError) return
       toast.success(res?.msg)
       setStatusBtnFollow(!statusBtnFollow)
@@ -118,7 +116,7 @@ const ComicDetail = () => {
             if (record?.ChapterID > 2) {
               if (!global?.user?._id || global?.user?.RoleID === 5) {
                 ConfirmModal({
-                  title: `Mua premium để có thể đọc nhiều truyện hơn`,
+                  title: `Mua premium để có thể đọc nhiều chapter hơn`,
                   okText: "Mua premium",
                   cancelText: "Hủy",
                   onOk: async close => {
@@ -204,7 +202,21 @@ const ComicDetail = () => {
                   <Button
                     icon={LstIcons.ICON_WARNING}
                     className="greendBorder medium"
-                    onClick={() => setOpenModalReport(comic)}
+                    onClick={() => {
+                      if (!!global?.user?._id) {
+                        setOpenModalReport(comic)
+                      } else {
+                        ConfirmModal({
+                          title: `Hãy đăng nhập để có thể báo cáo truyện`,
+                          okText: "Đăng nhập",
+                          cancelText: "Hủy",
+                          onOk: async close => {
+                            navigate('/login')
+                            close()
+                          },
+                        })
+                      }
+                    }}
                   >
                     Báo cáo
                   </Button>

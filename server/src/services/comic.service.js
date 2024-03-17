@@ -1,6 +1,6 @@
 import Comic from '../models/comic.js'
 import Image from '../models/image.js'
-import response from '../utils/response-result.js'
+import { response } from '../utils/lib.js'
 import cloudinary from 'cloudinary'
 import User from '../models/user.js'
 const cloudinaryV2 = cloudinary.v2
@@ -12,7 +12,7 @@ const fncGetAllComics = async (req) => {
     if (isAdmin) {
       query = { Title: { $regex: TextSearch, $options: 'i' } }
     } else {
-      query = { Title: { $regex: TextSearch, $options: 'i' }, Status: true }
+      query = { Title: { $regex: TextSearch, $options: 'i' }, Status: 1 }
     }
     const comics = await Comic
       .find(query)
@@ -67,19 +67,17 @@ const fncGetAllComicsByGenres = async (req) => {
 
 const fncGetAllComicsByAuthor = async (req) => {
   try {
-    const { TextSearch, CurrentPage, PageSize, UserID, IsPrivated } = req.body
+    const { CurrentPage, PageSize, UserID, IsPrivated } = req.body
     let data, query
     const user = await User.findOne({ _id: UserID })
     if (!user) return response({}, true, "User không tồn tại", 200)
     if (!IsPrivated) {
       query = {
-        Title: { $regex: TextSearch, $options: 'i' },
         Author: UserID,
-        Status: true
+        Status: 1
       }
     } else {
       query = {
-        Title: { $regex: TextSearch, $options: 'i' },
         Author: UserID,
       }
     }
@@ -104,13 +102,14 @@ const fncGetAllComicsByAuthor = async (req) => {
 
 const fncInsertComic = async (req) => {
   try {
+    const Author = req.user.ID
     const { Title } = req.body
     const comic = await Comic.findOne({ Title })
     if (comic) {
       cloudinaryV2.uploader.destroy(req.file.filename)
       return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)
     }
-    const create = await Comic.create({ ...req.body, AvatarPath: req.file.path, AvatarPathId: req.file.filename })
+    const create = await Comic.create({ ...req.body, AvatarPath: req.file.path, AvatarPathId: req.file.filename, Author })
     return response(create._id, false, "Thêm mới thành công", 201)
   } catch (error) {
     return response({}, true, error.toString(), 500)
@@ -119,7 +118,8 @@ const fncInsertComic = async (req) => {
 
 const fncUpdateComic = async (req) => {
   try {
-    const { ComicID, Author, Title } = req.body
+    const Author = req.user.ID
+    const { ComicID, Title } = req.body
     const checkExist = await Comic.findOne({ _id: ComicID, Author: Author })
     if (!checkExist) return response(checkExist, true, 'Truyện không tồn tại', 200)
     const checkExistTitle = await Comic.findOne({ Title })
@@ -140,7 +140,8 @@ const fncUpdateComic = async (req) => {
 
 const fncDeleteComic = async (req) => {
   try {
-    const { ComicID, UserID } = req.body
+    const UserID = req.user.ID
+    const { ComicID } = req.body
     const deleteComic = await Comic.deleteOne({ _id: ComicID, Author: UserID })
     if (!deleteComic.deletedCount) return response({}, true, "Có lỗi khi xóa", 200)
     return response(deleteComic, false, "Xóa thành công", 200)
@@ -184,26 +185,6 @@ const fncGetAllChaptersByComic = async (req) => {
   }
 }
 
-const fncLikeComic = async (req) => {
-  try {
-    const comicID = req.params.ComicID
-    const comic = await Comic.findById(comicID)
-    if (!comic) {
-      return res.status(404).json({ message: 'Comic not found' })
-    }
-    const updateResult = await Comic.updateOne(
-      { _id: comicID },
-      { $inc: { Likes: 1 } }
-    )
-    if (updateResult.matchedCount === 0) {
-      return res.status(404).json({ message: 'Comic not found' })
-    }
-    return response({ message: 'Comic liked successfully' }, false, 'Cập nhật thành công', 200)
-  } catch (error) {
-    return response({}, true, error.toString(), 500)
-  }
-}
-
 const fncGetAllHotComics = async (req) => {
   try {
     const { FillNumber } = req.params
@@ -240,7 +221,8 @@ const fncGetAllHotComics = async (req) => {
             Title: { $first: "$Title" },
             Reads: { $sum: 1 },
             AvatarPath: { $first: "$AvatarPath" },
-            Chapters: { $first: "$Chapters" }
+            Chapters: { $first: "$Chapters" },
+            Likes: { $first: "$Likes" }
           },
         },
         {
@@ -268,7 +250,6 @@ const ComicService = {
   fncGetAllComicsByAuthor,
   fncChangeStatusComic,
   fncGetAllChaptersByComic,
-  fncLikeComic,
   fncGetAllHotComics
 }
 

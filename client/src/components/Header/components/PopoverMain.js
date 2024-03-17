@@ -27,7 +27,7 @@ const PopoverMain = () => {
                     <p
                       className="fs-18 cursor-pointer"
                       onClick={() => {
-                        navigate(`/genres/${i?._id}`)
+                        navigate(`/genre/${i?._id}`)
                       }}
                     >
                       {i?.Title}
@@ -41,7 +41,7 @@ const PopoverMain = () => {
                     <p
                       className="fs-18 cursor-pointer"
                       onClick={() => {
-                        navigate(`/genres/${i?._id}`)
+                        navigate(`/genre/${i?._id}`)
                       }}
                     >
                       {i?.Title}

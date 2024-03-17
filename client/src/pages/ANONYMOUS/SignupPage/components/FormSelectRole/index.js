@@ -45,6 +45,7 @@ const FormSelectRole = ({
       </Col>
       <Col span={24}>
         <ButtomCustomStyled
+          htmlType="submit"
           className="submit fs-18"
           loading={loading}
           disabled={!!isAgree ? false : true}

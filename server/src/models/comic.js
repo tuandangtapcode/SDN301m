@@ -51,8 +51,8 @@ const Comics = new Schema({
     { type: Date, default: null }
   ],
   Status: {
-    type: Boolean,
-    default: false
+    type: Number,
+    default: 0
   },
   PostedBy: {
     type: Number

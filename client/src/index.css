@@ -38,6 +38,10 @@ a {
   color: red;
 }
 
+.text-blue {
+  color: #154398;
+}
+
 .text-matte {
   color: #db6784;
 }
@@ -52,4 +56,8 @@ a {
 
 .text-center {
   text-align: center;
+}
+
+.not-seen-notify {
+  background-color: rgb(230, 247, 255);
 }

@@ -4,37 +4,32 @@ export const menuItem = () => {
   return [
     {
       icon: LstIcons.ICON_STATISTIC,
-      label: "Statistic",
+      label: "Thống kê",
       key: '/dashboard',
     },
     {
       icon: LstIcons.ICON_PREMIUM,
-      label: "Package premium",
+      label: "Gói premium",
       key: '/dashboard/packages',
     },
     {
       icon: LstIcons.ICON_USER,
-      label: "Users",
+      label: "Người dùng",
       key: '/dashboard/users',
     },
     {
       icon: LstIcons.ICON_GENRES,
-      label: "Genres",
+      label: "Thể loại truyện",
       key: '/dashboard/genres',
     },
     {
       icon: LstIcons.ICON_COMIC,
-      label: "Comics",
+      label: "Truyện",
       key: '/dashboard/comics',
     },
     {
-      icon: LstIcons.ICON_REPORT,
-      label: "Report",
-      key: '/dashboard/report',
-    },
-    {
       icon: <div style={{ marginLeft: '-5px' }}>{LstIcons.ICON_LOGOUT}</div>,
-      label: "Log out",
+      label: "Đăng xuất",
       key: 'logout',
     },
   ]

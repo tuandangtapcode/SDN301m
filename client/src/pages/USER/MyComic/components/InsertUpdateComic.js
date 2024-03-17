@@ -73,15 +73,13 @@ const InsertUpdateComic = ({
         ShortDescription: values?.ShortDescription,
         Genres: values?.Genres,
         Avatar: values?.image?.file,
-        Author: global?.user?._id,
         Chapters: !!lstChapters.length
           ? lstChapters?.map(i => ({
             ChapterID: i?.ChapterID,
             Name: i?.Name,
             Reads: i?.Reads
           }))
-          : [],
-        Status: false
+          : []
       }
       const { Status, ...remainBody } = body
       const resComic = !!open?.Comic?._id

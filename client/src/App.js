@@ -11,7 +11,6 @@ import UserService from "./services/UserService"
 import GenreService from "./services/GenreService"
 import socket from "./utils/socket"
 import DeactiveModal from "./components/ModalCustom/DeactiveModal"
-import ComicService from "./services/ComicService"
 
 
 // ANONYMOUS
@@ -40,7 +39,6 @@ const Dashboard = React.lazy(() => import('src/pages/ADMIN/Dashboard'))
 const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManagement'))
 const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
-const Report = React.lazy(() => import('src/pages/ADMIN/Report'))
 const PackagesManagement = React.lazy(() => import('src/pages/ADMIN/PackagesManagement'))
 
 function LazyLoadingComponent({ children }) {
@@ -139,15 +137,7 @@ const routes = [
             <UsersManagement />
           </LazyLoadingComponent>
         )
-      },
-      {
-        path: '/dashboard/report',
-        element: (
-          <LazyLoadingComponent>
-            <Report />
-          </LazyLoadingComponent>
-        )
-      },
+      }
     ]
   },
   // ANONYMOUS
@@ -267,10 +257,10 @@ const App = () => {
   const navigate = useNavigate()
   const [modalDeactive, setModalDeactive] = useState(false)
 
-  const getProfile = async (UserID, token) => {
+  const getProfile = async (token) => {
     try {
       setLoading(true)
-      const res = await UserService.getDetailProfile(UserID, token)
+      const res = await UserService.getDetailProfile(token)
       if (res?.isError) {
         localStorage.removeItem('token')
         return
@@ -296,8 +286,8 @@ const App = () => {
   useEffect(() => {
     if (!!localStorage.getItem('token')) {
       const user = jwtDecode(localStorage.getItem('token'))
-      if (!!user.payload.id) {
-        getProfile(user.payload.id, localStorage.getItem('token'))
+      if (!!user.payload.ID) {
+        getProfile(localStorage.getItem('token'))
       } else {
         navigate('/forbidden')
       }

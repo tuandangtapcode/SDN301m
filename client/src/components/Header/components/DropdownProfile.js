@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
-import { Dropdown } from "antd"
+import { Dropdown, Empty } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import globalSlice from "src/redux/globalSlice"
-import { AiFillBell } from "react-icons/ai"
 import { BadgeStyled } from "../styled"
 import LstIcons from "src/components/ListIcons"
 import socket from "src/utils/socket"
@@ -134,13 +133,16 @@ const DropdownProfile = () => {
     {
       key: '1',
       label: (
-        <div style={{ width: '300px', padding: '12px' }}>
-          {
-            notifications?.map(i =>
-              <NotificationItem data={i} />
-            )
-          }
-        </div>
+        notifications?.length > 0 ?
+          <div style={{ width: '300px', padding: '12px' }}>
+            {
+              notifications?.map(i =>
+                <NotificationItem data={i} />
+              )
+            }
+          </div>
+          :
+          <Empty description="Chưa có thông báo" />
       )
     }
   ]

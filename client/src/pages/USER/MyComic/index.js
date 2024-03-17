@@ -7,8 +7,6 @@ import ComicService from "src/services/ComicService"
 import InsertUpdateComic from "./components/InsertUpdateComic"
 import { useNavigate } from "react-router-dom"
 import ComicItem from "./components/ComicItem"
-import ButtonCircle from "src/components/ButtonCustom/ButtonCircle"
-import LstIcons from "src/components/ListIcons"
 
 const MyComic = () => {
 
@@ -19,7 +17,6 @@ const MyComic = () => {
   const [insertUpdateComic, setInsertUpdateComic] = useState()
   const [loading, setLoading] = useState(false)
   const [pagination, setPagination] = useState({
-    TextSearch: "",
     CurrentPage: 1,
     PageSize: 10,
   })
@@ -53,7 +50,7 @@ const MyComic = () => {
             className="greendBackground medium"
             onClick={() => setInsertUpdateComic(true)}
           >
-            Create new comic
+            Đăng tải truyện
           </ButtonCustom>
         }
       </div>

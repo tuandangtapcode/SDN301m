@@ -26,7 +26,7 @@ const ChangePassword = () => {
       setLoading(true)
       const values = await form.validateFields()
       if (values?.NewPassword !== values?.ConfirmPassword) return toast.error("Confirm password is not the same as new password")
-      const res = await UserService.changePassword({ ...values, UserID: global?.user?._id })
+      const res = await UserService.changePassword(values)
       if (res?.isError) return toast.error(res?.msg)
       toast.success(res?.msg)
       navigate('/')

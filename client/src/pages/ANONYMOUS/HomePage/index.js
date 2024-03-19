@@ -1,6 +1,6 @@
-import { Col, Row } from "antd"
+import { Col, Pagination, Row } from "antd"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import ComicItemList from "src/components/ComicItemList"
 import Rating from "src/components/Rating"
 import SpinCustom from "src/components/SpinCustom"
@@ -9,14 +9,16 @@ import ComicService from "src/services/ComicService"
 const HomePage = () => {
 
   const navigate = useNavigate()
+  const location = useLocation()
   const [comics, setComics] = useState()
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
-    PageSize: 10,
+    PageSize: 4,
   })
+  const queryParams = new URLSearchParams(location.search)
 
   const getComics = async () => {
     try {
@@ -31,6 +33,14 @@ const HomePage = () => {
   }
 
   useEffect(() => {
+    if (!!location.search && !!queryParams.get("query")) {
+      setPagination({ ...pagination, TextSearch: queryParams.get("query") })
+    } else if (!!location.search && !queryParams.get("query")) {
+      navigate('/not-found')
+    }
+  }, [queryParams.get("query")])
+
+  useEffect(() => {
     getComics()
   }, [pagination])
 
@@ -40,7 +50,7 @@ const HomePage = () => {
       <p className="fs-25 fw-600 text-matte mt-20 mb-20">Truyện mới cập nhật</p>
       <Row gutter={[16, 0]} className="mb-30">
         <Col span={16}>
-          <Row gutter={[16, 0]}>
+          <Row gutter={[16, 16]}>
             {
               comics?.map(i =>
                 <Col span={6} onClick={() => navigate(`/comic/${i?._id}`)}>
@@ -53,6 +63,15 @@ const HomePage = () => {
 
         <Col span={8}>
           <Rating />
+        </Col>
+        <Col span={16}>
+          <div className="text-center">
+            <Pagination
+              current={pagination?.CurrentPage}
+              total={Math.ceil(total / pagination?.PageSize) * 10}
+              onChange={e => setPagination({ ...pagination, CurrentPage: e })}
+            />
+          </div>
         </Col>
       </Row>
     </SpinCustom >

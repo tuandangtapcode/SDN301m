@@ -78,7 +78,7 @@ const SignupPage = () => {
         progressDot={true}
       />
       <Form form={form} className="mt-30">
-        <Row gutter={[16, 0]}>
+        <Row gutter={[16, 8]}>
           <Col span={24}>
             <div className="text-center mb-20">
               <p className="fs-25 fw-600">Sign up to use</p>

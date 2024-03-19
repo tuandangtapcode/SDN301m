@@ -14,6 +14,7 @@ const fncGetAllComics = async (req) => {
     } else {
       query = { Title: { $regex: TextSearch, $options: 'i' }, Status: 1 }
     }
+    const total = await Comic.countDocuments()
     const comics = await Comic
       .find(query)
       .sort({ "createdAt": -1 })
@@ -22,7 +23,7 @@ const fncGetAllComics = async (req) => {
       .populate('Author', ['_id', 'FullName'])
       .populate('Genres', ['Title'])
     return response(
-      { List: comics, Total: comics.length },
+      { List: comics, Total: total },
       false,
       'Lấy data thành công',
       200
@@ -35,17 +36,21 @@ const fncGetAllComics = async (req) => {
 const fncGetAllComicsByGenres = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize, GenreID } = req.body
-    let query
+    let query, queryCount
     if (!!GenreID) {
       query = {
         Title: { $regex: TextSearch, $options: 'i' },
         Genres: GenreID,
+      }
+      queryCount = {
+        Genres: GenreID
       }
     } else {
       query = {
         Title: { $regex: TextSearch, $options: 'i' },
       }
     }
+    const total = await Comic.find(queryCount).countDocuments()
     const comics = await Comic
       .find(query)
       .sort({ "createdAt": -1 })
@@ -55,7 +60,7 @@ const fncGetAllComicsByGenres = async (req) => {
       return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenreID}"`, 200)
     }
     return response(
-      { List: comics, Total: comics.length },
+      { List: comics, Total: total },
       false,
       'Lấy data thành công',
       200
@@ -131,6 +136,7 @@ const fncUpdateComic = async (req) => {
       ...req.body,
       AvatarPath: !!req.file ? req.file.path : checkExistTitle?.AvatarPath,
       AvatarPathId: !!req.file ? req.file.filename : checkExistTitle?.AvatarPathId,
+      UpdatedAt: Date.now()
     })
     return response(updateComic?._id, false, "Cập nhật thành công thành công", 200)
   } catch (error) {
@@ -166,7 +172,7 @@ const fncGetDetailComic = async (req) => {
 const fncChangeStatusComic = async (req) => {
   try {
     const { ComicID, Status } = req.body
-    const updateComic = await Comic.findByIdAndUpdate({ _id: ComicID }, { Status: Status })
+    const updateComic = await Comic.findByIdAndUpdate({ _id: ComicID }, { Status: Status, UpdatedAt: Date.now() })
     if (!updateComic) return response({}, true, 'Truyện không tồn tại', 200)
     return response({}, false, 'Cập nhật thành công', 200)
   } catch (error) {
@@ -242,7 +248,6 @@ const fncGetAllHotComics = async (req) => {
 const ComicService = {
   fncGetAllComics,
   fncInsertComic,
-  fncUpdateComic,
   fncDeleteComic,
   fncUpdateComic,
   fncGetAllComicsByGenres,

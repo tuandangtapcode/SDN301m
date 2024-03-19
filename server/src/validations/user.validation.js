@@ -111,6 +111,32 @@ const buyPremium = async (req, res, next) => {
   }
 }
 
+const checkEmail = async (req, res, next) => {
+  const trueCondition = Joi.object({
+    Email: Joi.string().min(3).max(100).pattern(getRegexEmail()).required()
+  })
+  try {
+    await trueCondition.validateAsync(req.body, { abortEarly: false })
+    next()
+  } catch (error) {
+    return res.status(400).json(error.toString())
+  }
+}
+
+const forgotPassword = async (req, res, next) => {
+  const trueCondition = Joi.object({
+    NewPassword: Joi.string().min(3).max(30).pattern(getRegexPassword()).required(),
+    ConfirmPassword: Joi.string().min(3).max(30).pattern(getRegexPassword()).required(),
+    UserID: Joi.any().required()
+  })
+  try {
+    await trueCondition.validateAsync(req.body, { abortEarly: false })
+    next()
+  } catch (error) {
+    return res.status(400).json(error.toString())
+  }
+}
+
 
 const UserValidation = {
   getListAuthorUser,
@@ -120,7 +146,9 @@ const UserValidation = {
   changePassword,
   getParamsUserID,
   followOrUnfollowComic,
-  buyPremium
+  buyPremium,
+  checkEmail,
+  forgotPassword
 }
 
 export default UserValidation

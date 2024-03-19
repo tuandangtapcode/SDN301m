@@ -6,17 +6,9 @@ import { accessToken, refreshToken } from "../utils/jwt.js"
 import bcrypt from "bcrypt"
 const saltRounds = 10
 import cloudinary from "cloudinary"
+import sendEmail from "../utils/send-mail.js"
 
 const cloudinaryV2 = cloudinary.v2
-
-const checkEmailExist = async (Email) => {
-  let check = true
-  const user = await User.findOne({ Email })
-  if (user) {
-    check = false
-  }
-  return check
-}
 
 const fncGetListAuthor = async (req) => {
   try {
@@ -127,8 +119,8 @@ const fncLoginByGoogle = async (req) => {
 const fncRegister = async (req) => {
   try {
     const { Password, Email } = req.body
-    const checkExist = await checkEmailExist(Email)
-    if (!checkExist) return response({}, true, "Email đã tồn tại", 200)
+    const checkExist = await User.findOne({ Email })
+    if (!!checkExist) return response({}, true, "Email đã tồn tại", 200)
     const hashPassword = bcrypt.hashSync(Password, saltRounds)
     const refresh_token = refreshToken()
     const hashUser = {
@@ -146,8 +138,8 @@ const fncRegister = async (req) => {
 const fncRegisterByGoogle = async (req) => {
   try {
     const { email, given_name, picture, RoleID } = req.body
-    const checkExist = await checkEmailExist(email)
-    if (!checkExist) return response({}, true, "Email đã tồn tại", 200)
+    const checkExist = await User.findOne({ Email: email })
+    if (!!checkExist) return response({}, true, "Email đã tồn tại", 200)
     const refresh_token = refreshToken()
     const newUser = await User.create({
       Email: email,
@@ -298,6 +290,50 @@ const fncHandleExpiredPremium = async (req) => {
   }
 }
 
+const fncCheckEmail = async (req) => {
+  try {
+    const Email = req.body.Email
+    const check = await User.findOne({ Email })
+    if (!check) return response({}, true, "Email không tồn tại", 200)
+    if (!check.IsActive)
+      return response({}, true, "Tài khoản đã bị khóa", 200)
+    const subject = "Thiết lập lại mật khẩu tài khoản khách hàng"
+    const content = `
+                <html>
+                <head>
+                <style>
+                    p {
+                        color: #333;
+                    }
+                </style>
+                </head>
+                <body>
+                  <p>Xin chào ${check.FullName}</p>
+                  <p>Anh/chị đã yêu cầu đổi mật khẩu tại Online comic.</p>
+                  <p> Anh/chị vui lòng truy cập vào liên kết dưới đây để thay đổi mật khẩu của Anh/chị nhé..</p>
+                  <a href='http://localhost:3000/reset-password'>Đặt lại mật khẩu</a>
+                </body>
+                </html>
+                `
+    await sendEmail(Email, subject, content)
+    return response(check._id, false, "Email đã được gửi", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
+const fncForgotPassword = async (req) => {
+  try {
+    const { NewPassword, UserID } = req.body
+    const hashPassword = bcrypt.hashSync(NewPassword, saltRounds)
+    const updateUser = await User.findByIdAndUpdate({ _id: UserID }, { Password: hashPassword, IsByGoogle: false }, { new: true })
+    if (!updateUser) return response({}, true, "Không tồn tại user", 200)
+    return response(updateUser, false, "Mật khẩu đã được đổi thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const UserService = {
   fncGetListAuthor,
@@ -312,7 +348,9 @@ const UserService = {
   fncChangePassword,
   fncFollowOrUnfollowComic,
   fncBuyPremium,
-  fncHandleExpiredPremium
+  fncHandleExpiredPremium,
+  fncCheckEmail,
+  fncForgotPassword
 }
 
 export default UserService

@@ -1,4 +1,5 @@
 import { Button, Checkbox, Col, Form, Radio } from "antd"
+import { useState } from "react"
 import { AiOutlineLeft } from "react-icons/ai"
 import { ButtomCustomStyled } from "src/components/ButtonCustom/MyButton/styled"
 
@@ -8,8 +9,10 @@ const FormSelectRole = ({
   handleRegister,
   isAgree,
   setIsAgree,
-  loading
+  loading,
 }) => {
+
+  const [roleID, setRoleID] = useState()
 
   return (
     <>
@@ -29,7 +32,7 @@ const FormSelectRole = ({
             { required: true, message: "Please select role account" },
           ]}
         >
-          <Radio.Group >
+          <Radio.Group onChange={e => setRoleID(e.target.value)}>
             <Radio className="border-radio" value={3}>Author</Radio>
             <Radio className="border-radio" value={5}>Customer normal</Radio>
           </Radio.Group>
@@ -38,7 +41,7 @@ const FormSelectRole = ({
       <Col span={24}>
         <Checkbox
           className="text" value="A"
-          onChange={() => setIsAgree(true)}
+          onChange={(e) => setIsAgree(e.target.checked)}
         >
           I agree to the terms and conditions
         </Checkbox>
@@ -48,7 +51,7 @@ const FormSelectRole = ({
           htmlType="submit"
           className="submit fs-18"
           loading={loading}
-          disabled={!!isAgree ? false : true}
+          disabled={!!isAgree && !!roleID ? false : true}
           onClick={() => handleRegister()}
         >
           Sign up

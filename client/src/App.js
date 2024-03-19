@@ -25,6 +25,8 @@ const Authors = React.lazy(() => import('src/pages/ANONYMOUS/Authors'))
 const AuthorDetail = React.lazy(() => import('src/pages/ANONYMOUS/AuthorDetail'))
 const Premium = React.lazy(() => import('src/pages/ANONYMOUS/Premium'))
 const PremiumDetail = React.lazy(() => import("src/pages/ANONYMOUS/PremiumDetail"))
+const ForgotPassword = React.lazy(() => import("src/pages/ANONYMOUS/ForgotPassword"))
+const ResetPassword = React.lazy(() => import("src/pages/ANONYMOUS/ResetPassword"))
 
 
 // USER
@@ -157,6 +159,14 @@ const routes = [
         )
       },
       {
+        path: '/search',
+        element: (
+          <LazyLoadingComponent>
+            <HomePage />
+          </LazyLoadingComponent>
+        )
+      },
+      {
         path: '/login',
         element: (
           <LazyLoadingComponent>
@@ -233,6 +243,22 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <PremiumDetail />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/forgot-password',
+        element: (
+          <LazyLoadingComponent>
+            <ForgotPassword />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/reset-password',
+        element: (
+          <LazyLoadingComponent>
+            <ResetPassword />
           </LazyLoadingComponent>
         )
       }

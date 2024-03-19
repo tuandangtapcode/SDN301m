@@ -63,5 +63,13 @@ router.get("/handleExpiredPremium/:UserID",
   UserValidation.getParamsUserID,
   UserController.handleExpiredPremium
 )
+router.post("/checkEmail",
+  UserValidation.checkEmail,
+  UserController.checkEmail
+)
+router.post("/forgotPassword",
+  UserValidation.forgotPassword,
+  UserController.forgotPassword
+)
 
 export default router

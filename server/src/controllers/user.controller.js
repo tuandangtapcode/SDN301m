@@ -117,6 +117,24 @@ const handleExpiredPremium = async (req, res) => {
   }
 }
 
+const checkEmail = async (req, res) => {
+  try {
+    const respone = await UserService.fncCheckEmail(req)
+    return res.status(respone.statusCode).json(respone)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
+const forgotPassword = async (req, res) => {
+  try {
+    const respone = await UserService.fncForgotPassword(req)
+    return res.status(respone.statusCode).json(respone)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const UserController = {
   getListAuthour,
@@ -131,7 +149,9 @@ const UserController = {
   changePassword,
   followOrUnfollowComic,
   buyPremium,
-  handleExpiredPremium
+  handleExpiredPremium,
+  checkEmail,
+  forgotPassword
 }
 
 export default UserController

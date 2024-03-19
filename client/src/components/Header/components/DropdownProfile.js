@@ -16,7 +16,6 @@ const DropdownProfile = () => {
   const global = useSelector(globalSelector)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [arrowDropdownProfile, setArrowDropdownProfile] = useState(false)
   const [notifications, setNotifications] = useState([])
   const [notifiNotSeen, setNotifiNotSeen] = useState(0)
 
@@ -175,8 +174,7 @@ const DropdownProfile = () => {
                   <Dropdown menu={{ items: menuItems() }} trigger={["click"]}>
                     <ButtonCustom
                       className=" noBackground-textwhite fw-600"
-                      onClick={() => setArrowDropdownProfile(!arrowDropdownProfile)}
-                      icon={arrowDropdownProfile ? LstIcons.ICON_CARET_UP : LstIcons.ICON_CARET_DOWN}
+                      icon={LstIcons.ICON_CARET_DOWN}
                     >
                       Cá nhân
                     </ButtonCustom>
@@ -205,7 +203,6 @@ const DropdownProfile = () => {
                 <ButtonCustom
                   className="noBackground-textwhite"
                   icon={LstIcons.ICON_BELL}
-                  onClick={() => setArrowDropdownProfile(false)}
                 />
               </BadgeStyled>
             </Dropdown>

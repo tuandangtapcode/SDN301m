@@ -8,7 +8,6 @@ import { globalSelector } from "src/redux/selector"
 
 const PopoverMain = () => {
 
-  const [arrowDropdownMain, setArrowDropdownMain] = useState(false)
   const navigate = useNavigate()
   const global = useSelector(globalSelector)
 
@@ -100,8 +99,7 @@ const PopoverMain = () => {
     >
       <ButtonCustom
         className="noBackground-textwhite fw-600"
-        onClick={() => setArrowDropdownMain(!arrowDropdownMain)}
-        icon={arrowDropdownMain ? LstIcons.ICON_CARET_DOWN : LstIcons.ICON_CARET_UP}
+        icon={LstIcons.ICON_CARET_DOWN}
       >
         Khám phá
       </ButtonCustom>

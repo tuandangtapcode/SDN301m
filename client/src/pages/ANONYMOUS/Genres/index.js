@@ -1,4 +1,4 @@
-import { Col, Row } from "antd"
+import { Col, Pagination, Row } from "antd"
 import { useEffect, useState } from "react"
 import ComicItemList from "src/components/ComicItemList"
 import SpinCustom from "src/components/SpinCustom"
@@ -20,7 +20,7 @@ const Genres = () => {
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
-    PageSize: 10,
+    PageSize: 4,
   })
 
   const getComics = async () => {
@@ -36,6 +36,14 @@ const Genres = () => {
   }
 
   useEffect(() => {
+    setPagination({
+      TextSearch: "",
+      CurrentPage: 1,
+      PageSize: 4,
+    })
+  }, [GenreID])
+
+  useEffect(() => {
     getComics()
   }, [pagination, GenreID])
 
@@ -44,7 +52,7 @@ const Genres = () => {
       setGenresDetail(global?.genres?.find(i => i?._id === GenreID))
     }
   }, [GenreID])
-
+  console.log(pagination);
   return (
     <SpinCustom spinning={loading}>
       <Row className="mt-50 mb-30" gutter={[16, 0]}>
@@ -97,6 +105,15 @@ const Genres = () => {
               }
             </Row>
           </GenresStyled>
+        </Col>
+        <Col span={16}>
+          <div className="text-center">
+            <Pagination
+              current={pagination?.CurrentPage}
+              total={Math.ceil(total / pagination?.PageSize) * 10}
+              onChange={e => setPagination({ ...pagination, CurrentPage: e })}
+            />
+          </div>
         </Col>
       </Row>
     </SpinCustom >

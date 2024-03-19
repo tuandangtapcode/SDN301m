@@ -56,6 +56,10 @@ const Comics = new Schema({
   },
   PostedBy: {
     type: Number
+  },
+  UpdatedAt: {
+    type: Date,
+    default: Date.now
   }
 }, {
   timestamps: true

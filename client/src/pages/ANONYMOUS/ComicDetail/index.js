@@ -157,7 +157,7 @@ const ComicDetail = () => {
             <Row gutter={[16]}>
               <Col span={24}>
                 <p className="title-type-2">{comic?.Title}</p>
-                <p className="text-center text-gray mb-20">Cập nhật lúc: {moment(comic?.updatedAt).utc(7).format("HH:mm DD/MM/YYYY")}</p>
+                <p className="text-center text-gray mb-20">Cập nhật lúc: {moment(comic?.UpdatedAt).utc(7).format("HH:mm DD/MM/YYYY")}</p>
               </Col>
               <Col span={6}>
                 <img style={{ width: '100%' }} src={comic?.AvatarPath} alt="" />

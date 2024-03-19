@@ -50,7 +50,7 @@ const ComicsManagement = () => {
       if (res?.isError) return toast.error(res?.msg)
       const body = {
         Content: Status === 1
-          ? `Admintrator đã phê duyệt truyện của bạn`
+          ? `Admintrator đã phê duyệt truyện ${record?.Title} của bạn`
           : Status === 2
             ? `Truyện của bạn bị nghi đã vi phạm những quy chuẩn cộng đồng nên đã bị hủy kiểm duyệt. Nếu việc này tiếp diễn tài khoản của bạn sẽ bị cấm vĩnh viễn`
             : `Truyện của bạn đã bị cấm vì những vi phạm cộng đồng. Nếu việc này tiếp diễn tài khoản của bạn sẽ bị cấm vĩnh viễn`,

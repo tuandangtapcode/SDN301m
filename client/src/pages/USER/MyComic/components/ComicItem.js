@@ -29,7 +29,9 @@ const ComicItem = ({ data, getComicsByAuhtor }) => {
             onClick={() => setInsertUpdateComic(data)}
           />
           <span>
-            {data?.Comic?.Status ? LstIcons.ICON_CONFIRM : LstIcons.ICON_PENDING_CONFIRM}
+            {
+              [LstIcons.ICON_PENDING_CONFIRM, LstIcons.ICON_CONFIRM, LstIcons.ICON_DELETE, LstIcons.ICON_DELETE][data?.Comic?.Status]
+            }
           </span>
         </div>
       </CardStyled>

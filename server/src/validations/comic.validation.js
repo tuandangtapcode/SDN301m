@@ -102,7 +102,7 @@ const getParamsComicID = async (req, res, next) => {
 const changeStatusComic = async (req, res, next) => {
   const trueCondition = Joi.object({
     ComicID: Joi.any().required(),
-    Status: Joi.boolean().required()
+    Status: Joi.number().integer().required()
   })
   try {
     await trueCondition.validateAsync(req.body, { abortEarly: false })

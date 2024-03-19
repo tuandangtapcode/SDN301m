@@ -10,7 +10,7 @@ import UserService from "src/services/UserService"
 import { toast } from "react-toastify"
 import { useDispatch, useSelector } from "react-redux"
 import globalSlice from "src/redux/globalSlice"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { getRegexEmail } from "src/lib/stringUtils"
 import { globalSelector } from "src/redux/selector"
 import socket from "src/utils/socket"
@@ -114,6 +114,11 @@ const LoginPage = () => {
                 label="Mật khẩu"
               />
             </Form.Item>
+          </Col>
+          <Col span={24}>
+            <div className="text-center mb-10">
+              <Link style={{ color: 'blue', textDecoration: 'underline' }} to={'/forgot-password'}>Quên mật khẩu của bạn?</Link>
+            </div>
           </Col>
           <Col span={24}>
             <ButtomCustomStyled

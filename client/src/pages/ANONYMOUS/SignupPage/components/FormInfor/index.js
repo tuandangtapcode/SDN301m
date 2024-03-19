@@ -55,7 +55,7 @@ const FormInfor = ({
           name="Email"
           rules={[
             { required: true, message: "Hãy nhập vào email của bạn" },
-            { pattern: getRegexEmail(), message: "Chữ ký tự đầu tiên fai là viết hoa" }
+            { pattern: getRegexEmail(), message: "Email sai định dạng" }
           ]}
         >
           <InputCustom
@@ -77,21 +77,21 @@ const FormInfor = ({
             isRequired
             label="Mật khẩu"
           />
-          <div className="mt-8">
-            <p className="text-gray">
-              <DotStyled />
-              Ký tự đầu tiên phải là một chữ cái in hoa (A-Z)
-            </p>
-            <p className="text-gray">
-              <DotStyled />
-              Các ký tự tiếp theo có thể là chữ cái (in hoa hoặc in thường) hoặc chữ số (0-9)
-            </p>
-            <p className="text-gray">
-              <DotStyled />
-              Ít nhất 5 ký tự tiếp theo
-            </p>
-          </div>
         </Form.Item>
+        <div style={{ marginTop: '-10px' }}>
+          <p className="text-gray">
+            <DotStyled />
+            Ký tự đầu tiên phải là một chữ cái in hoa (A-Z)
+          </p>
+          <p className="text-gray">
+            <DotStyled />
+            Các ký tự tiếp theo có thể là chữ cái (in hoa hoặc in thường) hoặc chữ số (0-9)
+          </p>
+          <p className="text-gray">
+            <DotStyled />
+            Ít nhất 5 ký tự tiếp theo
+          </p>
+        </div>
       </Col>
       <Col span={24}>
         <ButtomCustomStyled

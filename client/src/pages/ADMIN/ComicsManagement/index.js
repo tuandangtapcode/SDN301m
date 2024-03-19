@@ -14,6 +14,7 @@ import NotificaitonService from "src/services/NotificationService"
 import socket from "src/utils/socket"
 import { listStatusComic } from "src/lib/constant"
 import InputCustom from "src/components/FloatInput/InputCustom"
+import ReviewComic from "./components/ReviewComic"
 
 const ComicsManagement = () => {
 
@@ -21,6 +22,7 @@ const ComicsManagement = () => {
   const [comics, setComics] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [openReviewComic, setOpenReviewComic] = useState(false)
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
@@ -118,6 +120,11 @@ const ComicsManagement = () => {
             },
           })
         }
+      },
+      {
+        name: 'Xem',
+        icon: LstIcons.ICON_EYE,
+        onClick: () => setOpenReviewComic(record)
       }
     ]
   )
@@ -241,6 +248,14 @@ const ComicsManagement = () => {
             }),
         }}
       />
+
+      {
+        !!openReviewComic &&
+        <ReviewComic
+          open={openReviewComic}
+          onCancel={() => setOpenReviewComic(false)}
+        />
+      }
     </SpinCustom>
   )
 }

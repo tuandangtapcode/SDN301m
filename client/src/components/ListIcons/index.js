@@ -56,7 +56,7 @@ const LstIcons = {
   ICON_MENUUNFOLD: <MenuUnfoldOutlined />,
   ICON_PREVIEW: <AiFillEye className="fs-20" />,
   ICON_PENDING_CONFIRM: <CgSandClock style={{ color: "#01638D", fontSize: "20px" }} />,
-  ICON_EYE: <AiFillEye className="fs-15 mr-4 text-white" />,
+  ICON_EYE: <AiFillEye className="fs-15 mr-4" />,
   ICON_LIKE: <AiFillHeart className="fs-15 mr-4 text-white mt-4" />,
   ICON_USER: <FaUser />,
   ICON_TAGS: <BsFillTagsFill />,

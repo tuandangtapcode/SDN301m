@@ -55,11 +55,22 @@ const fncGetAllImagesByChapter = async (req) => {
   }
 }
 
+const fncGetAllImageByComic = async (req) => {
+  try {
+    const ComicID = req.params.ComicID
+    const images = await Image.find({ Comic: ComicID }).sort({ Chapter: 1 })
+    return response(images, false, "Lấy data thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+}
+
 
 const ImageService = {
   fncInsertImage,
   fncUpdateImage,
   fncGetAllImagesByChapter,
+  fncGetAllImageByComic
 }
 
 export default ImageService

@@ -59,8 +59,8 @@ router.post("/buyPremium",
   UserValidation.buyPremium,
   UserController.buyPremium
 )
-router.get("/handleExpiredPremium/:UserID",
-  UserValidation.getParamsUserID,
+router.get("/handleExpiredPremium",
+  authMiddleware([Roles.ROLE_CUSTOMER_PREMIUM]),
   UserController.handleExpiredPremium
 )
 router.post("/checkEmail",

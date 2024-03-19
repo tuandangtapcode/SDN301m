@@ -13,5 +13,8 @@ router.post('/getAllImagesByChapter',
   ImageValidation.getAllImagesByChapter,
   ImageController.getImagesByChapter
 )
+router.get("/getImagesByComic/:ComicID",
+  ImageController.getImagesByComic
+)
 
 export default router

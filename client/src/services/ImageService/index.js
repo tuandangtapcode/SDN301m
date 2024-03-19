@@ -1,6 +1,7 @@
 import http from '../index'
 import {
-apiGetAllImagesByChapter,
+  apiGetAllImagesByChapter,
+  apiGetAllImagesByComic,
   apiInsertImage,
 } from './urls'
 
@@ -10,11 +11,13 @@ const insertImage = body => http.post(apiInsertImage, body, {
   }
 })
 const getAllImagesByChapter = body => http.post(apiGetAllImagesByChapter, body)
+const getAllImagesByComic = ComicID => http.get(`${apiGetAllImagesByComic}/${ComicID}`)
 
 
 const ImageService = {
   insertImage,
-  getAllImagesByChapter
+  getAllImagesByChapter,
+  getAllImagesByComic
 }
 
 export default ImageService

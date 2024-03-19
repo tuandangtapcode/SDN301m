@@ -21,8 +21,8 @@ const DeactiveModal = ({ open, onCancel }) => {
   return (
     <ModalCustom
       open={open}
-      // onCancel={onCancel}
-      title={<div className="text-center">NOTIFICATION</div>}
+      onCancel={onCancel}
+      title={<div className="text-center">THÔNG BÁO</div>}
       width="40vw"
       footer={
         <div className="d-flex-end">
@@ -30,12 +30,12 @@ const DeactiveModal = ({ open, onCancel }) => {
             className="greendBorder small"
             onClick={() => handleLogout()}
           >
-            Cancel
+            ĐÓNG
           </Button>
         </div>
       }
     >
-      <p className="fs-18 fw-600">Your account is banned for terms and privacy violations!</p>
+      <p className="fs-18 fw-600">Tài khoản của bạn bị cấm vì vi phạm các điều khoản và quyền riêng tư!</p>
     </ModalCustom>
   )
 }

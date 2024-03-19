@@ -269,8 +269,8 @@ const fncBuyPremium = async (req) => {
 
 const fncHandleExpiredPremium = async (req) => {
   try {
-    const UserID = req.params.UserID
-    const updateAcc = await User.findByIdAndUpdate({ _id: UserID }, { RoleID: 5 }, { new: true })
+    const UserID = req.user.ID
+    const updateAcc = await User.findByIdAndUpdate({ _id: UserID }, { RoleID: 5, Premium: null }, { new: true })
     if (!updateAcc) return response({}, true, "Người dùng không tồn tại", 200)
     return response({
       FullName: updateAcc.FullName,
@@ -279,7 +279,8 @@ const fncHandleExpiredPremium = async (req) => {
       Description: updateAcc.Description,
       Follows: updateAcc.Follows,
       IsByGoogle: updateAcc.IsByGoogle,
-      Premium: updateAcc.Premium
+      Premium: updateAcc.Premium,
+      _id: updateAcc._id
     },
       false,
       "Update thành công",

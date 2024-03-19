@@ -11,6 +11,8 @@ import UserService from "./services/UserService"
 import GenreService from "./services/GenreService"
 import socket from "./utils/socket"
 import DeactiveModal from "./components/ModalCustom/DeactiveModal"
+import moment from "moment"
+import ExpiredPremiumModal from "./components/ModalCustom/ExpiredPremiumModal"
 
 
 // ANONYMOUS
@@ -282,6 +284,7 @@ const App = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [modalDeactive, setModalDeactive] = useState(false)
+  const [modalExpiredPremium, setModalExpiredPremium] = useState(false)
 
   const getProfile = async (token) => {
     try {
@@ -309,6 +312,17 @@ const App = () => {
     }
   }
 
+  const handleExpiredPremium = async () => {
+    try {
+      setLoading(true)
+      const res = await UserService.handleExpiredPremium()
+      if (!!res?.isError) return
+      setModalExpiredPremium(true)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     if (!!localStorage.getItem('token')) {
       const user = jwtDecode(localStorage.getItem('token'))
@@ -320,6 +334,12 @@ const App = () => {
     }
     getListGenres()
   }, [])
+
+  useEffect(() => {
+    if (!!global?.user?.Premium && !!moment(global?.user?.Premium?.EndedAt).isBefore(moment().format("YYYY-MM-DD"))) {
+      handleExpiredPremium()
+    }
+  }, [global?.user?.Premium])
 
   socket.on('get-deactive', (data) => {
     if (global?.user?._id === data) {
@@ -340,6 +360,14 @@ const App = () => {
         <DeactiveModal
           open={modalDeactive}
           onCancel={() => setModalDeactive(false)}
+        />
+      }
+
+      {
+        !!modalExpiredPremium &&
+        <ExpiredPremiumModal
+          open={modalExpiredPremium}
+          onCancel={() => setModalExpiredPremium(false)}
         />
       }
     </>

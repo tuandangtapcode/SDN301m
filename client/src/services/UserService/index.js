@@ -65,7 +65,7 @@ const buyPremium = body => http.post(apiBuyPremium, body, {
     'token': `Bearer ${localStorage.getItem('token')}`
   }
 })
-const handleExpiredPremium = UserID => http.post(`${apiHandleExpiredPremium}/${UserID}`, {
+const handleExpiredPremium = () => http.get(apiHandleExpiredPremium, {
   headers: {
     'token': `Bearer ${localStorage.getItem('token')}`
   }

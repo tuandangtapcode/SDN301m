@@ -110,7 +110,7 @@ const buyPremium = async (req, res) => {
 
 const handleExpiredPremium = async (req, res) => {
   try {
-    const respone = await UserService.fncBuyPremium(req)
+    const respone = await UserService.fncHandleExpiredPremium(req)
     return res.status(respone.statusCode).json(respone)
   } catch (error) {
     return res.status(500).json(error.toString())

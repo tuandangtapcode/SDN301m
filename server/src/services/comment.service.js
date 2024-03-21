@@ -7,7 +7,7 @@ const fncInsertComment = async (req) => {
     const Author = req.user.ID
     const user = await User.findOne({ _id: Author })
     if (!user) return response({}, true, "Có lỗi", 200)
-    const newComment = await Comment.create(req.body)
+    const newComment = await Comment.create({ ...req.body, Author: Author })
     return response({ ...newComment, Author: { FullName: user.FullName, AvatarPath: user.AvatarPath } }, false, "Gửi bình luận thành công", 201)
   } catch (error) {
     return response({}, true, error.toString(), 500)

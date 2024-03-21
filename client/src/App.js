@@ -44,6 +44,7 @@ const ComicsManagement = React.lazy(() => import('src/pages/ADMIN/ComicsManageme
 const GenresManagement = React.lazy(() => import('src/pages/ADMIN/GenresManagement'))
 const UsersManagement = React.lazy(() => import('src/pages/ADMIN/UsersManagement'))
 const PackagesManagement = React.lazy(() => import('src/pages/ADMIN/PackagesManagement'))
+const PaymentManagement = React.lazy(() => import("src/pages/ADMIN/PaymentManagement"))
 
 function LazyLoadingComponent({ children }) {
   return (
@@ -139,6 +140,14 @@ const routes = [
         element: (
           <LazyLoadingComponent>
             <UsersManagement />
+          </LazyLoadingComponent>
+        )
+      },
+      {
+        path: '/dashboard/payment',
+        element: (
+          <LazyLoadingComponent>
+            <PaymentManagement />
           </LazyLoadingComponent>
         )
       }
@@ -285,6 +294,8 @@ const App = () => {
   const navigate = useNavigate()
   const [modalDeactive, setModalDeactive] = useState(false)
   const [modalExpiredPremium, setModalExpiredPremium] = useState(false)
+
+  console.log(global);
 
   const getProfile = async (token) => {
     try {

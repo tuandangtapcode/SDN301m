@@ -5,7 +5,7 @@ export const accessToken = (payload) => {
   return access_token
 }
 
-export const refreshToken = () => {
-  const refresh_token = jwt.sign({}, process.env.REFRESH_TOKEN, { expiresIn: '365d' })
+export const refreshToken = (payload) => {
+  const refresh_token = jwt.sign({ payload }, process.env.REFRESH_TOKEN, { expiresIn: '365d' })
   return refresh_token
 }

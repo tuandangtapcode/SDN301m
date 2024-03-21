@@ -2,6 +2,7 @@ import { response } from "../utils/lib.js"
 import User from "../models/user.js"
 import Comic from "../models/comic.js"
 import Package from '../models/package.js'
+import Payment from "../models/payment.js"
 import { accessToken, refreshToken } from "../utils/jwt.js"
 import bcrypt from "bcrypt"
 const saltRounds = 10
@@ -122,11 +123,9 @@ const fncRegister = async (req) => {
     const checkExist = await User.findOne({ Email })
     if (!!checkExist) return response({}, true, "Email đã tồn tại", 200)
     const hashPassword = bcrypt.hashSync(Password, saltRounds)
-    const refresh_token = refreshToken()
     const hashUser = {
       ...req.body,
       Password: hashPassword,
-      ResfreshToken: refresh_token,
     }
     const newUser = await User.create(hashUser)
     return response(newUser, false, "Đăng ký tài khoản thành công", 201)
@@ -140,12 +139,10 @@ const fncRegisterByGoogle = async (req) => {
     const { email, given_name, picture, RoleID } = req.body
     const checkExist = await User.findOne({ Email: email })
     if (!!checkExist) return response({}, true, "Email đã tồn tại", 200)
-    const refresh_token = refreshToken()
     const newUser = await User.create({
       Email: email,
       FullName: given_name,
       AvatarPath: picture,
-      ResfreshToken: refresh_token,
       RoleID: RoleID,
     })
     return response(newUser, false, "Đăng ký tài khoản thành công", 201)
@@ -212,14 +209,14 @@ const fncFollowOrUnfollowComic = async (req) => {
     const followedComic = user.Follows.find(i => i.equals(ComicID))
     let followed
     if (!followedComic) {
-      followed = await User.findByIdAndUpdate({ _id: UserID }, { $push: { Follows: ComicID } })
+      followed = await User.findByIdAndUpdate({ _id: UserID }, { $push: { Follows: ComicID } }, { new: true })
       await Comic.findByIdAndUpdate({ _id: ComicID }, {
         $inc: {
           Likes: 1
         }
       })
     } else {
-      followed = await User.findByIdAndUpdate({ _id: UserID }, { $pull: { Follows: ComicID } })
+      followed = await User.findByIdAndUpdate({ _id: UserID }, { $pull: { Follows: ComicID } }, { new: true })
       await Comic.findByIdAndUpdate({ _id: ComicID }, {
         $inc: {
           Likes: -1
@@ -235,7 +232,7 @@ const fncFollowOrUnfollowComic = async (req) => {
 const fncBuyPremium = async (req) => {
   try {
     const UserID = req.user.ID
-    const { EndedAt, PackageID } = req.body
+    const { EndedAt, PackageID, UserName } = req.body
     const updateAcc = await User.findByIdAndUpdate({ _id: UserID },
       {
         Premium: { BoughtAt: Date.now(), EndedAt, PackageID },
@@ -244,6 +241,14 @@ const fncBuyPremium = async (req) => {
       { new: true }
     )
     if (!updateAcc) return response({}, true, "User không tồn tại", 200)
+    const newPayment = await Payment.create({
+      PackageID: PackageID,
+      UserID: UserID,
+      UserName: UserName,
+      BoughtAt: Date.now(),
+      EndedAt: EndedAt
+    })
+    if (!newPayment) return response({}, true, "Có lỗi xảy ra", 500)
     const updatePackage = await Package.findByIdAndUpdate({ _id: PackageID }, {
       $inc: { Quantity: 1 }
     })

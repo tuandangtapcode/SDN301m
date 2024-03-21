@@ -234,9 +234,12 @@ const fncGetAllHotComics = async (req) => {
         {
           $sort: { Reads: -1 },
         },
+        {
+          $limit: 4
+        }
       ])
     } else {
-      topReadComics = await Comic.find().sort({ Reads: -1 }).limit(3)
+      topReadComics = await Comic.find().sort({ Reads: -1 }).limit(4)
     }
     return response(topReadComics, false, "Lấy data thành công", 200)
   } catch (error) {

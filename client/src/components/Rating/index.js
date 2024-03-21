@@ -1,16 +1,11 @@
 import { Col, Row, Tabs } from "antd"
 import { useEffect, useState } from "react"
 import { PageStyles } from "./style"
-import { useDispatch, useSelector } from "react-redux"
-import { globalSelector } from "src/redux/selector"
-import globalSlice from "src/redux/globalSlice"
 import HotComics from "./components/HotComics"
 import ComicService from "src/services/ComicService"
 
 const Rating = () => {
 
-  const global = useSelector(globalSelector)
-  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [topComics, setTopComics] = useState([])
   const [activeKey, setActiveKey] = useState(0)

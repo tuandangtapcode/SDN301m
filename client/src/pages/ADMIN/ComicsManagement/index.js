@@ -26,7 +26,7 @@ const ComicsManagement = () => {
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
-    PageSize: 10,
+    PageSize: 4,
   })
 
   const getListComics = async () => {

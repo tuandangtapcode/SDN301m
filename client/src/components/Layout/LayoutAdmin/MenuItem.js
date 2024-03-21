@@ -28,6 +28,11 @@ export const menuItem = () => {
       key: '/dashboard/comics',
     },
     {
+      icon: LstIcons.ICON_PAYMENT,
+      label: "Thanh toán",
+      key: '/dashboard/payment',
+    },
+    {
       icon: <div style={{ marginLeft: '-5px' }}>{LstIcons.ICON_LOGOUT}</div>,
       label: "Đăng xuất",
       key: 'logout',

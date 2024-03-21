@@ -10,7 +10,7 @@ import LstIcons from "src/components/ListIcons"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import { ComicDetailStyled } from "./styled"
 import { formatNumber } from "src/lib/stringUtils"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { globalSelector } from "src/redux/selector"
 import { toast } from "react-toastify"
 import ModalReport from "./components/ModalReport"
@@ -20,6 +20,7 @@ import InputCustom from "src/components/FloatInput/InputCustom"
 import CommentService from "src/services/CommentService"
 import UserService from "src/services/UserService"
 import socket from "src/utils/socket"
+import globalSlice from "src/redux/globalSlice"
 
 
 const ComicDetail = () => {
@@ -36,6 +37,7 @@ const ComicDetail = () => {
   const [textComment, setTextComment] = useState("")
   const [statusBtnFollow, setStatusBtnFollow] = useState(global?.user?.Follows?.some(i => i?._id === ComicID))
   const [openModalReport, setOpenModalReport] = useState(false)
+  const dispatch = useDispatch()
 
   const getComic = async () => {
     try {
@@ -83,6 +85,7 @@ const ComicDetail = () => {
       if (res?.isError) return
       toast.success(res?.msg)
       setStatusBtnFollow(!statusBtnFollow)
+      dispatch(globalSlice.actions.setUser(res?.data))
       getComic()
     } finally {
       setLoading(false)
@@ -163,8 +166,19 @@ const ComicDetail = () => {
                 <img style={{ width: '100%' }} src={comic?.AvatarPath} alt="" />
               </Col>
               <Col span={18}>
-                <InforComic icon={LstIcons.ICON_USER} title="Tác giả" data={comic?.Author?.FullName} />
-                <InforComic icon={LstIcons.ICON_TAGS} title="Thể loại" data={comic?.Genres?.map(i => i?.Title)} />
+                <InforComic
+                  icon={LstIcons.ICON_USER}
+                  title="Tác giả"
+                  data={comic?.Author?.FullName}
+                  handleNavigate={() => navigate(`/author/${comic?.Author?._id}`)}
+                />
+                <InforComic
+                  icon={LstIcons.ICON_TAGS}
+                  title="Thể loại"
+                  data={comic?.Genres?.map(i => i?.Title)}
+                  dataRaw={comic?.Genres}
+                  handleNavigate={(id) => navigate(`/genre/${id}`)}
+                />
                 <InforComic icon={LstIcons.ICON_PREVIEW} title="Lượt đọc" data={comic?.Reads} />
                 <div className="d-flex align-items-center">
                   <ButtonCustom

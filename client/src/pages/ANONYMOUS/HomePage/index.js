@@ -6,6 +6,12 @@ import Rating from "src/components/Rating"
 import SpinCustom from "src/components/SpinCustom"
 import ComicService from "src/services/ComicService"
 
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Autoplay, Navigation } from "swiper/modules"
+
+import "swiper/css"
+import "swiper/css/pagination"
+
 const HomePage = () => {
 
   const navigate = useNavigate()
@@ -13,6 +19,7 @@ const HomePage = () => {
   const [comics, setComics] = useState()
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [topComics, setTopComics] = useState([])
   const [pagination, setPagination] = useState({
     TextSearch: "",
     CurrentPage: 1,
@@ -32,6 +39,21 @@ const HomePage = () => {
     }
   }
 
+  const getListHotComics = async () => {
+    try {
+      setLoading(true)
+      const res = await ComicService.getAllHotComics(0)
+      if (res?.isError) return
+      setTopComics(res?.data)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getListHotComics()
+  }, [])
+
   useEffect(() => {
     if (!!location.search && !!queryParams.get("query")) {
       setPagination({ ...pagination, TextSearch: queryParams.get("query") })
@@ -47,6 +69,24 @@ const HomePage = () => {
 
   return (
     <SpinCustom spinning={loading}>
+      {/* <Swiper
+        className="mt-30"
+        slidesPerView={3}
+        spaceBetween={20}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: true,
+        }}
+        modules={[Autoplay, Navigation]}
+      >
+        {
+          topComics?.map(item =>
+            <SwiperSlide style={{ height: '400px' }}>
+              <ComicItemList comic={item} />
+            </SwiperSlide>
+          )
+        }
+      </Swiper> */}
       <p className="fs-25 fw-600 text-matte mt-20 mb-20">Truyện mới cập nhật</p>
       <Row gutter={[16, 0]} className="mb-30">
         <Col span={16}>

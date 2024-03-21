@@ -25,10 +25,6 @@ const ComicContent = () => {
   const [loading, setLoading] = useState()
   const [images, setImages] = useState([])
   const [chapters, setChapters] = useState([])
-  const [isFixed, setIsFixed] = useState(false)
-  const [scrollingDown, setScrollingDown] = useState(true)
-  const [fixed, setFixed] = useState()
-  const divRef = useRef()
 
   const getImages = async () => {
     try {
@@ -52,19 +48,6 @@ const ComicContent = () => {
     }
   }
 
-  const handleScroll = () => {
-    // const currentScroll = window.scrollY
-    // if (currentScroll > 0 && scrollingDown) {
-    //   setScrollingDown(false)
-    // } else if (currentScroll === 0 && !scrollingDown) {
-    //   setScrollingDown(true)
-    // }
-    if (divRef.current) {
-      const rect = divRef.current.getBoundingClientRect()
-      setIsFixed(rect.top <= 0)
-    }
-  }
-  console.log(isFixed)
   useEffect(() => {
     if (!!ComicID) getChapters()
   }, [ComicID])
@@ -73,18 +56,39 @@ const ComicContent = () => {
     if (!!ComicID && !!ChapterID) getImages()
   }, [ComicID, ChapterID])
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+  const handleScroll = () => {
+    var height = document.documentElement.scrollTop
+    console.log(height);
+    window.scrollTo(0, height)
+    var timer = setInterval(function () {
+      if (height <= 0) {
+        clearInterval(timer)
+      }
+      window.scrollBy(0, -30)
+      height -= 30
+    }, 1)
+  }
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+
+  // window.addEventListener("scroll", function () {
+  //   var scrolled = document.documentElement.scrollTop
+  //   if (scrolled > 100) {
+  //     document.getElementById("scrollToTopButton").style.display = "block"
+  //   } else {
+  //     document.getElementById("scrollToTopButton").style.display = "none"
+  //   }
+  // })
+
+  // useEffect(() => {
+  //   if (document.documentElement.scrollTop === 0 && !!document.getElementById("scrollToTopButton")) {
+  //     document.getElementById("scrollToTopButton").style.display = "none"
+  //   }
+  // }, [document.documentElement.scrollTop])
 
   return (
     <SpinCustom spinning={loading}>
       <NavigatorContainer>
-        <div className="title-type-2 d-flex align-items-center">
+        <div className="title-type-2 d-flex align-items-center" id="id">
           <span className="mr-8">{chapters?.Title}</span>
           <span className="mr-8">-</span>
           <span>
@@ -94,11 +98,7 @@ const ComicContent = () => {
           </span>
         </div>
         <div
-          ref={divRef}
           className="d-flex-center"
-          style={{
-
-          }}
         >
           <div
             className="text-matte mr-8 cursor-pointer"
@@ -161,6 +161,18 @@ const ComicContent = () => {
           }
         </div>
       </div>
+
+      <ButtonCustom
+        id="scrollToTopButton"
+        style={{
+          position: 'fixed',
+          bottom: 30,
+          right: 60
+        }}
+        onClick={() => handleScroll()}
+      >
+        {LstIcons.ICON_CARET_UP}
+      </ButtonCustom>
     </SpinCustom >
   )
 }

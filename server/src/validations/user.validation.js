@@ -101,7 +101,8 @@ const followOrUnfollowComic = async (req, res, next) => {
 const buyPremium = async (req, res, next) => {
   const trueCondition = Joi.object({
     EndedAt: Joi.date().required(),
-    PackageID: Joi.any().required()
+    PackageID: Joi.any().required(),
+    UserName: Joi.string().min(3).max(100).required()
   })
   try {
     await trueCondition.validateAsync(req.body, { abortEarly: false })

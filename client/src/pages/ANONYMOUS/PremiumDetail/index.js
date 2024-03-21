@@ -103,7 +103,8 @@ const PremiumDetail = () => {
       setLoading(true)
       const body = {
         EndedAt: moment().add(packageDetail?.Duration, 'days'),
-        PackageID: PackageID
+        PackageID: PackageID,
+        UserName: global?.user?.FullName
       }
       const res = await UserService.buyPremium(body)
       if (res?.isError) return toast.error(res?.msg)

@@ -7,7 +7,7 @@ import { globalSelector } from "src/redux/selector"
 const AnonymousRoutes = () => {
 
   const global = useSelector(globalSelector)
-const location = useLocation()
+  const location = useLocation()
   const urlOtherLayout = ["chapter", "comic"]
   const check = urlOtherLayout.every(i => location.pathname.includes(i))
 
@@ -16,12 +16,12 @@ const location = useLocation()
     <>
       {
         (global?.user?.RoleID !== 1) ?
-!check ?
-          <MainLayout>
-            <Outlet />
-          </MainLayout>
-          :
-<OtherLayout>
+          !check ?
+            <MainLayout>
+              <Outlet />
+            </MainLayout>
+            :
+            <OtherLayout>
               <Outlet />
             </OtherLayout>
           :

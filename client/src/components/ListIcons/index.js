@@ -18,8 +18,18 @@ import {
   BsFillInfoCircleFill,
   BsMenuButtonWide,
 } from "react-icons/bs"
-import { TbLock, TbLockOpen, TbCategoryFilled } from "react-icons/tb"
-import { FaUsers, FaBookReader, FaUser, FaHome } from "react-icons/fa"
+import {
+  TbLock,
+  TbLockOpen,
+  TbCategoryFilled
+} from "react-icons/tb"
+import {
+  FaUsers,
+  FaBookReader,
+  FaUser,
+  FaHome,
+  FaMoneyCheckAlt
+} from "react-icons/fa"
 import {
   BiLogIn,
   BiMessageRoundedDetail
@@ -27,7 +37,6 @@ import {
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  ExceptionOutlined,
   SearchOutlined,
   CloseOutlined,
   CaretUpOutlined,
@@ -69,7 +78,8 @@ const LstIcons = {
   ICON_WARNING: <AiFillWarning style={{ fontSize: "15px", color: "#F0AD4E" }} />,
   ICON_MESSAGE: <BiMessageRoundedDetail className="fs-25 mt-6" />,
   ICON_PREMIUM: <AiFillDatabase />,
-  ICON_CHECK: <AiFillCheckCircle />
+  ICON_CHECK: <AiFillCheckCircle />,
+  ICON_PAYMENT: <FaMoneyCheckAlt />
 }
 
 export default LstIcons

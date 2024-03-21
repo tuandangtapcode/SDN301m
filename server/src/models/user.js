@@ -26,10 +26,6 @@ const Users = new Schema({
     type: String,
     default: null
   },
-  ResfreshToken: {
-    type: String,
-    require: true
-  },
   IsActive: {
     type: Boolean,
     default: true,

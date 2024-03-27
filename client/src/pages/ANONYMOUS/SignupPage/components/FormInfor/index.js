@@ -12,15 +12,14 @@ const FormInfor = ({
   form,
   current,
   setCurrent,
-  setInforFromGoogle,
-  setInforFromForm
+  setData
 }) => {
 
   const validateByGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       const userInfor = await UserService.getInforByGoogleLogin(tokenResponse?.access_token)
       if (!!userInfor) {
-        setInforFromGoogle(userInfor)
+        setData({ ...userInfor, IsByGoogle: true })
         setCurrent(current + 1)
       } else {
         return toast.error("Have something error")
@@ -30,7 +29,7 @@ const FormInfor = ({
 
   const validateByForm = async () => {
     const values = await form.validateFields()
-    setInforFromForm(values)
+    setData({ ...values, IsByGoogle: false })
     setCurrent(current + 1)
   }
 

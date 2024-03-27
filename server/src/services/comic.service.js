@@ -14,7 +14,7 @@ const fncGetAllComics = async (req) => {
     } else {
       query = { Title: { $regex: TextSearch, $options: 'i' }, Status: 1 }
     }
-    const total = await Comic.countDocuments()
+    const total = await Comic.find({ Status: 1 }).countDocuments()
     const comics = await Comic
       .find(query)
       .sort({ "createdAt": -1 })

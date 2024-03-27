@@ -156,15 +156,17 @@ const fncUpdateProfileCustomer = async (req) => {
     const id = req.user.ID
     const user = await User.findOne({ _id: id })
     if (!user) return response({}, true, "Không tồn tại user", 200)
-    const updateProfile = await User.findByIdAndUpdate(
-      { _id: id },
-      {
-        ...req.body,
-        AvatarPath: !!req.file ? req.file.path : user?.AvatarPath,
-        AvatarPathId: !!req.file ? req.file.filename : user?.AvatarPathId,
-      },
-      { new: true }
-    )
+    const updateProfile = await User
+      .findByIdAndUpdate(
+        { _id: id },
+        {
+          ...req.body,
+          AvatarPath: !!req.file ? req.file.path : user?.AvatarPath,
+          AvatarPathId: !!req.file ? req.file.filename : user?.AvatarPathId,
+        },
+        { new: true })
+      .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
+      .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
     if (!!req.file && !!user.AvatarPathId) {
       cloudinaryV2.uploader.destroy(user.AvatarPathId)
     }
@@ -187,7 +189,8 @@ const fncChangePassword = async (req) => {
     const hashPassword = bcrypt.hashSync(NewPassword, saltRounds)
     const userUpdate = await User.findByIdAndUpdate(
       { _id: UserID },
-      { Password: hashPassword }
+      { Password: hashPassword },
+      { new: true }
     )
     return response(
       userUpdate,
@@ -209,14 +212,20 @@ const fncFollowOrUnfollowComic = async (req) => {
     const followedComic = user.Follows.find(i => i.equals(ComicID))
     let followed
     if (!followedComic) {
-      followed = await User.findByIdAndUpdate({ _id: UserID }, { $push: { Follows: ComicID } }, { new: true })
+      followed = await User
+        .findByIdAndUpdate({ _id: UserID }, { $push: { Follows: ComicID } }, { new: true })
+        .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
+        .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
       await Comic.findByIdAndUpdate({ _id: ComicID }, {
         $inc: {
           Likes: 1
         }
       })
     } else {
-      followed = await User.findByIdAndUpdate({ _id: UserID }, { $pull: { Follows: ComicID } }, { new: true })
+      followed = await User
+        .findByIdAndUpdate({ _id: UserID }, { $pull: { Follows: ComicID } }, { new: true })
+        .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
+        .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
       await Comic.findByIdAndUpdate({ _id: ComicID }, {
         $inc: {
           Likes: -1
@@ -233,13 +242,15 @@ const fncBuyPremium = async (req) => {
   try {
     const UserID = req.user.ID
     const { EndedAt, PackageID, UserName } = req.body
-    const updateAcc = await User.findByIdAndUpdate({ _id: UserID },
-      {
-        Premium: { BoughtAt: Date.now(), EndedAt, PackageID },
-        RoleID: 4
-      },
-      { new: true }
-    )
+    const updateAcc = await User
+      .findByIdAndUpdate({ _id: UserID },
+        {
+          Premium: { BoughtAt: Date.now(), EndedAt, PackageID },
+          RoleID: 4
+        },
+        { new: true })
+      .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
+      .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
     if (!updateAcc) return response({}, true, "User không tồn tại", 200)
     const newPayment = await Payment.create({
       PackageID: PackageID,
@@ -253,20 +264,7 @@ const fncBuyPremium = async (req) => {
       $inc: { Quantity: 1 }
     })
     if (!updatePackage) return response({}, true, "Gói không tồn tại", 200)
-    return response({
-      FullName: updateAcc.FullName,
-      RoleID: updateAcc.RoleID,
-      AvatarPath: updateAcc.AvatarPath,
-      Description: updateAcc.Description,
-      Follows: updateAcc.Follows,
-      IsByGoogle: updateAcc.IsByGoogle,
-      Premium: updateAcc.Premium,
-      _id: updateAcc._id,
-    },
-      false,
-      "Update thành công",
-      200
-    )
+    return response(updateAcc, false, "Update thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -275,22 +273,12 @@ const fncBuyPremium = async (req) => {
 const fncHandleExpiredPremium = async (req) => {
   try {
     const UserID = req.user.ID
-    const updateAcc = await User.findByIdAndUpdate({ _id: UserID }, { RoleID: 5, Premium: null }, { new: true })
+    const updateAcc = await User
+      .findByIdAndUpdate({ _id: UserID }, { RoleID: 5, Premium: null }, { new: true })
+      .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
+      .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
     if (!updateAcc) return response({}, true, "Người dùng không tồn tại", 200)
-    return response({
-      FullName: updateAcc.FullName,
-      RoleID: updateAcc.RoleID,
-      AvatarPath: updateAcc.AvatarPath,
-      Description: updateAcc.Description,
-      Follows: updateAcc.Follows,
-      IsByGoogle: updateAcc.IsByGoogle,
-      Premium: updateAcc.Premium,
-      _id: updateAcc._id
-    },
-      false,
-      "Update thành công",
-      200
-    )
+    return response(updateAcc, false, "Update thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
@@ -332,7 +320,10 @@ const fncForgotPassword = async (req) => {
   try {
     const { NewPassword, UserID } = req.body
     const hashPassword = bcrypt.hashSync(NewPassword, saltRounds)
-    const updateUser = await User.findByIdAndUpdate({ _id: UserID }, { Password: hashPassword, IsByGoogle: false }, { new: true })
+    const updateUser = await User
+      .findByIdAndUpdate({ _id: UserID }, { Password: hashPassword, IsByGoogle: false }, { new: true })
+      .select('_id, FullName RoleID AvatarPath Description Follows IsByGoogle Premium')
+      .populate('Follows', ['AvatarPath', 'Title', 'Likes', 'Reads'])
     if (!updateUser) return response({}, true, "Không tồn tại user", 200)
     return response(updateUser, false, "Mật khẩu đã được đổi thành công", 200)
   } catch (error) {

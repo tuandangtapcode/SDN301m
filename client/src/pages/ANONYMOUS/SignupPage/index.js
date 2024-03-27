@@ -15,20 +15,18 @@ const SignupPage = () => {
   const [loading, setLoading] = useState()
   const [current, setCurrent] = useState(0)
   const [isAgree, setIsAgree] = useState(false)
-  const [inforFromGoogle, setInforFromGoogle] = useState()
-  const [inforFromForm, setInforFromForm] = useState()
+  const [data, setData] = useState()
   const global = useSelector(globalSelector)
   const navigate = useNavigate()
 
   const handleRegister = async () => {
     try {
       setLoading(true)
-      const values = await form.validateFields()
       let res = {}
-      if (!!inforFromGoogle) {
-        res = await UserService.registerByGoogle({ ...inforFromGoogle, RoleID: values?.RoleID, IsByGoogle: true })
+      if (!!data?.IsByGoogle) {
+        res = await UserService.registerByGoogle(data)
       } else {
-        res = await UserService.register({ ...inforFromForm, RoleID: values?.RoleID, IsByGoogle: false })
+        res = await UserService.register(data)
       }
       if (res?.isError) return toast.error(res?.msg)
       toast.success(res?.msg)
@@ -44,8 +42,7 @@ const SignupPage = () => {
       content: <FormInfor
         current={current}
         setCurrent={setCurrent}
-        setInforFromForm={setInforFromForm}
-        setInforFromGoogle={setInforFromGoogle}
+        setData={setData}
         form={form}
       />
     },
@@ -58,6 +55,8 @@ const SignupPage = () => {
         setIsAgree={setIsAgree}
         loading={loading}
         handleRegister={handleRegister}
+        data={data}
+        setData={setData}
       />
     }
   ]

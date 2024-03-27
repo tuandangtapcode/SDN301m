@@ -10,9 +10,9 @@ const FormSelectRole = ({
   isAgree,
   setIsAgree,
   loading,
+  data,
+  setData
 }) => {
-
-  const [roleID, setRoleID] = useState()
 
   return (
     <>
@@ -32,12 +32,12 @@ const FormSelectRole = ({
             { required: true, message: "Please select role account" },
           ]}
         >
-          <Radio.Group onChange={e => setRoleID(e.target.value)}>
+          <Radio.Group onChange={e => setData({ ...data, RoleID: e.target.value })}>
             <Radio className="border-radio" value={3}>Author</Radio>
             <Radio className="border-radio" value={5}>Customer normal</Radio>
           </Radio.Group>
         </Form.Item>
-      </Col>
+      </Col >
       <Col span={24}>
         <Checkbox
           className="text" value="A"
@@ -51,7 +51,7 @@ const FormSelectRole = ({
           htmlType="submit"
           className="submit fs-18"
           loading={loading}
-          disabled={!!isAgree && !!roleID ? false : true}
+          disabled={!!isAgree && !!data?.RoleID ? false : true}
           onClick={() => handleRegister()}
         >
           Sign up

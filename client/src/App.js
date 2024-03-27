@@ -295,8 +295,6 @@ const App = () => {
   const [modalDeactive, setModalDeactive] = useState(false)
   const [modalExpiredPremium, setModalExpiredPremium] = useState(false)
 
-  console.log(global);
-
   const getProfile = async (token) => {
     try {
       setLoading(true)
@@ -337,7 +335,7 @@ const App = () => {
   useEffect(() => {
     if (!!localStorage.getItem('token')) {
       const user = jwtDecode(localStorage.getItem('token'))
-      if (!!user.payload.ID) {
+      if (!!user?.payload?.ID) {
         getProfile(localStorage.getItem('token'))
       } else {
         navigate('/forbidden')

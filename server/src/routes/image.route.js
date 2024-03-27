@@ -6,7 +6,7 @@ import ImageValidation from '../validations/image.validation.js'
 
 router.post('/insertImage',
   upload('Comic').single('Image'),
-  // ImageValidation.insertImage,
+  ImageValidation.insertImage,
   ImageController.insertImage
 )
 router.post('/getAllImagesByChapter',

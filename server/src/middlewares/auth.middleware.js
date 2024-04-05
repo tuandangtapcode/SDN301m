@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { response } from '../utils/lib.js'
+import * as dotenv from "dotenv"
+dotenv.config()
 
 const checkExistToken = (req) => {
   let check = false

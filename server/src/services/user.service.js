@@ -113,7 +113,7 @@ const fncLoginByGoogle = async (req) => {
     })
     return response(access_token, false, "Login thành công", 200)
   } catch (error) {
-    return response({}, true, "Login thành công", 200)
+    return response({}, true, error.toString(), 500)
   }
 }
 

@@ -47,6 +47,10 @@ const Users = new Schema({
       PackageID: { type: mongoose.Schema.Types.ObjectId, ref: 'Packages', require: true },
     },
     default: null
+  },
+  IsByGoogle: {
+    type: Boolean,
+    require: true
   }
 }, {
   timestamps: true

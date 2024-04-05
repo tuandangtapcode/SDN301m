@@ -52,7 +52,7 @@ const Genres = () => {
       setGenresDetail(global?.genres?.find(i => i?._id === GenreID))
     }
   }, [GenreID])
-  console.log(pagination);
+
   return (
     <SpinCustom spinning={loading}>
       <Row className="mt-50 mb-30" gutter={[16, 0]}>

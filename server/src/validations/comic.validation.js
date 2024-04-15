@@ -31,21 +31,6 @@ const getAllComicsByGenre = async (req, res, next) => {
   }
 }
 
-const getAllComicsByAuthor = async (req, res, next) => {
-  const trueCondition = Joi.object({
-    CurrentPage: Joi.number().integer().min(1).required(),
-    PageSize: Joi.number().integer().required(),
-    UserID: Joi.any().required(),
-    IsPrivated: Joi.boolean().required()
-  })
-  try {
-    await trueCondition.validateAsync(req.body, { abortEarly: false })
-    next()
-  } catch (error) {
-    return res.status(400).json(error.toString())
-  }
-}
-
 const insertComic = async (req, res, next) => {
   const trueCondition = Joi.object({
     Genres: Joi.array().items(Joi.any().required()).required(),
@@ -128,7 +113,6 @@ const getAllHotComics = async (req, res, next) => {
 const ComicValidation = {
   getAllComics,
   getAllComicsByGenre,
-  getAllComicsByAuthor,
   insertComic,
   updateComic,
   getParamsComicID,

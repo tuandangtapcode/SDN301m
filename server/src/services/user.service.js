@@ -331,6 +331,34 @@ const fncForgotPassword = async (req) => {
   }
 }
 
+const fncGetDetailAuthor = async(req) => {
+  try {
+    const { CurrentPage, PageSize, UserID, IsPrivated } = req.body
+		let data, query
+		const user = await User.findOne({ _id: UserID })
+		if (!user) return response({}, true, "User không tồn tại", 200)
+		if (!IsPrivated) {
+			query = {
+				Author: UserID,
+				Status: 1
+			}
+		} else {
+			query = {
+				Author: UserID,
+			}
+		}
+    const comics = await Comic
+			.find(query)
+			.skip((CurrentPage - 1) * PageSize)
+			.limit(PageSize)
+    if (!IsPrivated) data = { List: comics, Total: comics.length, Author: user }
+    else data = { List: comics, Total: comics.length }
+    return response(data, false, "Lấy data thành công", 200)
+  } catch (error) {
+    return response({}, true, error.toString(), 500)
+  }
+} 
+
 
 const UserService = {
   fncGetListAuthor,
@@ -347,7 +375,8 @@ const UserService = {
   fncBuyPremium,
   fncHandleExpiredPremium,
   fncCheckEmail,
-  fncForgotPassword
+  fncForgotPassword,
+  fncGetDetailAuthor
 }
 
 export default UserService

@@ -135,6 +135,15 @@ const forgotPassword = async (req, res) => {
   }
 }
 
+const getDetailAuthor = async (req, res) => {
+  try {
+    const respone = await UserService.fncGetDetailAuthor(req)
+    return res.status(respone.statusCode).json(respone)
+  } catch (error) {
+    return res.status(500).json(error.toString())
+  }
+}
+
 
 const UserController = {
   getListAuthour,
@@ -151,7 +160,8 @@ const UserController = {
   buyPremium,
   handleExpiredPremium,
   checkEmail,
-  forgotPassword
+  forgotPassword,
+  getDetailAuthor
 }
 
 export default UserController

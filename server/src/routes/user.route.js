@@ -71,5 +71,9 @@ router.post("/forgotPassword",
   UserValidation.forgotPassword,
   UserController.forgotPassword
 )
+router.post("/getDetailAuthor",
+UserValidation.getDetailAuthor,
+UserController.getDetailAuthor
+)
 
 export default router

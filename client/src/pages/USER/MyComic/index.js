@@ -3,10 +3,10 @@ import { useSelector } from "react-redux"
 import ButtonCustom from "src/components/ButtonCustom/MyButton"
 import SpinCustom from "src/components/SpinCustom"
 import { globalSelector } from "src/redux/selector"
-import ComicService from "src/services/ComicService"
 import InsertUpdateComic from "./components/InsertUpdateComic"
 import { useNavigate } from "react-router-dom"
 import ComicItem from "./components/ComicItem"
+import UserService from "src/services/UserService"
 
 const MyComic = () => {
 
@@ -24,7 +24,7 @@ const MyComic = () => {
   const getComicsByAuhtor = async () => {
     try {
       setLoading(true)
-      const res = await ComicService.getAllComicsByAuthor({ ...pagination, UserID: global?.user?._id, IsPrivated: true })
+      const res = await UserService.getDetailAuthor({ ...pagination, UserID: global?.user?._id, IsPrivated: true })
       if (res?.isError) return
       setComics(res?.data?.List)
       setTotal(res?.data?.Total)

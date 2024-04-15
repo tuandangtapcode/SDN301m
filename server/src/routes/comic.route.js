@@ -34,10 +34,6 @@ router.post('/getAllComicsByGenre',
   ComicValidation.getAllComicsByGenre,
   ComicController.getAllComicsByGenre
 )
-router.post('/getAllComicsByAuthor',
-  ComicValidation.getAllComicsByAuthor,
-  ComicController.getAllComicsByAuthor
-)
 router.post('/changeStatusComic',
   authMiddleware([Roles.ROLE_ADMIN]),
   ComicValidation.changeStatusComic,

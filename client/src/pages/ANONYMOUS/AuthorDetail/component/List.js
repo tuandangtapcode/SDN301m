@@ -37,13 +37,13 @@ const List = ({ list, setList }) => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
           >
-            {list.map((i) => (
+            {list?.map((i) => (
               <SwiperSlide
                 className="d-flex-center"
               >
-                <div onClick={() => navigate(`/comic/${i?.Comic?._id}`)}>
-                  <img src={`${i?.Comic?.AvatarPath}`} style={{ width: '200px', height: '200px' }} />
-                  <h4 className="d-flex-center">{i?.Comic?.Title}</h4>
+                <div onClick={() => navigate(`/comic/${i?._id}`)}>
+                  <img src={`${i?.AvatarPath}`} style={{ width: '200px', height: '200px' }} alt="" />
+                  <h4 className="d-flex-center">{i?.Title}</h4>
                 </div>
               </SwiperSlide>
             ))}

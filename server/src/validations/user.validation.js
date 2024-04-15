@@ -138,6 +138,21 @@ const forgotPassword = async (req, res, next) => {
   }
 }
 
+const getDetailAuthor = async (req, res, next) => {
+  const trueCondition = Joi.object({
+    CurrentPage: Joi.number().integer().min(1).required(),
+    PageSize: Joi.number().integer().required(),
+    UserID: Joi.any().required(),
+    IsPrivated: Joi.boolean().required()
+  })
+  try {
+    await trueCondition.validateAsync(req.body, { abortEarly: false })
+    next()
+  } catch (error) {
+    return res.status(400).json(error.toString())
+  }
+}
+
 
 const UserValidation = {
   getListAuthorUser,
@@ -149,7 +164,8 @@ const UserValidation = {
   followOrUnfollowComic,
   buyPremium,
   checkEmail,
-  forgotPassword
+  forgotPassword,
+  getDetailAuthor
 }
 
 export default UserValidation

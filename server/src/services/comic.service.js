@@ -70,41 +70,6 @@ const fncGetAllComicsByGenres = async (req) => {
 	}
 }
 
-const fncGetAllComicsByAuthor = async (req) => {
-	try {
-		const { CurrentPage, PageSize, UserID, IsPrivated } = req.body
-		let data, query
-		const user = await User.findOne({ _id: UserID })
-		if (!user) return response({}, true, "User không tồn tại", 200)
-		if (!IsPrivated) {
-			query = {
-				Author: UserID,
-				Status: 1
-			}
-		} else {
-			query = {
-				Author: UserID,
-			}
-		}
-		const comics = await Comic
-			.find(query)
-			.skip((CurrentPage - 1) * PageSize)
-			.limit(PageSize)
-		const comicsWithImages = await Promise.all(comics.map(async (comic) => {
-			const images = await Image.find({ Comic: comic._id }).exec()
-			return {
-				Comic: comic,
-				Images: images,
-			}
-		}))
-		if (!IsPrivated) data = { List: comicsWithImages, Total: comics.length, Author: user }
-		else data = { List: comicsWithImages, Total: comics.length }
-		return response(data, false, "Lấy data thành công", 200)
-	} catch (error) {
-		return response({}, true, error.toString(), 500)
-	}
-}
-
 const fncInsertComic = async (req) => {
 	try {
 		const Author = req.user.ID
@@ -255,7 +220,6 @@ const ComicService = {
 	fncUpdateComic,
 	fncGetAllComicsByGenres,
 	fncGetDetailComic,
-	fncGetAllComicsByAuthor,
 	fncChangeStatusComic,
 	fncGetAllChaptersByComic,
 	fncGetAllHotComics

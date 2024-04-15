@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import Rating from "src/components/Rating"
 import SpinCustom from "src/components/SpinCustom"
-import ComicService from "src/services/ComicService"
+import UserService from "src/services/UserService"
 
 const AuthorDetail = () => {
   const navigate = useNavigate()
@@ -20,7 +20,7 @@ const AuthorDetail = () => {
   const getInforAuthor = async () => {
     try {
       setLoading(true)
-      const res = await ComicService.getAllComicsByAuthor({
+      const res = await UserService.getDetailAuthor({
         ...pagination,
         UserID: AuthorID,
         IsPrivated: false,

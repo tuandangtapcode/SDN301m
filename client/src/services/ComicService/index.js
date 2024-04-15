@@ -4,7 +4,6 @@ import {
   apiDeleteComic,
   apiGetAllChaptersByComic,
   apiGetAllComics,
-  apiGetAllComicsByAuthor,
   apiGetAllComicsByGenre,
   apiGetAllHotComics,
   apiGetDetailComic,
@@ -32,7 +31,6 @@ const deleteComic = body => http.post(apiDeleteComic, body, {
   }
 })
 const getAllComicsByGenre = body => http.post(apiGetAllComicsByGenre, body)
-const getAllComicsByAuthor = body => http.post(apiGetAllComicsByAuthor, body)
 const changeStatusComic = body => http.post(apiChangeStatusComic, body, {
   headers: {
     'token': `Bearer ${localStorage.getItem('token')}`
@@ -49,7 +47,6 @@ const ComicService = {
   getDetailComic,
   deleteComic,
   getAllComicsByGenre,
-  getAllComicsByAuthor,
   changeStatusComic,
   getAllChaptersByComic,
   getAllHotComics

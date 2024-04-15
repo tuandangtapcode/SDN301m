@@ -16,6 +16,7 @@ import {
   apiHandleExpiredPremium,
   apiCheckEmail,
   apiForgotPassword,
+  apiGetDetailAuthor,
 } from './urls'
 
 
@@ -72,6 +73,7 @@ const handleExpiredPremium = () => http.get(apiHandleExpiredPremium, {
 })
 const checkEmail = body => http.post(apiCheckEmail, body)
 const forgotPassword = body => http.post(apiForgotPassword, body)
+const getDetailAuthor = body => http.post(apiGetDetailAuthor, body)
 
 const UserService = {
   getInforByGoogleLogin,
@@ -89,7 +91,8 @@ const UserService = {
   buyPremium,
   handleExpiredPremium,
   checkEmail,
-  forgotPassword
+  forgotPassword,
+  getDetailAuthor
 }
 
 export default UserService

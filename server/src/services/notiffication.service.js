@@ -1,6 +1,6 @@
 import Notificaiton from "../models/notiffication.js"
 import User from '../models/user.js'
-import { response } from "../utils/lib.js"
+import { getOneDocument, response } from "../utils/lib.js"
 
 const fncCreateNotification = async (req) => {
   try {
@@ -8,7 +8,7 @@ const fncCreateNotification = async (req) => {
     const { Receiver } = req.body
     let AdminID, notification
     if (!Receiver) {
-      const admin = await User.findOne({ RoleID: 1 })
+      const admin = await getOneDocument(User, "RoleID", 1)
       AdminID = admin._id
       notification = await Notificaiton.create({ ...req.body, Receiver: AdminID, Sender })
     } else {

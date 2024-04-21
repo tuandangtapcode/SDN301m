@@ -1,5 +1,5 @@
 import Genre from '../models/genre.js'
-import { response } from '../utils/lib.js'
+import { getOneDocument, response } from '../utils/lib.js'
 
 const fncGetAllGenres = async (req) => {
   try {
@@ -27,7 +27,7 @@ const fncGetAllGenres = async (req) => {
 const fncInsertGenre = async (req) => {
   try {
     const { Title } = req.body
-    const genre = await Genre.findOne({ Title })
+    const genre = await getOneDocument(Genre, "Title", Title)
     if (genre) return response({}, true, `Thể loại truyện: ${Title} đã tồn tại`, 200)
     const create = await Genre.create(req.body)
     return response(create, false, "Thêm mới thành công", 201)
@@ -39,9 +39,9 @@ const fncInsertGenre = async (req) => {
 const fncUpdateGenre = async (req) => {
   try {
     const { id, Title } = req.body
-    const checkExistGenre = await Genre.findOne({ _id: id })
+    const checkExistGenre = await getOneDocument(Genre, "_id", id)
     if (!checkExistGenre) return response({}, true, `Thể loại truyện không tồn tại`, 200)
-    const checkExistTitle = await Genre.findOne({ Title })
+    const checkExistTitle = await getOneDocument(Genre, "Title", Title)
     if (!!checkExistTitle && !checkExistGenre._id.equals(checkExistTitle._id)) {
       return response({}, true, `Thể loại truyện: ${Title} đã tồn tại`, 200)
     }

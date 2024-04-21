@@ -1,6 +1,6 @@
 import Comic from '../models/comic.js'
 import Image from '../models/image.js'
-import { response } from '../utils/lib.js'
+import { getOneDocument, response } from '../utils/lib.js'
 import cloudinary from 'cloudinary'
 import User from '../models/user.js'
 const cloudinaryV2 = cloudinary.v2
@@ -74,7 +74,7 @@ const fncInsertComic = async (req) => {
 	try {
 		const Author = req.user.ID
 		const { Title } = req.body
-		const comic = await Comic.findOne({ Title })
+		const comic = await getOneDocument(Comic, "Title", Title)
 		if (comic) {
 			cloudinaryV2.uploader.destroy(req.file.filename)
 			return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)
@@ -92,7 +92,7 @@ const fncUpdateComic = async (req) => {
 		const { ComicID, Title } = req.body
 		const checkExist = await Comic.findOne({ _id: ComicID, Author: Author })
 		if (!checkExist) return response(checkExist, true, 'Truyện không tồn tại', 200)
-		const checkExistTitle = await Comic.findOne({ Title })
+		const checkExistTitle = await getOneDocument(Comic, "Title", Title)
 		if (!!checkExistTitle && !checkExist._id.equals(checkExistTitle._id)) {
 			if (!!req.file) cloudinaryV2.uploader.destroy(req.file.filename)
 			return response({}, true, `Truyện: ${Title} đã tồn tại`, 200)

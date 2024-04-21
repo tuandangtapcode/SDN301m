@@ -1,4 +1,4 @@
-import { response } from "../utils/lib.js"
+import { getOneDocument, response } from "../utils/lib.js"
 import User from "../models/user.js"
 import Comic from "../models/comic.js"
 import Package from '../models/package.js'
@@ -83,7 +83,7 @@ const fncGetDetailProfile = async (req) => {
 const fncLogin = async (req) => {
   try {
     const { Password, Email } = req.body
-    const getUser = await User.findOne({ Email })
+    const getUser = await getOneDocument(User, "Email", Email)
     if (!getUser) return response({}, true, "Email không tồn tại", 200)
     if (!!getUser && !getUser.Password) return response({}, true, "Mật khẩu không chính xác", 200)
     const check = bcrypt.compareSync(Password, getUser.Password)
@@ -103,7 +103,7 @@ const fncLogin = async (req) => {
 const fncLoginByGoogle = async (req) => {
   try {
     const email = req.body.email
-    const getUser = await User.findOne({ Email: email })
+    const getUser = await getOneDocument(User, "Email", email)
     if (!getUser) return response({}, true, "Email không tồn tại", 200)
     if (!getUser.IsActive)
       return response({}, true, "Tài khoản đã bị khóa", 200)
@@ -120,7 +120,7 @@ const fncLoginByGoogle = async (req) => {
 const fncRegister = async (req) => {
   try {
     const { Password, Email } = req.body
-    const checkExist = await User.findOne({ Email })
+    const checkExist = await getOneDocument(User, "Email", Email)
     if (!!checkExist) return response({}, true, "Email đã tồn tại", 200)
     const hashPassword = bcrypt.hashSync(Password, saltRounds)
     const hashUser = {
@@ -137,7 +137,7 @@ const fncRegister = async (req) => {
 const fncRegisterByGoogle = async (req) => {
   try {
     const { email, given_name, picture, RoleID } = req.body
-    const checkExist = await User.findOne({ Email: email })
+    const checkExist = await getOneDocument(User, "Email", email)
     if (!!checkExist) return response({}, true, "Email đã tồn tại", 200)
     const newUser = await User.create({
       Email: email,
@@ -154,7 +154,7 @@ const fncRegisterByGoogle = async (req) => {
 const fncUpdateProfileCustomer = async (req) => {
   try {
     const id = req.user.ID
-    const user = await User.findOne({ _id: id })
+    const user = await getOneDocument(User, "_id", id)
     if (!user) return response({}, true, "Không tồn tại user", 200)
     const updateProfile = await User
       .findByIdAndUpdate(
@@ -181,7 +181,7 @@ const fncChangePassword = async (req) => {
   try {
     const UserID = req.user.ID
     const { OldPassword, NewPassword } = req.body
-    const user = await User.findOne({ _id: UserID })
+    const user = await getOneDocument(User, "_id", UserID)
     if (!user) return response({}, true, "Không tồn tại user", 200)
     if (!user.IsActive) return response({}, true, "Tài khoản đã bị khóa", 200)
     const check = bcrypt.compareSync(OldPassword, user.Password)
@@ -207,7 +207,7 @@ const fncFollowOrUnfollowComic = async (req) => {
   try {
     const UserID = req.user.ID
     const { ComicID } = req.body
-    const user = await User.findOne({ _id: UserID })
+    const user = await getOneDocument(User, "_id", UserID)
     if (!user) return response({}, true, "Người dùng không tồn tại", 200)
     const followedComic = user.Follows.find(i => i.equals(ComicID))
     let followed
@@ -287,7 +287,7 @@ const fncHandleExpiredPremium = async (req) => {
 const fncCheckEmail = async (req) => {
   try {
     const Email = req.body.Email
-    const check = await User.findOne({ Email })
+    const check = await getOneDocument(User, "Email", Email)
     if (!check) return response({}, true, "Email không tồn tại", 200)
     if (!check.IsActive)
       return response({}, true, "Tài khoản đã bị khóa", 200)
@@ -331,33 +331,33 @@ const fncForgotPassword = async (req) => {
   }
 }
 
-const fncGetDetailAuthor = async(req) => {
+const fncGetDetailAuthor = async (req) => {
   try {
     const { CurrentPage, PageSize, UserID, IsPrivated } = req.body
-		let data, query
-		const user = await User.findOne({ _id: UserID })
-		if (!user) return response({}, true, "User không tồn tại", 200)
-		if (!IsPrivated) {
-			query = {
-				Author: UserID,
-				Status: 1
-			}
-		} else {
-			query = {
-				Author: UserID,
-			}
-		}
+    let data, query
+    const user = await getOneDocument(User, "_id", UserID)
+    if (!user) return response({}, true, "User không tồn tại", 200)
+    if (!IsPrivated) {
+      query = {
+        Author: UserID,
+        Status: 1
+      }
+    } else {
+      query = {
+        Author: UserID,
+      }
+    }
     const comics = await Comic
-			.find(query)
-			.skip((CurrentPage - 1) * PageSize)
-			.limit(PageSize)
+      .find(query)
+      .skip((CurrentPage - 1) * PageSize)
+      .limit(PageSize)
     if (!IsPrivated) data = { List: comics, Total: comics.length, Author: user }
     else data = { List: comics, Total: comics.length }
     return response(data, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }
-} 
+}
 
 
 const UserService = {

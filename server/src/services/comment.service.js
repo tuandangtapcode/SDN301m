@@ -1,11 +1,11 @@
 import Comment from '../models/comment.js'
 import User from '../models/user.js'
-import { response } from '../utils/lib.js'
+import { getOneDocument, response } from '../utils/lib.js'
 
 const fncInsertComment = async (req) => {
   try {
     const Author = req.user.ID
-    const user = await User.findOne({ _id: Author })
+    const user = await getOneDocument(User, "_id", Author)
     if (!user) return response({}, true, "Có lỗi", 200)
     const newComment = await Comment.create({ ...req.body, Author: Author })
     return response({ ...newComment, Author: { FullName: user.FullName, AvatarPath: user.AvatarPath } }, false, "Gửi bình luận thành công", 201)

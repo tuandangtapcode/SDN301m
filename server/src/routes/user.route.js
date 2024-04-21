@@ -17,11 +17,11 @@ router.post('/loginByGoogle',
   UserController.loginByGoogle
 )
 router.post('/register',
-  UserValidation.register,
+  // UserValidation.register,
   UserController.register
 )
 router.post('/registerByGoogle',
-  UserValidation.registerByGoogle,
+  // UserValidation.registerByGoogle,
   UserController.registerByGoogle
 )
 router.get("/getDetailProfile",
@@ -72,8 +72,8 @@ router.post("/forgotPassword",
   UserController.forgotPassword
 )
 router.post("/getDetailAuthor",
-UserValidation.getDetailAuthor,
-UserController.getDetailAuthor
+  UserValidation.getDetailAuthor,
+  UserController.getDetailAuthor
 )
 
 export default router

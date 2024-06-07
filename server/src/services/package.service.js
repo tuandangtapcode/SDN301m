@@ -1,5 +1,5 @@
 import Package from "../models/package.js"
-import { getOneDocument, response } from '../utils/lib.js'
+import { getOneDocument, handleListQuery, response } from '../utils/lib.js'
 
 const fncInsertPackage = async (req) => {
   try {
@@ -33,13 +33,15 @@ const fncGetAllPackages = async (req) => {
     const { CurrentPage, PageSize } = req.body
     let packages
     if (!!CurrentPage && !!PageSize) {
-      packages = await Package.find().skip((CurrentPage - 1) * PageSize).limit(PageSize)
+      packages = Package.find().skip((CurrentPage - 1) * PageSize).limit(PageSize)
     } else {
-      packages = await Package.find()
+      packages = Package.find()
     }
+    const total = Package.countDocuments()
+    const result = await handleListQuery(packages, total)
     return response(
       {
-        List: packages, Total: packages.length
+        List: result[0], Total: result[1]
       },
       false,
       "Lấy data thành công",

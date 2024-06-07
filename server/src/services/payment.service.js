@@ -1,5 +1,5 @@
 import Payment from "../models/payment.js"
-import { response } from "../utils/lib.js"
+import { handleListQuery, response } from "../utils/lib.js"
 
 const fncGetAllPayments = async (req) => {
   try {
@@ -20,12 +20,14 @@ const fncGetAllPayments = async (req) => {
         BoughtAt: { $lte: Date }
       }
     }
-    const payments = await Payment
+    const payments = Payment
       .find(query)
       .populate('PackageID')
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
-    return response({ List: payments, Total: payments.length }, false, "Lấy data thành công", 200)
+    const total = Payment.countDocuments(query)
+    const result = await handleListQuery(payments, total)
+    return response({ List: result[0], Total: result[1] }, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)
   }

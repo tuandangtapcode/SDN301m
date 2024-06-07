@@ -1,20 +1,23 @@
 import Genre from '../models/genre.js'
-import { getOneDocument, response } from '../utils/lib.js'
+import { getOneDocument, handleListQuery, response } from '../utils/lib.js'
 
 const fncGetAllGenres = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
-    let genres
+    let genres, total
     if (!!CurrentPage && !!PageSize && !!TextSearch) {
-      genres = await Genre
+      genres = Genre
         .find({ Title: { $regex: TextSearch, $options: 'i' } })
         .skip((CurrentPage - 1) * PageSize)
         .limit(PageSize)
+      total = Genre.countDocuments({ Title: { $regex: TextSearch, $options: 'i' } })
     } else {
-      genres = await Genre.find()
+      genres = Genre.find()
+      total = Genre.countDocuments()
     }
+    const result = handleListQuery([genres, total])
     return response(
-      { List: genres, Total: genres.length },
+      { List: result[0], Total: result[1] },
       false,
       "Lấy data thành công",
       200

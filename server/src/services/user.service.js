@@ -1,4 +1,4 @@
-import { getOneDocument, response } from "../utils/lib.js"
+import { getOneDocument, handleListQuery, response } from "../utils/lib.js"
 import User from "../models/user.js"
 import Comic from "../models/comic.js"
 import Package from '../models/package.js'
@@ -20,9 +20,11 @@ const fncGetListAuthor = async (req) => {
     }
     const skip = (CurrentPage - 1) * PageSize
     const limit = PageSize
-    const authors = await User.find(query).skip(skip).limit(limit)
+    const authors = User.find(query).skip(skip).limit(limit)
+    const total = User.countDocuments(query)
+    const result = await handleListQuery([authors, total])
     return response(
-      { List: authors, Total: authors.length },
+      { List: result[0], Total: result[1] },
       false,
       "Lấy ra thành công",
       200
@@ -35,14 +37,18 @@ const fncGetListAuthor = async (req) => {
 const fncGetListUser = async (req) => {
   try {
     const { TextSearch, CurrentPage, PageSize } = req.body
-    const users = await User.find({
+    const query = {
       FullName: { $regex: TextSearch, $options: "i" },
       RoleID: { $ne: 1 },
-    })
+    }
+    const users = User
+      .find(query)
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
+    const total = User.countDocuments(query)
+    const result = await handleListQuery([users, total])
     return response(
-      { List: users, Total: users.length },
+      { List: result[0], Total: result[1] },
       false,
       "Lấy ra thành công",
       200
@@ -347,12 +353,14 @@ const fncGetDetailAuthor = async (req) => {
         Author: UserID,
       }
     }
-    const comics = await Comic
+    const comics = Comic
       .find(query)
       .skip((CurrentPage - 1) * PageSize)
       .limit(PageSize)
-    if (!IsPrivated) data = { List: comics, Total: comics.length, Author: user }
-    else data = { List: comics, Total: comics.length }
+    const total = Comic.countDocuments(query)
+    const result = await handleListQuery([authors, total])
+    if (!IsPrivated) data = { List: result[0], Total: result[1], Author: user }
+    else data = { List: result[0], Total: result[1] }
     return response(data, false, "Lấy data thành công", 200)
   } catch (error) {
     return response({}, true, error.toString(), 500)

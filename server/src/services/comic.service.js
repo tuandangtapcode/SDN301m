@@ -1,6 +1,6 @@
 import Comic from '../models/comic.js'
 import Image from '../models/image.js'
-import { getOneDocument, response } from '../utils/lib.js'
+import { getOneDocument, handleListQuery, response } from '../utils/lib.js'
 import cloudinary from 'cloudinary'
 import User from '../models/user.js'
 const cloudinaryV2 = cloudinary.v2
@@ -14,16 +14,17 @@ const fncGetAllComics = async (req) => {
 		} else {
 			query = { Title: { $regex: TextSearch, $options: 'i' }, Status: 1 }
 		}
-		const total = await Comic.find({ Status: 1 }).countDocuments()
-		const comics = await Comic
+		const total = Comic.find({ Status: 1 }).countDocuments()
+		const comics = Comic
 			.find(query)
 			.sort({ "createdAt": -1 })
 			.skip((CurrentPage - 1) * PageSize)
 			.limit(PageSize)
 			.populate('Author', ['_id', 'FullName'])
 			.populate('Genres', ['Title'])
+		const result = await handleListQuery([comics, total])
 		return response(
-			{ List: comics, Total: total },
+			{ List: result[0], Total: result[0] },
 			false,
 			'Lấy data thành công',
 			200
@@ -50,17 +51,18 @@ const fncGetAllComicsByGenres = async (req) => {
 				Title: { $regex: TextSearch, $options: 'i' },
 			}
 		}
-		const total = await Comic.find(queryCount).countDocuments()
-		const comics = await Comic
+		const total = Comic.find(queryCount).countDocuments()
+		const comics = Comic
 			.find(query)
 			.sort({ "createdAt": -1 })
 			.skip((CurrentPage - 1) * PageSize)
 			.limit(PageSize)
+		const result = await handleListQuery([comics, total])
 		if (!comics.length) {
 			return response({ List: [], Total: 0 }, false, `Không tìm thấy comic có genre "${GenreID}"`, 200)
 		}
 		return response(
-			{ List: comics, Total: total },
+			{ List: result[0], Total: result[1] },
 			false,
 			'Lấy data thành công',
 			200
